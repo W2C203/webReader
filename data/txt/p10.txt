@@ -1,0 +1,5 @@
+1）ANSI是默认的编码方式。对于英文文件是ASCII编码，对于简体中文文件是GB2312编码（只针对Windows简体中文版，如果是繁体中文版会采用Big5码）。
+2）Unicode编码指的是UCS-2编码方式，即直接用两个字节存入字符的Unicode码。这个选项用的little endian格式。
+3）Unicode big endian编码与上一个选项相对应。我在下一节会解释little endian和big endian的涵义。
+4）UTF-8编码，也就是上一节谈到的编码方法。
+选择完"编码方式"后，点击"保存"按钮，文件的编码方式就立刻转换好了。
