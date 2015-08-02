@@ -1,7 +1,7 @@
 /**
- *
- * Created by hywilliam on 8/1/15.
+ * Created by hywilliam on 8/2/15.
  */
-var server = require('./server/server');
 
-server.start();
+var express = require('express');
+
+var app = express();
