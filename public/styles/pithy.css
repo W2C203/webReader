@@ -1,0 +1,43 @@
+body{background-color: #e5e4db;}
+#main{
+    height: 100%; width: 631px;
+    min-height: 450px; min-width: 400px;
+    position: absolute; left: 25%;
+    text-align: center;
+}
+.main-menu{
+    position: absolute; right: 1%; top: 10%;
+    color: gray;
+}
+.disclick{color: gray;}
+.bleft{
+    height: 100px; width: 40px;
+    position: absolute; top: 30%; right: -3%;
+}
+.bright{
+    height: 100px; width: 40px;
+    position: absolute; top: 45%; right: -3%;
+}
+#section{
+    height: 100%; width: 600px;
+    padding: 2% 5% 0 5%;
+    background-color: rgb(255, 231, 206);
+}
+#section hr{margin-top: 0;}
+.bookTitle{
+    font-size: 16px;
+    color: #ff6795;
+    text-align: left;
+}
+article{height: 88%;}
+#myCanvas{
+    height: 85%; width: 100%;
+    border: 1px solid #ccc;
+}
+.height{
+    height: 3px;
+    margin-right: 31px; margin-bottom: 0;
+}
+footer{
+    position: absolute; bottom: 3px;
+}

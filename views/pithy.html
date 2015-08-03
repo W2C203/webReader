@@ -6,66 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello World</title>
     <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <style>
-        body{
-            background-color: #e5e4db;
-        }
-        #main{
-            height: 100%;
-            width: 631px;
-            position: absolute;
-            left: 25%;
-            text-align: center;
-            min-height: 450px; min-width: 400px;
-        }
-        .bleft{
-            height: 100px;
-            position: absolute;
-            top: 45%;
-            left: -30px;
-        }
-        .bright{
-            height: 100px;
-            position: absolute;
-            top: 45%;
-            right: 0;
-        }
-        #section{
-            width: 600px;
-            height: 100%;
-            padding: 2% 5% 0 5%;
-            background-color: rgb(255, 231, 206);
-        }
-        #section hr{
-            margin-top: 0;
-        }
-        .bookTitle{
-            font-size: 16px;
-            color: #ff6795;
-            text-align: left;
-        }
-        article{
-            height: 88%;
-        }
-        #myCanvas{
-            height: 85%; width: 100%;
-            border: 1px solid #ccc;
-        }
-        .height{
-            height: 3px;
-            margin-right: 31px;
-            margin-bottom: 0;
-        }
-        footer{
-            position: absolute;
-            bottom: 3px;
-        }
-    </style>
+    <link href="../public/styles/pithy.css" rel="stylesheet">
 </head>
 <body>
 <div id="main">
-    <!--上一页按钮-->
-    <button class="bleft" data-toggle="tooltip" data-placement="left" title="previous page"><span class="glyphicon glyphicon-chevron-left"></span></button>
     <section id="section">
         <form class="form-inline pull-right login">
             <div class="form-group">
@@ -91,8 +35,16 @@
             <span class="sr-only ">60% Complete</span>
         </div>
     </div>
+    <!--目录按钮-->
+    <span class="glyphicon glyphicon-th-list main-menu"></span>
+    <!--上一页按钮-->
+    <button class="bleft" data-toggle="tooltip" data-placement="left" title="previous page">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </button>
     <!--下一页按钮-->
-    <button class="bright" data-toggle="tooltip" data-placement="right" title="next page"><span class="glyphicon glyphicon-chevron-right"></span></button>
+    <button class="bright" data-toggle="tooltip" data-placement="right" title="next page">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </button>
 </div>
 <!--===================================================================-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
