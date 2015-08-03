@@ -13,7 +13,7 @@ var pool = mysql.createPool($conf.mysql);
 function md5(text) {                                   //md5加密
     return crypto.createHash('md5').update(text).digest('hex');
     // Encode each byte as two hexadecimal characters
-};
+}
 module.exports = {
     verifyByNamePassword: function (req, res, next) {
         var user_name = req.query.user_name;

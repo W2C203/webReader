@@ -22,13 +22,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 
-<<<<<<< HEAD
 /**
  * 路由先写在这里，回来再拆分
  */
-=======
-/* 路由先写在这里，回来再拆分 */
->>>>>>> dev
 app.get('/', function (req, res) {
     res.render('index');
 });
