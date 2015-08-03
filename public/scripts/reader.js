@@ -34,7 +34,7 @@ window.onload = function () {
     next.addEventListener('click', function () {
 //        contentArea.innerHTML = requestText('/data/p01');
 //        alert(1)
-        requestText('data/test2.json');
+//        requestText('data/test2.json');
 //        console.log(res);
     });
 };
