@@ -3,10 +3,31 @@
  */
 
 var express = require('express');
-var test = require('./server/file/read_error_code_test');
+var path = require('path');
+//var bodyParser = require('body-parser');
+//var readPDF = require('server/file/readPDF');
 var app = express();
+//var router = express.Router;
 
-app.get('/', test.readErrorCode);
+/* 视图模板配置 */
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 
+/* 中间件配置 */
+app.use(express.static(path.join(__dirname, 'public')));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+
+/* 路由先写在这里，回来再拆分 */
+app.get('/', function(req, res) {
+    res.render('index');
+});
+
+//readPDF的测试页
+app.get('/pdf', function(req, res) {
+    res.render('pdf_read_test');
+});
+
+/* 端口监听 */
 app.listen(3000);
 
