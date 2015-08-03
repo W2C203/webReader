@@ -4,7 +4,9 @@ html
   head
     title
   body
-    canvas(width=500, height=500, style='border: solid 1px')
+    canvas#content(width=500, height=500, style='border: solid 1px')
     #ctrl
       button#prev PREV
       button#next NEXT
+    script(src='/scripts/lib/pdfjs/pdf.js')
+    script(src='/scripts/pdf_read_test.js')

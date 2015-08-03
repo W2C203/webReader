@@ -13,19 +13,40 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-/* 中间件配置 */
-app.use(express.static(path.join(__dirname, 'public')));
+/**
+ * 中间件配置
+ */
+app.use(express.static(path.join(__dirname, '/public')));
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 
-/* 路由先写在这里，回来再拆分 */
-app.get('/', function(req, res) {
+/**
+ * 路由先写在这里，回来再拆分
+ */
+app.get('/', function (req, res) {
     res.render('index');
 });
 
 //readPDF的测试页
-app.get('/pdf', function(req, res) {
+app.get('/pdf', function (req, res) {
     res.render('pdf_read_test');
+});
+app.param(function (name, fn) {
+    if (fn instanceof RegExp) {
+        return function (req, res, next, val) {
+            var captures;
+            if (captures = fn.exec(String(val))) {
+                req.params[name] = captures;
+                next();
+            } else {
+                next('route');
+            }
+        }
+    }
+});
+app.param('pageId', /^\d+$/);
+app.get('/pdf/:pageId', function (req, res) {
+//    res.send('page' + req.param.);
 });
 
 /* 端口监听 */
