@@ -6,8 +6,7 @@
     "dependencies": {
         "express": "^4.13.2",
         "iconv": "^2.1.8",
-        "pdf2json": "^0.7.1",
-        "underscore": "^1.8.3",
+        "jade": "^1.11.0",
         "mysql": "latest"
     },
     "devDependencies": {},
