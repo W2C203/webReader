@@ -17,6 +17,11 @@ body{background-color: #e5e4db;}
     margin: 0;padding: 0;
     float: left;
 }
+.iconSpan{
+    color: gray;
+    position: absolute;
+    top: 50%; left: 19%;
+}
 /*右边覆盖body框*/
 #rightSide{
     background-color: #dddddd;
@@ -49,6 +54,7 @@ body{background-color: #e5e4db;}
 }
 /*不能点击*/
 .disclick{color: gray;}
+.selected{color: green;}
 /*前翻页按钮*/
 .bleft{
     height: 100px; width: 40px;

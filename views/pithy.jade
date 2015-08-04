@@ -15,6 +15,7 @@ html(lang='zh-cn')
         #leftSide
             .mid-left
                 | leftest div
+        span#icon.glyphicon.glyphicon-triangle-left.iconSpan(title='hide')
         #main
             section#section
                 form.form-inline.pull-right.login
@@ -57,5 +58,7 @@ html(lang='zh-cn')
             $(document).ready(function(){
             $(function () {
             //            $('#main [data-toggle="tooltip"]').tooltip();
-            })
+            $("#menuList").hide();
+            $("#leftSide>div").hide();
+            });
             });
