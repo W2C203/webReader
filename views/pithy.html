@@ -9,6 +9,11 @@
     <link href="../public/styles/pithy.css" rel="stylesheet">
 </head>
 <body>
+<div id="leftSide">
+    <div class="mid-left">
+        左边拉取框
+    </div>
+</div>
 <div id="main">
     <section id="section">
         <form class="form-inline pull-right login">
@@ -28,6 +33,7 @@
         <footer>
             79/100
         </footer>
+        <div id="menuList" class="right menuList">这里是目录</div>
     </section>
     <!--进度条-->
     <div class="progress height">
@@ -35,17 +41,23 @@
             <span class="sr-only ">60% Complete</span>
         </div>
     </div>
+
+</div>
+<div id="rightSide">
     <!--目录按钮-->
-    <span class="glyphicon glyphicon-th-list main-menu"></span>
+    <span id="menuBtn" class="glyphicon glyphicon-th-list main-menu"></span>
+
     <!--上一页按钮-->
-    <button class="bleft" data-toggle="tooltip" data-placement="left" title="previous page">
+    <button class="btn btn-default  bleft" data-toggle="tooltip" data-placement="left" title="previous page">
         <span class="glyphicon glyphicon-chevron-left"></span>
     </button>
     <!--下一页按钮-->
-    <button class="bright" data-toggle="tooltip" data-placement="right" title="next page">
+    <button class="btn btn-default bright" data-toggle="tooltip" data-placement="right" title="next page">
         <span class="glyphicon glyphicon-chevron-right"></span>
     </button>
 </div>
+
+
 <!--===================================================================-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="bootstrap-3.3.5-dist/js/jquery.js"></script>
@@ -54,7 +66,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(function () {
-            $('#main [data-toggle="tooltip"]').tooltip();
+//            $('#main [data-toggle="tooltip"]').tooltip();
         })
     });
 </script>
