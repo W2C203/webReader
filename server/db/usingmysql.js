@@ -25,7 +25,6 @@ module.exports = {
             return;
         }
         password = md5(password);
-        //var name = req.query.name;
         pool.getConnection(function (err, connection) {
             connection.query($sql.queryByNamePassword, [user_name, password], function (err, result) {
                 if (result.length == 0) {
