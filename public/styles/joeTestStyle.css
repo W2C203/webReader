@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.form-row {
+    margin-bottom: 10px;
+}
+
+.form-row label span {
+    display: inline-block;
+    width: 45px;
+}
+
+.form-row input {
+    width: 120px;
+}
+
+.form-row input[type=submit] {
+    width: 50px;
+}

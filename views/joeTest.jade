@@ -1,0 +1,20 @@
+doctype html
+html(lang='zh-CN')
+    head
+        title loginTest
+        link(rel='stylesheet', href='/styles/joeTestStyle.css')
+        script(src='/scripts/jquery-2.1.1.js')
+    body
+    h1 登录测试
+    form
+        div.form-row
+            label
+                span 用户:
+                input(type='text',name='user_name',id='nameId')
+        div.form-row
+            label
+                span 密码:
+                input(type='password',name='password',id='passId')
+        div.form-row
+            input(type='submit' value="登录",id='submit')
+    script(src='/scripts/event.js')
