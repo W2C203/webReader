@@ -28,7 +28,15 @@ $('#submit2').on('click', function (event) {
         return;
     }
     $.post("/verify/queryBuy", data, function (text, status) {
-        alert(JSON.stringify(text));
+        if(typeof text == 'string'){
+            alert(text);
+            return;
+        }
+        console.log('购买的数目如下：');
+        for(var i in text){
+            console.log(text[i].goods_name);
+        }
+        alert("数目在终端显示\n（注：feiyue用户有本书叫 45  没有出错！）");
     })
     event.preventDefault();//阻止默认行为
 })
