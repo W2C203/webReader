@@ -4,36 +4,37 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello World</title>
+    <title>webReader</title>
     <link href="../public/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="../public/styles/pithy.css" rel="stylesheet">
 </head>
 <body>
 <div id="leftSide">
     <div class="mid-left">
-        左边拉取框
+        leftest div
     </div>
 </div>
+<span id="icon" title="hide" class="glyphicon glyphicon-triangle-left iconSpan"></span>
 <div id="main">
     <section id="section">
         <form class="form-inline pull-right login">
             <div class="form-group">
-                <input type="text" placeholder="用户名..." class="form-control">
+                <input type="text" name="user_name" placeholder="nickName..." class="form-control">
             </div>
             <div class="form-group">
-                <input type="password" placeholder="密码..." class="form-control">
+                <input type="password" name="password" placeholder="password..." class="form-control">
             </div>
-            <button type="submit" class="btn btn-default btn-primary">登录</button>
+            <button type="submit" class="btn btn-default btn-primary">login</button>
         </form>
         <header class="bookTitle">
-            <p>书名</p>
+            <p>bookName</p>
         </header>
         <hr>
         <canvas id="content"></canvas>
         <footer>
             79/100
         </footer>
-        <div id="menuList" class="right menuList">这里是目录</div>
+        <div id="menuList" class="right menuList">this is menu</div>
     </section>
     <!--进度条-->
     <div class="progress height">
@@ -63,10 +64,13 @@
 <script src="../public/bootstrap-3.3.5-dist/js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../public/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="../public/scripts/control.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $(function () {
 //            $('#main [data-toggle="tooltip"]').tooltip();
+            $("#menuList").hide();
+            $("#leftSide>div").hide();
         })
     });
 </script>
