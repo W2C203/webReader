@@ -29,6 +29,6 @@ app.use('/verify', verify);
 //无
 
 /* 端口监听 */
-app.listen(3000, function () {
+app.listen(4000, function () {
     console.log("listening on 3000")
 });
