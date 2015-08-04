@@ -1,0 +1,61 @@
+//
+   Created by seanlee on 15-8-4.
+
+doctype html
+html(lang='zh-cn')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title WebReaders
+        link(href='bootstrap-3.3.5-dist/css/bootstrap.min.css', rel='stylesheet', media='screen')
+        link(href='bootstrap-3.3.5-dist/css/bootstrap-progressbar-3.3.4.css', rel='stylesheet')
+        link(href='styles/pithy.css', rel='stylesheet')
+    body
+        #leftSide
+            .mid-left
+                | leftest div
+        #main
+            section#section
+                form.form-inline.pull-right.login
+                    .form-group
+                        input.form-control(type='text', name='user_name', placeholder='nickname...')
+                    .form-group
+                        input.form-control(type='password',name='password' placeholder='password...')
+                    button.btn.btn-default.btn-primary(type='submit') login
+                header.bookTitle
+                    p bookName
+                hr
+                canvas#content
+                footer
+                    -var now
+                    -var total
+                    -var rate
+                    #{now}/#{total}
+                #menuList.right.menuList this is menu
+            // progress
+            .progress.height.vertical.upv
+                .progress-bar(role='progressbar', aria-valuenow='79', aria-valuemin='0', aria-valuemax='100', style='width: 79%;')
+                    span.sr-only 60% Complete
+        #rightSide
+            // menuBtn
+            span#menuBtn.glyphicon.glyphicon-th-list.main-menu
+            // <div class="btn-group-vertical ">
+            // prev
+            button.btn.btn-default.bleft(data-toggle='tooltip', data-placement='left', title='previous page')
+                span.glyphicon.glyphicon-chevron-left
+            // next
+            button.btn.btn-default.bright(data-toggle='tooltip', data-placement='right', title='next page')
+                span.glyphicon.glyphicon-chevron-right
+            // </div>
+        // ===================================================================
+        // jQuery (necessary for Bootstrap's JavaScript plugins)
+        script(src='bootstrap-3.3.5-dist/js/jquery.js')
+        // Include all compiled plugins (below), or include individual files as needed
+        script(src='bootstrap-3.3.5-dist/js/bootstrap.min.js')
+        script(type='text/javascript').
+            $(document).ready(function(){
+            $(function () {
+            //            $('#main [data-toggle="tooltip"]').tooltip();
+            })
+            });
