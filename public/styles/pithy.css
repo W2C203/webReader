@@ -1,43 +1,89 @@
 body{background-color: #e5e4db;}
+/*左边覆盖body框*/
+#leftSide{
+    background-color: #dddddd;
+    width: 20%; height: 684px;
+    min-width: 200px; min-height: 430px;
+    margin: 0;padding: 0;
+    float: left;
+}
+/*左边拉取框*/
+.mid-left{
+    background-color: red;
+    width: 97%; height: 684px;
+    min-height: 430px;
+    margin: 0;padding: 0;
+    float: left;
+}
+/*右边覆盖body框*/
+#rightSide{
+    background-color: #dddddd;
+    width: 19%; height: 684px;
+    min-width: 200px; min-height: 430px;
+    margin: 0;padding: 0;
+    float: right;
+}
+/*中间主要内容框*/
 #main{
-    height: 100%; width: 631px;
+    height: 100%; width: 65%;
     min-height: 450px; min-width: 400px;
-    position: absolute; left: 25%;
+    position: absolute; left: 20%;
     text-align: center;
 }
+/*目录按钮*/
 .main-menu{
-    position: absolute; right: 1%; top: 10%;
+    position: absolute; right: 16%; top: 10%;
     color: gray;
 }
+/*目录列表*/
+.menuList{
+    background-color: burlywood;
+    width: 70%; height: 100%;
+    float: right;
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+}
+/*不能点击*/
 .disclick{color: gray;}
+/*前翻页按钮*/
 .bleft{
     height: 100px; width: 40px;
-    position: absolute; top: 30%; right: -3%;
+    position: absolute; top: 30%; right: 15%;
+    background-color: #d7d1e5;
 }
+/*后翻页按钮*/
 .bright{
     height: 100px; width: 40px;
-    position: absolute; top: 45%; right: -3%;
+    position: absolute; top: 45%; right: 15%;
+    background-color: #d7d1e5;
 }
+/*中间存放内容*/
 #section{
-    height: 100%; width: 600px;
-    padding: 2% 5% 0 5%;
+    height: 100%; width: 95%;
+    padding: 2% 8% 0 8%;
     background-color: rgb(255, 231, 206);
 }
 #section hr{margin-top: 0;}
+/*书名*/
 .bookTitle{
     font-size: 16px;
     color: #ff6795;
     text-align: left;
 }
+/*正文,现在正换成画布*/
 article{height: 88%;}
+/*画布*/
 #myCanvas{
     height: 85%; width: 100%;
     border: 1px solid #ccc;
 }
+/*进度条高度*/
 .height{
     height: 3px;
     margin-right: 31px; margin-bottom: 0;
 }
+/*页脚 */
 footer{
     position: absolute; bottom: 3px;
 }
