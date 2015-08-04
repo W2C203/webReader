@@ -1,15 +1,15 @@
 /**
- * Created by hywilliam on 8/2/15.
+ * node核心模块
  */
 var express = require('express');
 var path = require('path');
-//var bodyParser = require('body-parser');
-//var readPDF = require('server/file/readPDF');
 var app = express();
-
-var usingmysql = require('./server/db/usingmysql');
-
-//var router = express.Router;
+/**
+ * 我们的处理模块 依次是 主页 文档服务器相关 权限服务器相关
+ */
+var index = require('./routes/index');
+var data = require('./routes/data');
+var verify = require('./routes/verify');
 
 /* 视图模板配置 */
 app.set('views', __dirname + '/views');
@@ -19,46 +19,14 @@ app.set('view engine', 'jade');
  * 中间件配置
  */
 app.use(express.static(path.join(__dirname, '/public')));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', index);
+app.use('/data', data);
+app.use('/verify', verify);
 
 /**
- * 路由先写在这里，回来再拆分
+ * 必须放在app.js的其他代码？ 应该没有把
  */
-app.get('/', function (req, res) {
-    res.render('index');
-});
-
-//readPDF的测试页
-app.get('/pdf', function (req, res) {
-    res.render('pdf_read_test');
-});
-app.param(function (name, fn) {
-    if (fn instanceof RegExp) {
-        return function (req, res, next, val) {
-            var captures;
-            if (captures = fn.exec(String(val))) {
-                req.params[name] = captures;
-                next();
-            } else {
-                next('route');
-            }
-        }
-    }
-});
-app.param('pageId', /^\d+$/);
-app.get('/pdf/:pageId', function (req, res) {
-//    res.send('page' + req.param.);
-});
-//--------------------------------------------(这不是git加的 下面是joe的)
-app.post('/query', function (req, res, next) {
-    req.on('data',function(data) {
-        usingmysql.verifyByNamePassword(data, res, next);
-    })
-});
-app.get('/123', function (req, res, next) {
-    res.render('joeTest');
-});
+//无
 
 /* 端口监听 */
 app.listen(3000, function () {
