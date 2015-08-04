@@ -7,7 +7,7 @@ var path = require('path');
 //var readPDF = require('server/file/readPDF');
 var app = express();
 
-var userDao = require('./server/db/userDao');
+var usingmysql = require('./server/db/usingmysql');
 
 //var router = express.Router;
 
@@ -50,11 +50,15 @@ app.param('pageId', /^\d+$/);
 app.get('/pdf/:pageId', function (req, res) {
 //    res.send('page' + req.param.);
 });
-
-app.get('/query', function (req, res, next) {
-    userDao.verifyByNamePassword(req, res, next);
+//--------------------------------------------(这不是git加的 下面是joe的)
+app.post('/query', function (req, res, next) {
+    req.on('data',function(data) {
+        usingmysql.verifyByNamePassword(data, res, next);
+    })
 });
-
+app.get('/123', function (req, res, next) {
+    res.render('joeTest');
+});
 
 /* 端口监听 */
 app.listen(3000, function () {
