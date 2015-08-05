@@ -14,11 +14,11 @@ $('#submit').on('click', function (event) {
     $.post("/verify/query", data, function (text, status) {
         alert(JSON.stringify(text));
         //一共会有3种成功响应   请填写帐号/密码(这个正常是不会有的) 帐号或密码错误 登录成功
-        if(JSON.stringify(text)=='"登录成功"'){
+        if (JSON.stringify(text) == '"登录成功"') {
             $('#form').hide();
             var name = data.split('&')[0].split('=');
             //例： user_name=admin&password=admin  抽取用户名 这里的策略有待修改
-            name = name[name.length-1];             //这个是抽取的用户名 到时找个地方放
+            name = name[name.length - 1];             //这个是抽取的用户名 到时找个地方放
             showOrderBooks(name);
         }
     })
@@ -30,17 +30,18 @@ $('#submit').on('click', function (event) {
  * 登录后左侧显示已购买书目
  * @param name 用户名
  */
-function showOrderBooks(name){
+function showOrderBooks(name) {
     $.post("/verify/queryBuy", name, function (text, status) {
-        if(typeof text == 'string'){
-            $('#leftSide>div').html(text);
-            return;
+        var string = '';
+        if (typeof text == 'string') {
+            string = text;
+        } else {
+            string = '购买的数目如下：<br>';
+            for (var i in text) {
+                string += text[i].goods_name + '<br>';
+            }
         }
-        var string='购买的数目如下：<br>';
-        for(var i in text){
-            string+=text[i].goods_name+'<br>';
-        }
-        $('#leftSide>div').html(string);
+        $('#leftSide').html(string);
     })
     event.preventDefault();//阻止默认行为
 }
