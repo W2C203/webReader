@@ -40,8 +40,7 @@ module.exports = {
         });
     },
     queryBuy: function (req, res, next) {
-        var query = url.parse('?' + req.toString(), true).query;
-        var user_name = query.user_name;
+        var user_name = req.toString();
         //console.log(user_name);
         pool.getConnection(function (err, connection) {
             connection.query($sql.queryOrderByUserName, user_name, function (err, result) {

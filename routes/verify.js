@@ -2,9 +2,6 @@ var express = require('express');
 var app = express.Router();
 var usingmysql = require('../handlers/db/usingmysql');
 
-app.get('/', function (req, res, next) {
-    res.render('joeTest');
-});
 /**
  * 响应登录
  */
@@ -18,7 +15,7 @@ app.post('/query', function (req, res, next) {
  */
 app.post('/queryBuy', function (req, res, next) {
     req.on('data', function (data) {
-        usingmysql.queryuy(data, res, next);
+        usingmysql.queryBuy(data, res, next);
     })
 });
 
