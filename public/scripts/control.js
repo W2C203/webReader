@@ -26,9 +26,9 @@ $("#icon").on('click', function () {
     }
     $("#leftSide div").toggle();
 });
-$("button[title^='p']").on('click', function () {
-    alert("prev");
-});
-$("button[title^='n']").on('click', function () {
-    alert("next");
-});
+//$("button[title^='p']").on('click', function () {
+//    alert("prev");
+//});
+//$("button[title^='n']").on('click', function () {
+//    alert("next");
+//});

@@ -1,28 +1,15 @@
-var express = require('express');
-var app = express.Router();
-
-//readPDF的测试页
-app.get('/pdf', function (req, res) {
-    res.render('pdf_read_test');
-});
-app.param(function (name, fn) {
-    if (fn instanceof RegExp) {
-        return function (req, res, next, val) {
-            var captures;
-            if (captures = fn.exec(String(val))) {
-                req.params[name] = captures;
-                next();
-            } else {
-                next('route');
-            }
-        }
-    }
-});
-app.param('pageId', /^\d+$/);
-app.get('/pdf/:pageId', function (req, res) {
-//    res.send('page' + req.param.);
-});
-
-module.exports = app;
+//var express = require('express');
+//var app = express.Router();
+//
+//var fs = require('fs');
+//
+//// 读取pdf文件
+//app.get('/pdf', function(req, res){
+//    res.writeHead(200, {'Content-Type':'application/pdf'});
+//    fs.createReadStream('./data/AngularJS.pdf').pipe(res);
+//    res.end();
+//});
+//
+//module.exports = app;
 
 

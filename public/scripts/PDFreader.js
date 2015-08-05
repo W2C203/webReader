@@ -3,7 +3,7 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-//    var url = '/data/AngularJS.pdf';
+//    var url = 'AngularJS.pdf';
 
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageNum = 1,// pdf页码，默认为第一页
@@ -46,7 +46,7 @@ window.onload = function () {
         });
 
         // Update page counters
-        document.getElementById('page_num').textContent = pageNum;
+//        document.getElementById('page_num').textContent = pageNum;
     }
 
     /**
@@ -97,17 +97,7 @@ window.onload = function () {
         });
     }
 
-    document.getElementById('getOutline').addEventListener('click', displayOutline);
-    /**
-     * 显示标题
-     */
-    function displayTitle() {
-        pdfDoc.getOutline().then(function (outline) {
-            console.log(outline[0].title);
-        });
-    }
-
-    document.getElementById('getTitle').addEventListener('click', displayTitle);
+    document.getElementById('menuBtn').addEventListener('click', displayOutline);
 
     /**
      * 执行入口在此
@@ -115,7 +105,7 @@ window.onload = function () {
      */
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
-        document.getElementById('page_count').textContent = pdfDoc.numPages;
+//        document.getElementById('page_count').textContent = pdfDoc.numPages;
 
         // 初始化渲染，首次渲染为第一页
         renderPage(pageNum);

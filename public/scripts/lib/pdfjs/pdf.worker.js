@@ -1766,7 +1766,7 @@ var NetworkManager = (function NetworkManagerClosure() {
       var xhrStatus = xhr.status || OK_RESPONSE;
 
       // From http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2:
-      // "A server MAY ignore the Range header". This means it's possible to
+      // "A handlers MAY ignore the Range header". This means it's possible to
       // get a 200 rather than a 206 response from a range request.
       var ok_response_on_range_request =
           xhrStatus === OK_RESPONSE &&
@@ -2298,7 +2298,7 @@ var ChunkedStreamManager = (function ChunkedStreamManagerClosure() {
       var loadedRequests = [];
       var i, requestId;
       for (chunk = beginChunk; chunk < endChunk; ++chunk) {
-        // The server might return more chunks than requested
+        // The handlers might return more chunks than requested
         var requestIds = this.requestsByChunk[chunk] || [];
         delete this.requestsByChunk[chunk];
 
@@ -33919,7 +33919,7 @@ var WorkerMessageHandler = PDFJS.WorkerMessageHandler = {
             // NOTE: by cancelling the full request, and then issuing range
             // requests, there will be an issue for sites where you can only
             // request the pdf once. However, if this is the case, then the
-            // server should not be returning that it can support range
+            // handlers should not be returning that it can support range
             // requests.
             networkManager.abortRequest(fullRequestXhrId);
           }
@@ -33984,7 +33984,7 @@ var WorkerMessageHandler = PDFJS.WorkerMessageHandler = {
             handler.send('MissingPDF', exception);
           } else {
             exception = new UnexpectedResponseException(
-              'Unexpected server response (' + status +
+              'Unexpected handlers response (' + status +
               ') while retrieving PDF "' + source.url + '".', status);
             handler.send('UnexpectedResponse', exception);
           }

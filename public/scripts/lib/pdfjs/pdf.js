@@ -1660,7 +1660,7 @@ PDFJS.disableWorker = (PDFJS.disableWorker === undefined ?
 PDFJS.workerSrc = (PDFJS.workerSrc === undefined ? null : PDFJS.workerSrc);
 
 /**
- * Disable range request loading of PDF files. When enabled and if the server
+ * Disable range request loading of PDF files. When enabled and if the handlers
  * supports partial content requests then the PDF will be fetched in chunks.
  * Enabled (false) by default.
  * @var {boolean}

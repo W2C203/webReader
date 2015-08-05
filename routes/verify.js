@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express.Router();
-var usingmysql = require('../server/db/usingmysql');
+var usingmysql = require('../handlers/db/usingmysql');
 
 app.get('/', function (req, res, next) {
     res.render('joeTest');
