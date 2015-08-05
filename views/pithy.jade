@@ -40,10 +40,10 @@ html(lang='zh-cn')
                     // 目录按钮
                     span#menuBtn.glyphicon.glyphicon-th-list.main-menu
                     // 上一页按钮
-                    button.btn.btn-default.bleft(data-toggle='tooltip', data-placement='left', title='previous page')
+                    button#prev.btn.btn-default.bleft(data-toggle='tooltip', data-placement='left', title='previous page')
                         span.glyphicon.glyphicon-chevron-left
                     // 下一页按钮
-                    button.btn.btn-default.bright(data-toggle='tooltip', data-placement='right', title='next page')
+                    button#next.btn.btn-default.bright(data-toggle='tooltip', data-placement='right', title='next page')
                         span.glyphicon.glyphicon-chevron-right
         // ===================================================================
         // jQuery (necessary for Bootstrap's JavaScript plugins)
@@ -52,4 +52,6 @@ html(lang='zh-cn')
         script(src='bootstrap-3.3.5-dist/js/bootstrap.min.js')
         script(src='scripts/control.js')
         scirpt(src='scripts/event.js')
+        script(src='/scripts/lib/pdfjs/pdf.js')
+        script(src='/scripts/PDFreader.js')
                                                 
