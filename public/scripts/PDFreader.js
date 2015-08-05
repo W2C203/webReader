@@ -115,6 +115,7 @@ window.onload = function () {
      * 目录请求读取
      */
     $.get('metadata.json', function (req, res) {
+        req
         console.log(req);
     });
 };
