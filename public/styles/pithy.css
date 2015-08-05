@@ -1,163 +1,109 @@
-body {
-    background-color: #e5e4db;
-}
+body{background-color: #e5e4db;}
 
 /*左边覆盖body框*/
-#leftSide {
+#leftSide{
+    padding: 20% 0;
     background-color: #ddd;
-    width: 20%;
-    height: 684px;
-    min-width: 200px;
-    min-height: 430px;
-    position: fixed;
-    margin: 0;
-    padding: 0;
+    height: 100%;
     float: left;
+    position: fixed;
+    text-align: center;
+    left: -16%;
 }
-
 /*左边拉取框*/
-.mid-left {
-    background-color: #f2f2f2;
-    width: 19%;
-    height: 684px;
+.mid-left{
+    background-color: #ecd37a;
+    width: 97%;height: 100%;
     min-height: 430px;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    float: left;
+    margin: 0;padding: 0;
+    /*float: left;*/
+    /*left: -97%;*/
 }
-
-.iconSpan {
+.iconSpan{
     color: gray;
     position: absolute;
     top: 50%;
-    left: 0%;
+    left: 0;
 }
-
-.iconSpanSecond {
-    left: 19%;
-}
-
-.wai {
-    left: -19%;
-}
-
-.myShow {
-    display: inline;
-}
-
 /*右边覆盖body框*/
-#rightSide {
-    background-color: #ddd;
-    width: 19%;
-    height: 684px;
-    min-width: 200px;
-    min-height: 430px;
-    /*position: fixed;*/
-    margin: 0;
+#rightSide{
     padding: 0;
-    float: right;
-}
-
-/*中间主要内容框*/
-#main {
+    background-color: #ddd;
     height: 100%;
-    width: 65%;
-    min-height: 450px;
-    min-width: 400px;
-    position: absolute;
-    left: 20%;
+    float: right;
+    position: fixed;
+    right: 0;
+}
+/*中间主要内容框*/
+#main{
+    height: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+    min-height: 450px; min-width: 400px;
+    position: absolute; left: 16.67%;
     text-align: center;
 }
-
+/*前翻页按钮*/
+.bleft{
+    margin: 2px;
+    margin-left: -20px;
+    height: 100px; width: 40px;
+    position: absolute; top: 30%;
+    background-color: #d7d1e5;
+}
+/*后翻页按钮*/
+.bright{
+    margin: 2px;
+    margin-left: -20px;
+    height: 100px; width: 40px;
+    position: absolute; top: 45%;
+    background-color: #d7d1e5;
+}
 /*目录按钮*/
-.main-menu {
-    position: absolute;
-    right: 16%;
+.main-menu{
+    /*position: absolute;*/
     top: 10%;
+    margin-left: 10px;
     color: gray;
 }
-
 /*目录列表*/
-.menuList {
-    background-color: #c8c8c8;
-    width: 70%;
-    height: 100%;
+.menuList{
+    background-color: burlywood;
+    width: 80%; height: 100%;
     float: right;
     position: absolute;
-    right: 5%;
-    bottom: 10%;
-}
-
-/*不能点击*/
-.disclick {
-    color: gray;
-}
-
-.selected {
-    color: green;
-}
-
-/*前翻页按钮*/
-.bleft {
-    height: 100px;
-    width: 40px;
-    position: absolute;
-    top: 30%;
-    right: 15%;
-    background-color: #d7d1e5;
-}
-
-/*后翻页按钮*/
-.bright {
-    height: 100px;
-    width: 40px;
-    position: absolute;
-    top: 45%;
-    right: 15%;
-    background-color: #d7d1e5;
+    right: 0;
+    bottom: 3%;
 }
 
 /*中间存放内容*/
-#section {
+#section{
     height: 100%;
-    width: 95%;
     padding: 2% 8% 0 8%;
     background-color: rgb(255, 231, 206);
 }
-
-#section hr {
-    margin-top: 0;
-}
-
+#section hr{margin-top: 0;}
 /*书名*/
-.bookTitle {
+.bookTitle{
     font-size: 16px;
     color: #ff6795;
     text-align: left;
 }
 
-/*正文,现在正换成画布*/
-article {
-    height: 88%;
-}
-
 /*画布*/
-#content {
+#content{
     height: 85%;
     width: 100%;
     border: 1px solid #ccc;
 }
-
 /*进度条高度*/
-.height {
+.height{
     height: 3px;
-    margin-right: 31px;
-    margin-bottom: 0;
+    margin-right: 31px; margin-bottom: 0;
 }
-
 /*页脚 */
-footer {
-    position: absolute;
-    bottom: 3px;
+footer{
+    position: absolute; bottom: 3px;
 }
+/*JS代码要修改用的东西*/
+.selected{color: green;}
