@@ -9,55 +9,55 @@
     <link href="../public/styles/pithy.css" rel="stylesheet">
 </head>
 <body>
-<div id="leftSide">
-    <div class="mid-left">
-        leftest div
-    </div>
-</div>
-<span id="icon" title="hide" class="glyphicon glyphicon-triangle-left iconSpan"></span>
-<div id="main">
-    <section id="section">
-        <form id="form" class="form-inline pull-right login">
-            <div class="form-group">
-                <input type="text" name="user_name" placeholder="nickName..." class="form-control">
+<div class="container-fluid"><!--栅格系统-->
+    <div class="row">
+        <div class="col-md-2" id="leftSide">
+                登录后查看购买书目
+        </div>
+        <span id="icon" title="show" class="glyphicon glyphicon-triangle-left iconSpan"></span>
+        <div class="col-md-8" id="main">
+            <section id="section">
+                <form id="form" class="form-inline pull-right login">
+                    <div class="form-group">
+                        <input type="text" name="user_name" placeholder="nickName..." class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" placeholder="password..." class="form-control">
+                    </div>
+                    <button type="submit" id="submit" class="btn btn-default btn-primary">login</button>
+                </form>
+                <header class="bookTitle">
+                    <p>bookName</p>
+                </header>
+                <hr>
+                <canvas id="content"></canvas>
+                <footer>
+                    79/100
+                </footer>
+                <div id="menuList" class="right menuList">this is menu</div>
+            </section>
+            <!--进度条-->
+            <div class="progress height">
+                <div class="progress-bar " role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 79%;">
+                    <span class="sr-only ">79% Complete</span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="password..." class="form-control">
-            </div>
-            <button type="submit" id="submit" class="btn btn-default btn-primary">login</button>
-        </form>
-        <header class="bookTitle">
-            <p>bookName</p>
-        </header>
-        <hr>
-        <canvas id="content"></canvas>
-        <footer>
-            79/100
-        </footer>
-        <div id="menuList" class="right menuList">this is menu</div>
-    </section>
-    <!--进度条-->
-    <div class="progress height">
-        <div class="progress-bar " role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 79%;">
-            <span class="sr-only ">60% Complete</span>
+        </div>
+        <div class="col-md-2" id="rightSide">
+            <!--目录按钮-->
+            <span id="menuBtn" class="glyphicon glyphicon-th-list main-menu"></span>
+
+            <!--上一页按钮-->
+            <button class="btn btn-default  bleft" data-toggle="tooltip" data-placement="left" title="previous page">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <!--下一页按钮-->
+            <button class="btn btn-default bright" data-toggle="tooltip" data-placement="right" title="next page">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
         </div>
     </div>
-
 </div>
-<div id="rightSide">
-    <!--目录按钮-->
-    <span id="menuBtn" class="glyphicon glyphicon-th-list main-menu"></span>
-
-    <!--上一页按钮-->
-    <button class="btn btn-default  bleft" data-toggle="tooltip" data-placement="left" title="previous page">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </button>
-    <!--下一页按钮-->
-    <button class="btn btn-default bright" data-toggle="tooltip" data-placement="right" title="next page">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </button>
-</div>
-
 
 <!--===================================================================-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
