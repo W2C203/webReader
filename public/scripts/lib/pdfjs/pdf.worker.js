@@ -441,7 +441,7 @@ var MissingDataException = (function MissingDataExceptionClosure() {
   function MissingDataException(begin, end) {
     this.begin = begin;
     this.end = end;
-    this.message = 'Missing data [' + begin + ', ' + end + ')';
+    this.message = 'Missing pdf [' + begin + ', ' + end + ')';
   }
 
   MissingDataException.prototype = new Error();
@@ -1242,7 +1242,7 @@ PDFJS.createPromiseCapability = createPromiseCapability;
   /**
    * Builds a promise that is resolved when all the passed in promises are
    * resolved.
-   * @param {array} array of data and/or promises to wait for.
+   * @param {array} array of pdf and/or promises to wait for.
    * @return {Promise} New dependant promise.
    */
   Promise.all = function Promise_all(promises) {
@@ -1445,7 +1445,7 @@ PDFJS.createBlob = function createBlob(data, contentType) {
 };
 
 PDFJS.createObjectURL = (function createObjectURLClosure() {
-  // Blob/createObjectURL is not available, falling back to data schema.
+  // Blob/createObjectURL is not available, falling back to pdf schema.
   var digits =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
@@ -1539,9 +1539,9 @@ MessageHandler.prototype = {
     ah[actionName] = [handler, scope];
   },
   /**
-   * Sends a message to the comObj to invoke the action with the supplied data.
+   * Sends a message to the comObj to invoke the action with the supplied pdf.
    * @param {String} actionName Action to call.
-   * @param {JSON} data JSON data to send.
+   * @param {JSON} data JSON pdf to send.
    * @param {Array} [transfers] Optional list of transfers/ArrayBuffers
    */
   send: function messageHandlerSend(actionName, data, transfers) {
@@ -1552,12 +1552,12 @@ MessageHandler.prototype = {
     this.postMessage(message, transfers);
   },
   /**
-   * Sends a message to the comObj to invoke the action with the supplied data.
+   * Sends a message to the comObj to invoke the action with the supplied pdf.
    * Expects that other side will callback with the response.
    * @param {String} actionName Action to call.
-   * @param {JSON} data JSON data to send.
+   * @param {JSON} data JSON pdf to send.
    * @param {Array} [transfers] Optional list of transfers/ArrayBuffers.
-   * @returns {Promise} Promise to be resolved with response data.
+   * @returns {Promise} Promise to be resolved with response pdf.
    */
   sendWithPromise:
     function messageHandlerSendWithPromise(actionName, data, transfers) {
@@ -2835,7 +2835,7 @@ var Page = (function PageClosure() {
 })();
 
 /**
- * The `PDFDocument` holds all the data of the PDF file. Compared to the
+ * The `PDFDocument` holds all the pdf of the PDF file. Compared to the
  * `PDFDoc`, this one doesn't have any job management code.
  * Right now there exists one PDFDocument on the main thread + one object
  * for each worker. If there is no worker support enabled, there are two
@@ -2857,7 +2857,7 @@ var PDFDocument = (function PDFDocumentClosure() {
   }
 
   function init(pdfManager, stream, password) {
-    assert(stream.length > 0, 'stream must have data');
+    assert(stream.length > 0, 'stream must have pdf');
     this.pdfManager = pdfManager;
     this.stream = stream;
     var xref = new XRef(this.stream, password, pdfManager);
@@ -2935,7 +2935,7 @@ var PDFDocument = (function PDFDocumentClosure() {
           info(err);
         }
       }
-      // shadow the prototype getter with a data property
+      // shadow the prototype getter with a pdf property
       return shadow(this, 'linearization', linearization);
     },
     get startXRef() {
@@ -2977,7 +2977,7 @@ var PDFDocument = (function PDFDocumentClosure() {
           }
         }
       }
-      // shadow the prototype getter with a data property
+      // shadow the prototype getter with a pdf property
       return shadow(this, 'startXRef', startXRef);
     },
     get mainXRefEntriesOffset() {
@@ -2986,7 +2986,7 @@ var PDFDocument = (function PDFDocumentClosure() {
       if (linearization) {
         mainXRefEntriesOffset = linearization.mainXRefEntriesOffset;
       }
-      // shadow the prototype getter with a data property
+      // shadow the prototype getter with a pdf property
       return shadow(this, 'mainXRefEntriesOffset', mainXRefEntriesOffset);
     },
     // Find the header, remove leading garbage and setup the stream
@@ -3824,7 +3824,7 @@ var XRef = (function XRefClosure() {
   XRef.prototype = {
     setStartXRef: function XRef_setStartXRef(startXRef) {
       // Store the starting positions of xref tables as we process them
-      // so we can recover from missing data errors
+      // so we can recover from missing pdf errors
       this.startXRefQueue = [startXRef];
     },
 
@@ -3855,7 +3855,7 @@ var XRef = (function XRefClosure() {
     processXRefTable: function XRef_processXRefTable(parser) {
       if (!('tableState' in this)) {
         // Stores state of the table as we process it so we can resume
-        // from middle of table in case of missing data error
+        // from middle of table in case of missing pdf error
         this.tableState = {
           entryNum: 0,
           streamPos: parser.lexer.stream.pos,
@@ -3980,7 +3980,7 @@ var XRef = (function XRefClosure() {
     processXRefStream: function XRef_processXRefStream(stream) {
       if (!('streamState' in this)) {
         // Stores state of the stream as we process it so we can resume
-        // from middle of stream in case of missing data error
+        // from middle of stream in case of missing pdf error
         var streamParameters = stream.dict;
         var byteWidths = streamParameters.get('W');
         var range = streamParameters.get('Index');
@@ -4638,10 +4638,10 @@ var FileSpec = (function FileSpecClosure() {
 })();
 
 /**
- * A helper for loading missing data in object graphs. It traverses the graph
- * depth first and queues up any objects that have missing data. Once it has
+ * A helper for loading missing pdf in object graphs. It traverses the graph
+ * depth first and queues up any objects that have missing pdf. Once it has
  * has traversed as many objects that are available it attempts to bundle the
- * missing data requests and then resume from the nodes that weren't ready.
+ * missing pdf requests and then resume from the nodes that weren't ready.
  *
  * NOTE: It provides protection from circular references by keeping track of
  * of loaded references. However, you must be careful not to load any graphs
@@ -4689,7 +4689,7 @@ var ObjectLoader = (function() {
     load: function ObjectLoader_load() {
       var keys = this.keys;
       this.capability = createPromiseCapability();
-      // Don't walk the graph if all the data is already loaded.
+      // Don't walk the graph if all the pdf is already loaded.
       if (!(this.xref.stream instanceof ChunkedStream) ||
           this.xref.stream.getMissingChunks().length === 0) {
         this.capability.resolve();
@@ -4714,7 +4714,7 @@ var ObjectLoader = (function() {
       while (nodesToVisit.length) {
         var currentNode = nodesToVisit.pop();
 
-        // Only references or chunked streams can cause missing data exceptions.
+        // Only references or chunked streams can cause missing pdf exceptions.
         if (isRef(currentNode)) {
           // Skip nodes that have already been visited.
           if (this.refSet.has(currentNode)) {
@@ -5211,7 +5211,7 @@ var WidgetAnnotation = (function WidgetAnnotationClosure() {
     this.fieldResources = Util.getInheritableProperty(dict, 'DR') || Dict.empty;
 
     // Building the full field name by collecting the field and
-    // its ancestors 'T' data and joining them using '.'.
+    // its ancestors 'T' pdf and joining them using '.'.
     var fieldName = [];
     var namedItem = dict;
     var ref = params.ref;
@@ -6566,7 +6566,7 @@ var ColorSpace = (function ColorSpaceClosure() {
       error('Should not call ColorSpace.getOutputLength');
     },
     /**
-     * Returns true if source data will be equal the result/output data.
+     * Returns true if source pdf will be equal the result/output pdf.
      */
     isPassthrough: function ColorSpace_isPassthrough(bits) {
       return false;
@@ -7809,7 +7809,7 @@ var calculateMD5 = (function calculateMD5Closure() {
   function hash(data, offset, length) {
     var h0 = 1732584193, h1 = -271733879, h2 = -1732584194, h3 = 271733878;
     // pre-processing
-    var paddedLength = (length + 72) & ~63; // data + 9 extra bytes
+    var paddedLength = (length + 72) & ~63; // pdf + 9 extra bytes
     var padded = new Uint8Array(paddedLength);
     var i, j, n;
     for (i = 0; i < length; ++i) {
@@ -8732,7 +8732,7 @@ var AES128Cipher = (function AES128CipherClosure() {
         buffer[bufferLength] = data[i];
       }
       if (bufferLength < 16) {
-        // need more data
+        // need more pdf
         this.bufferLength = bufferLength;
         return new Uint8Array([]);
       }
@@ -9187,7 +9187,7 @@ var AES256Cipher = (function AES256CipherClosure() {
           buffer[bufferLength] = data[i];
         }
         if (bufferLength < 16) {
-          //need more data
+          //need more pdf
           this.bufferLength = bufferLength;
           return new Uint8Array([]);
         }
@@ -10064,7 +10064,7 @@ Shadings.Mesh = (function MeshClosure() {
     var colors = mesh.colors;
     var operators = [];
     var ps = []; // not maintaining cs since that will match ps
-    var verticesLeft = 0; // assuming we have all data to start a new triangle
+    var verticesLeft = 0; // assuming we have all pdf to start a new triangle
     while (reader.hasData) {
       var f = reader.readFlag();
       var coord = reader.readCoordinate();
@@ -10448,7 +10448,7 @@ Shadings.Mesh = (function MeshClosure() {
   }
 
   function Mesh(stream, matrix, xref, res) {
-    assert(isStream(stream), 'Mesh data is not a stream');
+    assert(isStream(stream), 'Mesh pdf is not a stream');
     var dict = stream.dict;
     this.matrix = matrix;
     this.shadingType = dict.get('ShadingType');
@@ -10716,7 +10716,7 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
       if (imageMask) {
         // This depends on a tmpCanvas being filled with the
         // current fillStyle, such that processing the pixel
-        // data can't be done here. Instead of creating a
+        // pdf can't be done here. Instead of creating a
         // complete PDFImage, only read the information needed
         // for later.
 
@@ -10746,7 +10746,7 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
       var mask = (dict.get('Mask') || false);
 
       var SMALL_IMAGE_DIMENSIONS = 200;
-      // Inlining small images into the queue as RGB data
+      // Inlining small images into the queue as RGB pdf
       if (inline && !softMask && !mask && !(image instanceof JpegStream) &&
           (w + h) < SMALL_IMAGE_DIMENSIONS) {
         var imageObj = new PDFImage(this.xref, resources, image,
@@ -10890,7 +10890,7 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
     setGState: function PartialEvaluator_setGState(resources, gState,
                                                    operatorList, xref,
                                                    stateManager) {
-      // This array holds the converted/processed state data.
+      // This array holds the converted/processed state pdf.
       var gStateObj = [];
       var gStateMap = gState.map;
       var self = this;
@@ -14149,7 +14149,7 @@ var CMapFactory = (function CMapFactoryClosure() {
         try {
           parseCMap(cMap, lexer, builtInCMapParams, useCMap);
         } catch (e) {
-          warn('Invalid CMap data. ' + e);
+          warn('Invalid CMap pdf. ' + e);
         }
         if (cMap.isIdentityCMap) {
           return createBuiltInCMap(cMap.name, builtInCMapParams);
@@ -14488,7 +14488,7 @@ var stdFontMap = {
 
 /**
  * Holds the map of the non-standard fonts that might be included as a standard
- * fonts without glyph data.
+ * fonts without glyph pdf.
  */
 var nonStdFontMap = {
   'CenturyGothic': 'Helvetica',
@@ -16458,7 +16458,7 @@ var OpenTypeFileBuilder = (function OpenTypeFileBuilderClosure() {
       var numTables = tablesNames.length;
 
       var i, j, jj, table, tableName;
-      // layout the tables data
+      // layout the tables pdf
       var offset = OTF_HEADER_SIZE + numTables * OTF_TABLE_ENTRY_SIZE;
       var tableOffsets = [offset];
       for (i = 0; i < numTables; i++) {
@@ -16469,7 +16469,7 @@ var OpenTypeFileBuilder = (function OpenTypeFileBuilderClosure() {
       }
 
       var file = new Uint8Array(offset);
-      // write the table data first (mostly for checksum)
+      // write the table pdf first (mostly for checksum)
       for (i = 0; i < numTables; i++) {
         table = tables[tablesNames[i]];
         writeData(file, tableOffsets[i], table);
@@ -16607,7 +16607,7 @@ var Font = (function FontClosure() {
       }
 
       this.missingFile = true;
-      // The file data is not specified. Trying to fix the font name
+      // The file pdf is not specified. Trying to fix the font name
       // to be used with the canvas.font.
       var fontName = name.replace(/[,_]/g, '-');
       var isStandardFont = !!stdFontMap[fontName] ||
@@ -16734,7 +16734,7 @@ var Font = (function FontClosure() {
 
         adjustWidths(properties);
 
-        // Wrap the CFF data inside an OTF font file
+        // Wrap the CFF pdf inside an OTF font file
         data = this.convert(name, cff, properties);
         break;
 
@@ -17300,7 +17300,7 @@ var Font = (function FontClosure() {
         var offset = file.getInt32() >>> 0;
         var length = file.getInt32() >>> 0;
 
-        // Read the table associated data
+        // Read the table associated pdf
         var previousPosition = file.pos;
         file.pos = file.start ? file.start : 0;
         file.skip(offset);
@@ -17484,7 +17484,7 @@ var Font = (function FontClosure() {
             }
           }
         } else if (format === 6) {
-          // Format 6 is a 2-bytes dense mapping, which means the font data
+          // Format 6 is a 2-bytes dense mapping, which means the font pdf
           // lives glue together even if they are pretty far in the unicode
           // table. (This looks weird, so I can have missed something), this
           // works on Linux but seems to fails on Mac so let's rewrite the
@@ -17562,7 +17562,7 @@ var Font = (function FontClosure() {
       function sanitizeGlyph(source, sourceStart, sourceEnd, dest, destStart,
                              hintsValid) {
         if (sourceEnd - sourceStart <= 12) {
-          // glyph with data less than 12 is invalid one
+          // glyph with pdf less than 12 is invalid one
           return 0;
         }
         var glyf = source.subarray(sourceStart, sourceEnd);
@@ -17607,7 +17607,7 @@ var Font = (function FontClosure() {
         }
         var glyphDataLength = j + coordinatesLength;
         if (glyphDataLength > glyf.length) {
-          // not enough data for coordinates
+          // not enough pdf for coordinates
           return 0;
         }
         if (!hintsValid && instructionsLength > 0) {
@@ -17622,12 +17622,12 @@ var Font = (function FontClosure() {
           return glyphDataLength;
         }
         if (glyf.length - glyphDataLength > 3) {
-          // truncating and aligning to 4 bytes the long glyph data
+          // truncating and aligning to 4 bytes the long glyph pdf
           glyphDataLength = (glyphDataLength + 3) & ~3;
           dest.set(glyf.subarray(0, glyphDataLength), destStart);
           return glyphDataLength;
         }
-        // glyph data is fine
+        // glyph pdf is fine
         dest.set(glyf, destStart);
         return glyf.length;
       }
@@ -17704,7 +17704,7 @@ var Font = (function FontClosure() {
         }
         var locaData = loca.data;
         var locaDataSize = itemSize * (1 + numGlyphs);
-        // is loca.data too short or long?
+        // is loca.pdf too short or long?
         if (locaData.length !== locaDataSize) {
           locaData = new Uint8Array(locaDataSize);
           locaData.set(loca.data.subarray(0, locaDataSize));
@@ -17728,7 +17728,7 @@ var Font = (function FontClosure() {
             endOffset = oldGlyfDataLength;
           }
           if (endOffset > oldGlyfDataLength) {
-            // glyph end offset points outside glyf data, rejecting the glyph
+            // glyph end offset points outside glyf pdf, rejecting the glyph
             itemEncode(locaData, j, writeOffset);
             startOffset = endOffset;
             continue;
@@ -18135,7 +18135,7 @@ var Font = (function FontClosure() {
         return ttContext.hintsValid;
       }
 
-      // The following steps modify the original font data, making copy
+      // The following steps modify the original font pdf, making copy
       font = new Stream(new Uint8Array(font.getBytes()));
 
       var VALID_TABLES = ['OS/2', 'cmap', 'head', 'hhea', 'hmtx', 'maxp',
@@ -18921,7 +18921,7 @@ var ErrorFont = (function ErrorFontClosure() {
  * simple CFF fonts. See section 9.6.6.2 of the spec.
  * @param {Object} properties Font properties object.
  * @param {Object} builtInEncoding The encoding contained within the actual font
- * data.
+ * pdf.
  * @param {Array} Array of glyph names where the index is the glyph ID.
  * @returns {Object} A char code to glyph ID map.
  */
@@ -19451,7 +19451,7 @@ var Type1Parser = (function Type1ParserClosure() {
 
     /*
      * Returns an object containing a Subrs array and a CharStrings
-     * array extracted from and eexec encrypted block of data
+     * array extracted from and eexec encrypted block of pdf
      */
     extractFontProgram: function Type1Parser_extractFontProgram() {
       var stream = this.stream;
@@ -19495,7 +19495,7 @@ var Type1Parser = (function Type1ParserClosure() {
               data = stream.makeSubStream(stream.pos, length);
               lenIV = program.properties.privateData['lenIV'];
               encoded = decrypt(data.getBytes(), CHAR_STRS_ENCRYPT_KEY, lenIV);
-              // Skip past the required space and binary data.
+              // Skip past the required space and binary pdf.
               stream.skip(length);
               this.nextChar();
               token = this.getToken(); // read in 'ND' or '|-'
@@ -19518,7 +19518,7 @@ var Type1Parser = (function Type1ParserClosure() {
               data = stream.makeSubStream(stream.pos, length);
               lenIV = program.properties.privateData['lenIV'];
               encoded = decrypt(data.getBytes(), CHAR_STRS_ENCRYPT_KEY, lenIV);
-              // Skip past the required space and binary data.
+              // Skip past the required space and binary pdf.
               stream.skip(length);
               this.nextChar();
               token = this.getToken(); // read in 'NP' or '|'
@@ -19533,7 +19533,7 @@ var Type1Parser = (function Type1ParserClosure() {
           case 'FamilyBlues':
           case 'FamilyOtherBlues':
             var blueArray = this.readNumberArray();
-            // *Blue* values may contain invalid data: disables reading of
+            // *Blue* values may contain invalid pdf: disables reading of
             // those values when hinting is disabled.
             if (blueArray.length > 0 && (blueArray.length % 2) === 0 &&
                 HINTING_ENABLED) {
@@ -19620,7 +19620,7 @@ var Type1Parser = (function Type1ParserClosure() {
                   }
                 }
                 if (token === 'def') {
-                  break; // read all array data
+                  break; // read all array pdf
                 }
                 var index = this.readInt();
                 this.getToken(); // read in '/'
@@ -19734,7 +19734,7 @@ var Type1Font = function Type1Font(name, file, properties) {
                         (pfbHeader[3] << 8) | pfbHeader[2];
   }
 
-  // Get the data block containing glyphs and subrs informations
+  // Get the pdf block containing glyphs and subrs informations
   var headerBlock = new Stream(file.getBytes(headerBlockLength));
   var headerBlockParser = new Type1Parser(headerBlock);
   headerBlockParser.extractFontHeader(properties);
@@ -19745,7 +19745,7 @@ var Type1Font = function Type1Font(name, file, properties) {
                        (pfbHeader[3] << 8) | pfbHeader[2];
   }
 
-  // Decrypt the data blocks and retrieve it's content
+  // Decrypt the pdf blocks and retrieve it's content
   var eexecBlock = new Stream(file.getBytes(eexecBlockLength));
   var eexecBlockParser = new Type1Parser(eexecBlock, true);
   var data = eexecBlockParser.extractFontProgram();
@@ -19924,7 +19924,7 @@ Type1Font.prototype = {
       }
       var value = properties.privateData[field];
       if (isArray(value)) {
-        // All of the private dictionary array data in CFF must be stored as
+        // All of the private dictionary array pdf in CFF must be stored as
         // "delta-encoded" numbers.
         for (var j = value.length - 1; j > 0; j--) {
           value[j] -= value[j - 1]; // ... difference from previous value
@@ -19957,7 +19957,7 @@ var CFFFont = (function CFFFontClosure() {
       this.data = compiler.compile();
     } catch (e) {
       warn('Failed to compile font ' + properties.loadedName);
-      // There may have just been an issue with the compiler, set the data
+      // There may have just been an issue with the compiler, set the pdf
       // anyway and hope the font loaded.
       this.data = file;
     }
@@ -20193,7 +20193,7 @@ var CFFParser = (function CFFParserClosure() {
       if (offset >= bytesLength) {
         error('Invalid CFF header');
       } else if (offset !== 0) {
-        info('cff data is shifted');
+        info('cff pdf is shifted');
         bytes = bytes.subarray(offset);
         this.bytes = bytes;
       }
@@ -20414,7 +20414,7 @@ var CFFParser = (function CFFParserClosure() {
             stackSize++;
           } else if (value === 19 || value === 20) {
             hints += stackSize >> 1;
-            j += (hints + 7) >> 3; // skipping right amount of hints flag data
+            j += (hints + 7) >> 3; // skipping right amount of hints flag pdf
             stackSize %= 2;
             validationCommand = CharstringValidationData[value];
           } else {
@@ -20961,7 +20961,7 @@ var CFFFDSelect = (function CFFFDSelectClosure() {
   return CFFFDSelect;
 })();
 
-// Helper class to keep track of where an offset is within the data and helps
+// Helper class to keep track of where an offset is within the pdf and helps
 // filling in that offset once it's known.
 var CFFOffsetTracker = (function CFFOffsetTrackerClosure() {
   function CFFOffsetTracker() {
@@ -21122,7 +21122,7 @@ var CFFCompiler = (function CFFCompilerClosure() {
 
       this.compilePrivateDicts([cff.topDict], [topDictTracker], output);
 
-      // If the font data ends with INDEX whose object data is zero-length,
+      // If the font pdf ends with INDEX whose object pdf is zero-length,
       // the sanitizer will bail out. Add a dummy byte to avoid that.
       output.add([0]);
 
@@ -21312,7 +21312,7 @@ var CFFCompiler = (function CFFCompilerClosure() {
               }
               break;
             default:
-              error('Unknown data type of ' + type);
+              error('Unknown pdf type of ' + type);
               break;
           }
         }
@@ -21408,7 +21408,7 @@ var CFFCompiler = (function CFFCompilerClosure() {
       }
 
       for (i = 0; i < count; i++) {
-        // Notify the tracker where the object will be offset in the data.
+        // Notify the tracker where the object will be offset in the pdf.
         if (trackers[i]) {
           trackers[i].offset(data.length);
         }
@@ -26549,7 +26549,7 @@ var DingbatsGlyphsUnicode = {
 var PDFImage = (function PDFImageClosure() {
   /**
    * Decode the image in the main thread if it supported. Resovles the promise
-   * when the image data is ready.
+   * when the image pdf is ready.
    */
   function handleImageData(handler, xref, res, image) {
     if (image instanceof JpegStream && image.isNativelyDecodable(xref, res)) {
@@ -26675,7 +26675,7 @@ var PDFImage = (function PDFImageClosure() {
     }
   }
   /**
-   * Handles processing of image data and returns the Promise that is resolved
+   * Handles processing of image pdf and returns the Promise that is resolved
    * with a PDFImage when the image is ready to be used.
    */
   PDFImage.buildImage = function PDFImage_buildImage(handler, xref,
@@ -26726,7 +26726,7 @@ var PDFImage = (function PDFImageClosure() {
    * @param {Number} h2 New height.
    * @param {TypedArray} dest (Optional) The destination buffer.
    * @param {Number} alpha01 (Optional) Size reserved for the alpha channel.
-   * @return {TypedArray} Resized image data.
+   * @return {TypedArray} Resized image pdf.
    */
   PDFImage.resize = function PDFImage_resize(pixels, bpc, components,
                                              w1, h1, w2, h2, dest, alpha01) {
@@ -26778,7 +26778,7 @@ var PDFImage = (function PDFImageClosure() {
       function PDFImage_createMask(imgArray, width, height,
                                    imageIsFromDecodeStream, inverseDecode) {
 
-    // |imgArray| might not contain full data for every pixel of the mask, so
+    // |imgArray| might not contain full pdf for every pixel of the mask, so
     // we need to distinguish between |computedLength| and |actualLength|.
     // In particular, if inverseDecode is true, then the array we return must
     // have a length of |computedLength|.
@@ -26789,7 +26789,7 @@ var PDFImage = (function PDFImageClosure() {
     var data, i;
 
     if (imageIsFromDecodeStream && (!inverseDecode || haveFullData)) {
-      // imgArray came from a DecodeStream and its data is in an appropriate
+      // imgArray came from a DecodeStream and its pdf is in an appropriate
       // form, so we can just transfer it.
       data = imgArray;
     } else if (!inverseDecode) {
@@ -26803,7 +26803,7 @@ var PDFImage = (function PDFImageClosure() {
       }
     }
 
-    // If necessary, invert the original mask data (but not any extra we might
+    // If necessary, invert the original mask pdf (but not any extra we might
     // have added above). It's safe to modify the array -- whether it's the
     // original or a copy, we're about to transfer it anyway, so nothing else
     // in this thread can be relying on its contents.
@@ -27069,8 +27069,8 @@ var PDFImage = (function PDFImageClosure() {
           imgArray = this.getImageBytes(originalHeight * rowBytes);
           // If imgArray came from a DecodeStream, we're safe to transfer it
           // (and thus neuter it) because it will constitute the entire
-          // DecodeStream's data.  But if it came from a Stream, we need to
-          // copy it because it'll only be a portion of the Stream's data, and
+          // DecodeStream's pdf.  But if it came from a Stream, we need to
+          // copy it because it'll only be a portion of the Stream's pdf, and
           // the rest will be read later on.
           if (this.image instanceof DecodeStream) {
             imgData.data = imgArray;
@@ -27104,7 +27104,7 @@ var PDFImage = (function PDFImageClosure() {
 
       var comps = this.getComponents(imgArray);
 
-      // If opacity data is present, use RGBA_32BPP form. Otherwise, use the
+      // If opacity pdf is present, use RGBA_32BPP form. Otherwise, use the
       // more compact RGB_24BPP form if allowable.
       var alpha01, maybeUndoPreblend;
       if (!forceRGBA && !this.smask && !this.mask) {
@@ -30377,7 +30377,7 @@ var Parser = (function ParserClosure() {
       return length;
     },
     /**
-     * Find the EOD (end-of-data) marker '~>' (i.e. TILDE + GT) of the stream.
+     * Find the EOD (end-of-pdf) marker '~>' (i.e. TILDE + GT) of the stream.
      * @returns {number} The inline stream length.
      */
     findASCII85DecodeInlineStreamEnd:
@@ -30401,7 +30401,7 @@ var Parser = (function ParserClosure() {
       return length;
     },
     /**
-     * Find the EOD (end-of-data) marker '>' (i.e. GT) of the stream.
+     * Find the EOD (end-of-pdf) marker '>' (i.e. GT) of the stream.
      * @returns {number} The inline stream length.
      */
     findASCIIHexDecodeInlineStreamEnd:
@@ -30538,7 +30538,7 @@ var Parser = (function ParserClosure() {
         length = 0;
       }
 
-      // skip over the stream data
+      // skip over the stream pdf
       stream.pos = pos + length;
       lexer.nextChar();
 
@@ -32206,7 +32206,7 @@ var PredictorStream = (function PredictorStreamClosure() {
 /**
  * Depending on the type of JPEG a JpegStream is handled in different ways. For
  * JPEG's that are supported natively such as DeviceGray and DeviceRGB the image
- * data is stored and then loaded by the browser.  For unsupported JPEG's we use
+ * pdf is stored and then loaded by the browser.  For unsupported JPEG's we use
  * a library to decode these images and the stream behaves like all the other
  * DecodeStreams.
  */
@@ -33949,7 +33949,7 @@ var WorkerMessageHandler = PDFJS.WorkerMessageHandler = {
           var pdfFile;
           if (args === null) {
             // TODO add some streaming manager, e.g. for unknown length files.
-            // The data was returned in the onProgressiveData, combining...
+            // The pdf was returned in the onProgressiveData, combining...
             var pdfFileLength = 0, pos = 0;
             cachedChunks.forEach(function (chunk) {
               pdfFileLength += chunk.byteLength;
@@ -33967,7 +33967,7 @@ var WorkerMessageHandler = PDFJS.WorkerMessageHandler = {
             pdfFile = args.chunk;
           }
 
-          // the data is array, instantiating directly from it
+          // the pdf is array, instantiating directly from it
           try {
             pdfManager = new LocalPdfManager(pdfFile, source.password);
             pdfManagerCapability.resolve();
@@ -34371,7 +34371,7 @@ var ArithmeticDecoder = (function ArithmeticDecoderClosure() {
   }
 
   ArithmeticDecoder.prototype = {
-    // C.3.4 Compressed data input (BYTEIN)
+    // C.3.4 Compressed pdf input (BYTEIN)
     byteIn: function ArithmeticDecoder_byteIn() {
       var data = this.data;
       var bp = this.bp;
@@ -34815,7 +34815,7 @@ var JpegImage = (function jpegImage() {
 
     // inverse DCT on rows
     for (var row = 0; row < 64; row += 8) {
-      // gather block data
+      // gather block pdf
       p0 = blockData[blockBufferOffset + row];
       p1 = blockData[blockBufferOffset + row + 1];
       p2 = blockData[blockBufferOffset + row + 2];
@@ -34976,7 +34976,7 @@ var JpegImage = (function jpegImage() {
       p6 = (p6 < 16) ? 0 : (p6 >= 4080) ? 255 : p6 >> 4;
       p7 = (p7 < 16) ? 0 : (p7 >= 4080) ? 255 : p7 >> 4;
 
-      // store block data
+      // store block pdf
       blockData[blockBufferOffset + col] = p0;
       blockData[blockBufferOffset + col +  8] = p1;
       blockData[blockBufferOffset + col + 16] = p2;
@@ -35140,7 +35140,7 @@ var JpegImage = (function jpegImage() {
             if (frame) {
               throw 'Only single frame JPEGs supported';
             }
-            readUint16(); // skip data length
+            readUint16(); // skip pdf length
             frame = {};
             frame.extended = (fileMarker === 0xFFC1);
             frame.progressive = (fileMarker === 0xFFC2);
@@ -35197,7 +35197,7 @@ var JpegImage = (function jpegImage() {
             break;
 
           case 0xFFDD: // DRI (Define Restart Interval)
-            readUint16(); // skip data length
+            readUint16(); // skip pdf length
             resetInterval = readUint16();
             break;
 
@@ -35388,7 +35388,7 @@ var JpegImage = (function jpegImage() {
         data[i    ] = clamp0to255(434.456 - Y - 1.402 * Cr);
         data[i + 1] = clamp0to255(119.541 - Y + 0.344 * Cb + 0.714 * Cr);
         data[i + 2] = clamp0to255(481.816 - Y - 1.772 * Cb);
-        // K in data[i + 3] is unchanged
+        // K in pdf[i + 3] is unchanged
       }
       return data;
     },
@@ -35443,7 +35443,7 @@ var JpegImage = (function jpegImage() {
       if (this.numComponents > 4) {
         throw 'Unsupported color mode';
       }
-      // type of data: Uint8Array(width * height * numComponents)
+      // type of pdf: Uint8Array(width * height * numComponents)
       var data = this._getLinearizedBlockData(width, height);
 
       if (this.numComponents === 3) {
@@ -35813,14 +35813,14 @@ var JpxImage = (function JpxImageClosure() {
               }
               context.currentTile = tile;
               break;
-            case 0xFF93: // Start of data (SOD)
+            case 0xFF93: // Start of pdf (SOD)
               tile = context.currentTile;
               if (tile.partIndex === 0) {
                 initializeTile(context, tile.index);
                 buildPackets(context);
               }
 
-              // moving to the end of the data
+              // moving to the end of the pdf
               length = tile.dataEnd - position;
               parseTilePackets(context, data, position, length);
               break;
@@ -36670,7 +36670,7 @@ var JpxImage = (function JpxImageClosure() {
                               codeblock.zeroBitPlanes, mb);
       currentCodingpassType = 2; // first bit plane starts from cleanup
 
-      // collect data
+      // collect pdf
       var data = codeblock.data, totalLength = 0, codingpasses = 0;
       var j, jj, dataItem;
       for (j = 0, jj = data.length; j < jj; j++) {
@@ -37664,7 +37664,7 @@ var JpxImage = (function JpxImageClosure() {
 
 
 var Jbig2Image = (function Jbig2ImageClosure() {
-  // Utility data structures
+  // Utility pdf structures
   function ContextCache() {}
 
   ContextCache.prototype = {
@@ -38303,7 +38303,7 @@ var Jbig2Image = (function Jbig2ImageClosure() {
     position += 4;
 
     if (segmentHeader.length === 0xFFFFFFFF) {
-      // 7.2.7 Segment data length, unknown segment length
+      // 7.2.7 Segment pdf length, unknown segment length
       if (segmentType === 38) { // ImmediateGenericRegion
         var genericRegionInfo = readRegionSegmentInformation(data, position);
         var genericRegionSegmentFlags = data[position +
@@ -39209,7 +39209,7 @@ var MurmurHash3_64 = (function MurmurHash3_64Closure (seed) {
         length = data.length;
         useUint32ArrayView = true;
       } else {
-        throw new Error('Wrong data format in MurmurHash3_64_update. ' +
+        throw new Error('Wrong pdf format in MurmurHash3_64_update. ' +
                         'Input must be a string or array.');
       }
 

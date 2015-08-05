@@ -19,7 +19,7 @@ app.set('view engine', 'jade');
  * 中间件配置
  */
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.static(path.join(__dirname, '/data')));
+app.use(express.static(path.join(__dirname, '/pdf')));
 app.use('/', index);
 //app.use('/data', data);
 app.use('/verify', verify);

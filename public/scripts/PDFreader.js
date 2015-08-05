@@ -3,7 +3,7 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-//    var url = 'AngularJS.pdf';
+    var url = 'weather.pdf';
 
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageNum = 1,// pdf页码，默认为第一页
@@ -109,5 +109,12 @@ window.onload = function () {
 
         // 初始化渲染，首次渲染为第一页
         renderPage(pageNum);
+    });
+
+    /**
+     * 目录请求读取
+     */
+    $.get('metadata.json', function (req, res) {
+        console.log(req);
     });
 };

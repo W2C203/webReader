@@ -3,7 +3,7 @@
  */
 $(document).ready(function () {
     $(function () {
-        //            $('#main [data-toggle="tooltip"]').tooltip();
+        //            $('#main [pdf-toggle="tooltip"]').tooltip();
         $("#menuList").hide();
         $("#leftSide>div").addClass('wai');
     });

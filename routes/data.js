@@ -1,15 +1,13 @@
-//var express = require('express');
-//var app = express.Router();
-//
-//var fs = require('fs');
-//
-//// 读取pdf文件
-//app.get('/pdf', function(req, res){
-//    res.writeHead(200, {'Content-Type':'application/pdf'});
-//    fs.createReadStream('./data/AngularJS.pdf').pipe(res);
-//    res.end();
-//});
-//
-//module.exports = app;
+var express = require('express');
+var data = express.Router();
+var pdfmetadata = require('../handlers/file/readPDF');
+
+data.get('/catelog', function (req, res) {
+    var catelog = pdfmetadata.catelog;
+    res.write(JSON.parse(catelog));
+    console.log(catelog)
+});
+
+module.exports = data;
 
 

@@ -441,7 +441,7 @@ var MissingDataException = (function MissingDataExceptionClosure() {
   function MissingDataException(begin, end) {
     this.begin = begin;
     this.end = end;
-    this.message = 'Missing data [' + begin + ', ' + end + ')';
+    this.message = 'Missing pdf [' + begin + ', ' + end + ')';
   }
 
   MissingDataException.prototype = new Error();
@@ -1242,7 +1242,7 @@ PDFJS.createPromiseCapability = createPromiseCapability;
   /**
    * Builds a promise that is resolved when all the passed in promises are
    * resolved.
-   * @param {array} array of data and/or promises to wait for.
+   * @param {array} array of pdf and/or promises to wait for.
    * @return {Promise} New dependant promise.
    */
   Promise.all = function Promise_all(promises) {
@@ -1445,7 +1445,7 @@ PDFJS.createBlob = function createBlob(data, contentType) {
 };
 
 PDFJS.createObjectURL = (function createObjectURLClosure() {
-  // Blob/createObjectURL is not available, falling back to data schema.
+  // Blob/createObjectURL is not available, falling back to pdf schema.
   var digits =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
@@ -1539,9 +1539,9 @@ MessageHandler.prototype = {
     ah[actionName] = [handler, scope];
   },
   /**
-   * Sends a message to the comObj to invoke the action with the supplied data.
+   * Sends a message to the comObj to invoke the action with the supplied pdf.
    * @param {String} actionName Action to call.
-   * @param {JSON} data JSON data to send.
+   * @param {JSON} data JSON pdf to send.
    * @param {Array} [transfers] Optional list of transfers/ArrayBuffers
    */
   send: function messageHandlerSend(actionName, data, transfers) {
@@ -1552,12 +1552,12 @@ MessageHandler.prototype = {
     this.postMessage(message, transfers);
   },
   /**
-   * Sends a message to the comObj to invoke the action with the supplied data.
+   * Sends a message to the comObj to invoke the action with the supplied pdf.
    * Expects that other side will callback with the response.
    * @param {String} actionName Action to call.
-   * @param {JSON} data JSON data to send.
+   * @param {JSON} data JSON pdf to send.
    * @param {Array} [transfers] Optional list of transfers/ArrayBuffers.
-   * @returns {Promise} Promise to be resolved with response data.
+   * @returns {Promise} Promise to be resolved with response pdf.
    */
   sendWithPromise:
     function messageHandlerSendWithPromise(actionName, data, transfers) {
@@ -1669,7 +1669,7 @@ PDFJS.disableRange = (PDFJS.disableRange === undefined ?
                       false : PDFJS.disableRange);
 
 /**
- * Disable streaming of PDF file data. By default PDF.js attempts to load PDF
+ * Disable streaming of PDF file pdf. By default PDF.js attempts to load PDF
  * in chunks. This default behavior can be disabled.
  * @var {boolean}
  */
@@ -1677,8 +1677,8 @@ PDFJS.disableStream = (PDFJS.disableStream === undefined ?
                        false : PDFJS.disableStream);
 
 /**
- * Disable pre-fetching of PDF file data. When range requests are enabled PDF.js
- * will automatically keep fetching more data even if it isn't needed to display
+ * Disable pre-fetching of PDF file pdf. When range requests are enabled PDF.js
+ * will automatically keep fetching more pdf even if it isn't needed to display
  * the current page. This default behavior can be disabled.
  *
  * NOTE: It is also necessary to disable streaming, see above,
@@ -1763,8 +1763,8 @@ PDFJS.openExternalLinksInNewWindow = (
  *
  * @typedef {Object} DocumentInitParameters
  * @property {string}     url   - The URL of the PDF.
- * @property {TypedArray|Array|string} data - Binary PDF data. Use typed arrays
- *   (Uint8Array) to improve the memory usage. If PDF data is BASE64-encoded,
+ * @property {TypedArray|Array|string} pdf - Binary PDF pdf. Use typed arrays
+ *   (Uint8Array) to improve the memory usage. If PDF pdf is BASE64-encoded,
  *   use atob() to convert it to a binary string first.
  * @property {Object}     httpHeaders - Basic authentication headers.
  * @property {boolean}    withCredentials - Indicates whether or not cross-site
@@ -1772,7 +1772,7 @@ PDFJS.openExternalLinksInNewWindow = (
  *   or authorization headers. The default is false.
  * @property {string}     password - For decrypting password-protected PDFs.
  * @property {TypedArray} initialData - A typed array with the first portion or
- *   all of the pdf data. Used by the extension since some data is already
+ *   all of the pdf pdf. Used by the extension since some pdf is already
  *   loaded before the switch to range requests.
  * @property {number}     length - The PDF file length. It's used for progress
  *   reports and range requests operations.
@@ -1789,16 +1789,16 @@ PDFJS.openExternalLinksInNewWindow = (
 
 /**
  * This is the main entry point for loading a PDF and interacting with it.
- * NOTE: If a URL is used to fetch the PDF data a standard XMLHttpRequest(XHR)
+ * NOTE: If a URL is used to fetch the PDF pdf a standard XMLHttpRequest(XHR)
  * is used, which means it must follow the same origin rules that any XHR does
  * e.g. No cross domain requests without CORS.
  *
  * @param {string|TypedArray|DocumentInitParameters|PDFDataRangeTransport} src
  * Can be a url to where a PDF is located, a typed array (Uint8Array)
- * already populated with data or parameter object.
+ * already populated with pdf or parameter object.
  *
  * @param {PDFDataRangeTransport} pdfDataRangeTransport (deprecated) It is used
- * if you want to manually serve range requests for data in the PDF.
+ * if you want to manually serve range requests for pdf in the PDF.
  *
  * @param {function} passwordCallback (deprecated) It is used to request a
  * password if wrong or no password was provided. The callback receives two
@@ -1846,7 +1846,7 @@ PDFJS.getDocument = function getDocument(src,
         'string or a parameter object');
     }
     if (!src.url && !src.data && !src.range) {
-      error('Invalid parameter object: need either .data, .range or .url');
+      error('Invalid parameter object: need either .pdf, .range or .url');
     }
 
     source = src;
@@ -1861,7 +1861,7 @@ PDFJS.getDocument = function getDocument(src,
     } else if (key === 'range') {
       continue;
     } else if (key === 'data' && !(source[key] instanceof Uint8Array)) {
-      // Converting string or array-like data to Uint8Array.
+      // Converting string or array-like pdf to Uint8Array.
       var pdfBytes = source[key];
       if (typeof pdfBytes === 'string') {
         params[key] = stringToBytes(pdfBytes);
@@ -1869,8 +1869,8 @@ PDFJS.getDocument = function getDocument(src,
                  !isNaN(pdfBytes.length)) {
         params[key] = new Uint8Array(pdfBytes);
       } else {
-        error('Invalid PDF binary data: either typed array, string or ' +
-              'array-like object is expected in the data property.');
+        error('Invalid PDF binary pdf: either typed array, string or ' +
+              'array-like object is expected in the pdf property.');
       }
       continue;
     }
@@ -2114,15 +2114,15 @@ var PDFDocumentProxy = (function PDFDocumentProxyClosure() {
     },
     /**
      * @return {Promise} A promise that is resolved with a TypedArray that has
-     * the raw data from the PDF.
+     * the raw pdf from the PDF.
      */
     getData: function PDFDocumentProxy_getData() {
       return this.transport.getData();
     },
     /**
-     * @return {Promise} A promise that is resolved when the document's data
+     * @return {Promise} A promise that is resolved when the document's pdf
      * is loaded. It is resolved with an {Object} that contains the length
-     * property that indicates size of the PDF data in bytes.
+     * property that indicates size of the PDF pdf in bytes.
      */
     getDownloadInfo: function PDFDocumentProxy_getDownloadInfo() {
       return this.transport.downloadInfoCapability.promise;
@@ -2768,7 +2768,7 @@ var WorkerTransport = (function WorkerTransportClosure() {
             imageData = data[3];
             pageProxy.objs.resolve(id, imageData);
 
-            // heuristics that will allow not to store large data
+            // heuristics that will allow not to store large pdf
             var MAX_IMAGE_SIZE_TO_STORE = 8000000;
             if (imageData && 'data' in imageData &&
                 imageData.data.length > MAX_IMAGE_SIZE_TO_STORE) {
@@ -2984,10 +2984,10 @@ var PDFObjects = (function PDFObjectsClosure() {
     },
 
     /**
-     * If called *without* callback, this returns the data of `objId` but the
+     * If called *without* callback, this returns the pdf of `objId` but the
      * object needs to be resolved. If it isn't, this function throws.
      *
-     * If called *with* a callback, the callback is called with the data of the
+     * If called *with* a callback, the callback is called with the pdf of the
      * object once the object is resolved. That means, if you call this
      * function and the object is already resolved, the callback gets called
      * right away.
@@ -3000,12 +3000,12 @@ var PDFObjects = (function PDFObjectsClosure() {
         return null;
       }
 
-      // If there isn't a callback, the user expects to get the resolved data
+      // If there isn't a callback, the user expects to get the resolved pdf
       // directly.
       var obj = this.objs[objId];
 
       // If there isn't an object yet or the object isn't resolved, then the
-      // data isn't ready yet!
+      // pdf isn't ready yet!
       if (!obj || !obj.resolved) {
         error('Requesting object that isn\'t resolved yet ' + objId);
       }
@@ -3014,7 +3014,7 @@ var PDFObjects = (function PDFObjectsClosure() {
     },
 
     /**
-     * Resolves the object `objId` with optional `data`.
+     * Resolves the object `objId` with optional `pdf`.
      */
     resolve: function PDFObjects_resolve(objId, data) {
       var obj = this.ensureObj(objId);
@@ -3039,7 +3039,7 @@ var PDFObjects = (function PDFObjectsClosure() {
     },
 
     /**
-     * Returns the data of `objId` if object exists, null otherwise.
+     * Returns the pdf of `objId` if object exists, null otherwise.
      */
     getData: function PDFObjects_getData(objId) {
       var objs = this.objs;
@@ -3490,7 +3490,7 @@ function compileType3Glyph(imgData) {
   var POINT_TYPES =
       new Uint8Array([0, 2, 4, 0, 1, 0, 5, 4, 8, 10, 0, 8, 0, 2, 1, 0]);
 
-  // decodes bit-packed mask data
+  // decodes bit-packed mask pdf
   var lineSize = (width + 7) & ~7, data0 = imgData.data;
   var data = new Uint8Array(lineSize * height), pos = 0, ii;
   for (i = 0, ii = data0.length; i < ii; i++) {
@@ -3730,11 +3730,11 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       return;
     }
 
-    // Put the image data to the canvas in chunks, rather than putting the
+    // Put the image pdf to the canvas in chunks, rather than putting the
     // whole image at once.  This saves JS memory, because the ImageData object
     // is smaller. It also possibly saves C++ memory within the implementation
     // of putImageData(). (E.g. in Firefox we make two short-lived copies of
-    // the data passed to putImageData()). |n| shouldn't be too small, however,
+    // the pdf passed to putImageData()). |n| shouldn't be too small, however,
     // because too many putImageData() calls will slow things down.
     //
     // Note: as written, if the last chunk is partial, the putImageData() call
@@ -3752,7 +3752,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
     var dest = chunkImgData.data;
     var i, j, thisChunkHeight, elemsInThisChunk;
 
-    // There are multiple forms in which the pixel data can be passed, and
+    // There are multiple forms in which the pixel pdf can be passed, and
     // imgData.kind tells us which one this is.
     if (imgData.kind === ImageKind.GRAYSCALE_1BPP) {
       // Grayscale, 1 bit per pixel (i.e. black-and-white).
@@ -5722,7 +5722,7 @@ var WebGLUtils = (function WebGLUtilsClosure() {
           break;
       }
     }
-    // transfer data
+    // transfer pdf
     var coords = new Float32Array(count * 2);
     var colors = new Uint8Array(count * 3);
     var coordsMap = context.coords, colorsMap = context.colors;
@@ -6466,7 +6466,7 @@ var FontLoader = {
       }
 
       var loadTestFontId = 'lt' + Date.now() + this.loadTestFontId++;
-      // Chromium seems to cache fonts based on a hash of the actual font data,
+      // Chromium seems to cache fonts based on a hash of the actual font pdf,
       // so the font must be modified for each load test else it will appear to
       // be loaded already.
       // TODO: This could maybe be made faster by avoiding the btoa of the full
@@ -6488,7 +6488,7 @@ var FontLoader = {
       }
       data = spliceString(data, CFF_CHECKSUM_OFFSET, 4, string32(checksum));
 
-      var url = 'url(data:font/opentype;base64,' + btoa(data) + ');';
+      var url = 'url(pdf:font/opentype;base64,' + btoa(data) + ');';
       var rule = '@font-face { font-family:"' + loadTestFontId + '";src:' +
                  url + '}';
       FontLoader.insertRule(rule);
@@ -6524,7 +6524,7 @@ var FontFaceObject = (function FontFaceObjectClosure() {
   function FontFaceObject(name, file, properties) {
     this.compiledGlyphs = {};
     if (arguments.length === 1) {
-      // importing translated data
+      // importing translated pdf
       var data = arguments[0];
       for (var i in data) {
         this[i] = data[i];
@@ -6568,7 +6568,7 @@ var FontFaceObject = (function FontFaceObjectClosure() {
       var fontName = this.loadedName;
 
       // Add the font-face rule to the document
-      var url = ('url(data:' + this.mimetype + ';base64,' +
+      var url = ('url(pdf:' + this.mimetype + ';base64,' +
                  window.btoa(data) + ');');
       var rule = '@font-face { font-family:"' + fontName + '";src:' + url + '}';
       FontLoader.insertRule(rule);
@@ -6997,7 +6997,7 @@ var convertImgDataToPng = (function convertImgDataToPngClosure() {
     idat[pi++] = adler >> 8 & 0xff;
     idat[pi++] = adler & 0xff;
 
-    // PNG will consists: header, IHDR+data, IDAT+data, and IEND.
+    // PNG will consists: header, IHDR+pdf, IDAT+pdf, and IEND.
     var pngLength = PNG_HEADER.length + (CHUNK_WRAPPER_SIZE * 3) +
                     ihdr.length + idat.length;
     var data = new Uint8Array(pngLength);

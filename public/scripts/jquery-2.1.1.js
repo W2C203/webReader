@@ -332,7 +332,7 @@ jQuery.extend({
 		}
 	},
 
-	// Convert dashed to camelCase; used by the css and data modules
+	// Convert dashed to camelCase; used by the css and pdf modules
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
@@ -581,7 +581,7 @@ var i,
 	matches,
 	contains,
 
-	// Instance-specific data
+	// Instance-specific pdf
 	expando = "sizzle" + -(new Date()),
 	preferredDoc = window.document,
 	dirruns = 0,
@@ -845,7 +845,7 @@ function Sizzle( selector, context, results, seed ) {
 
 /**
  * Create key-value caches of limited size
- * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
+ * @returns {Function(string, Object)} Returns the Object pdf after storing it on itself with
  *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *	deleting the oldest entry
  */
@@ -1683,7 +1683,7 @@ Expr = Sizzle.selectors = {
 
 						start = [ forward ? parent.firstChild : parent.lastChild ];
 
-						// non-xml :nth-child(...) stores cache data on `parent`
+						// non-xml :nth-child(...) stores cache pdf on `parent`
 						if ( forward && useCache ) {
 							// Seek `elem` from a previously-cached index
 							outerCache = parent[ expando ] || (parent[ expando ] = {});
@@ -2083,7 +2083,7 @@ function addCombinator( matcher, combinator, base ) {
 			var oldCache, outerCache,
 				newCache = [ dirruns, doneName ];
 
-			// We can't set arbitrary data on XML nodes, so they don't benefit from dir caching
+			// We can't set arbitrary pdf on XML nodes, so they don't benefit from dir caching
 			if ( xml ) {
 				while ( (elem = elem[ dir ]) ) {
 					if ( elem.nodeType === 1 || checkNonElements ) {
@@ -3492,7 +3492,7 @@ var access = jQuery.access = function( elems, fn, key, value, chainable, emptyGe
 
 
 /**
- * Determines whether an object can have data
+ * Determines whether an object can have pdf
  */
 jQuery.acceptData = function( owner ) {
 	// Accepts only:
@@ -3524,7 +3524,7 @@ Data.accepts = jQuery.acceptData;
 
 Data.prototype = {
 	key: function( owner ) {
-		// We can accept data for non-element nodes in modern browsers,
+		// We can accept pdf for non-element nodes in modern browsers,
 		// but we should not, see #8335.
 		// Always return the key for a frozen object.
 		if ( !Data.accepts( owner ) ) {
@@ -3589,7 +3589,7 @@ Data.prototype = {
 		// Either a valid cache is found, or will be created.
 		// New caches will be created and the unlock returned,
 		// allowing direct access to the newly created
-		// empty data object. A valid owner object must be provided.
+		// empty pdf object. A valid owner object must be provided.
 		var cache = this.cache[ this.key( owner ) ];
 
 		return key === undefined ?
@@ -3606,7 +3606,7 @@ Data.prototype = {
 		// which value to return, respectively either:
 		//
 		//   1. The entire cache object
-		//   2. The data stored at the key
+		//   2. The pdf stored at the key
 		//
 		if ( key === undefined ||
 				((key && typeof key === "string") && value === undefined) ) {
@@ -3626,7 +3626,7 @@ Data.prototype = {
 		this.set( owner, key, value );
 
 		// Since the "set" path can have two possible entry points
-		// return the expected data based on which path was taken[*]
+		// return the expected pdf based on which path was taken[*]
 		return value !== undefined ? value : key;
 	},
 	remove: function( owner, key ) {
@@ -3641,7 +3641,7 @@ Data.prototype = {
 			// Support array or space separated string of keys
 			if ( jQuery.isArray( key ) ) {
 				// If "name" is an array of keys...
-				// When data is initially created, via ("key", "val") signature,
+				// When pdf is initially created, via ("key", "val") signature,
 				// keys will be converted to camelCase.
 				// Since there is no way to tell _how_ a key was added, remove
 				// both plain key and camelCase key. #12786
@@ -3690,8 +3690,8 @@ var data_user = new Data();
 	1. Enforce API surface and semantic compatibility with 1.9.x branch
 	2. Improve the module's maintainability by reducing the storage
 		paths to a single mechanism.
-	3. Use the same single mechanism to support "private" and "user" data.
-	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+	3. Use the same single mechanism to support "private" and "user" pdf.
+	4. _Never_ expose "private" pdf to user code (TODO: Drop _data, _removeData)
 	5. Avoid exposing implementation details on user objects (eg. expando properties)
 	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 */
@@ -3702,9 +3702,9 @@ function dataAttr( elem, key, data ) {
 	var name;
 
 	// If nothing was found internally, try to fetch any
-	// data from the HTML5 data-* attribute
+	// pdf from the HTML5 pdf-* attribute
 	if ( data === undefined && elem.nodeType === 1 ) {
-		name = "data-" + key.replace( rmultiDash, "-$1" ).toLowerCase();
+		name = "pdf-" + key.replace( rmultiDash, "-$1" ).toLowerCase();
 		data = elem.getAttribute( name );
 
 		if ( typeof data === "string" ) {
@@ -3718,7 +3718,7 @@ function dataAttr( elem, key, data ) {
 					data;
 			} catch( e ) {}
 
-			// Make sure we set the data so it isn't changed later
+			// Make sure we set the pdf so it isn't changed later
 			data_user.set( elem, key, data );
 		} else {
 			data = undefined;
@@ -3770,7 +3770,7 @@ jQuery.fn.extend({
 						// The attrs elements can be null (#14894)
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
-							if ( name.indexOf( "data-" ) === 0 ) {
+							if ( name.indexOf( "pdf-" ) === 0 ) {
 								name = jQuery.camelCase( name.slice(5) );
 								dataAttr( elem, name, data[ name ] );
 							}
@@ -3798,40 +3798,40 @@ jQuery.fn.extend({
 			// (and therefore has an element appears at this[ 0 ]) and the
 			// `value` parameter was not undefined. An empty jQuery object
 			// will result in `undefined` for elem = this[ 0 ] which will
-			// throw an exception if an attempt to read a data cache is made.
+			// throw an exception if an attempt to read a pdf cache is made.
 			if ( elem && value === undefined ) {
-				// Attempt to get data from the cache
+				// Attempt to get pdf from the cache
 				// with the key as-is
 				data = data_user.get( elem, key );
 				if ( data !== undefined ) {
 					return data;
 				}
 
-				// Attempt to get data from the cache
+				// Attempt to get pdf from the cache
 				// with the key camelized
 				data = data_user.get( elem, camelKey );
 				if ( data !== undefined ) {
 					return data;
 				}
 
-				// Attempt to "discover" the data in
-				// HTML5 custom data-* attrs
+				// Attempt to "discover" the pdf in
+				// HTML5 custom pdf-* attrs
 				data = dataAttr( elem, camelKey, undefined );
 				if ( data !== undefined ) {
 					return data;
 				}
 
-				// We tried really hard, but the data doesn't exist.
+				// We tried really hard, but the pdf doesn't exist.
 				return;
 			}
 
-			// Set the data...
+			// Set the pdf...
 			this.each(function() {
 				// First, attempt to store a copy or reference of any
-				// data that might've been store with a camelCased key.
+				// pdf that might've been store with a camelCased key.
 				var data = data_user.get( this, camelKey );
 
-				// For HTML5 data-* attribute interop, we have to
+				// For HTML5 pdf-* attribute interop, we have to
 				// store property names with dashes in a camelCase form.
 				// This might not apply to all properties...*
 				data_user.set( this, camelKey, value );
@@ -4071,7 +4071,7 @@ jQuery.event = {
 			return;
 		}
 
-		// Caller can pass in an object of custom data in lieu of the handler
+		// Caller can pass in an object of custom pdf in lieu of the handler
 		if ( handler.handler ) {
 			handleObjIn = handler;
 			handler = handleObjIn.handler;
@@ -4280,7 +4280,7 @@ jQuery.event = {
 			event.target = elem;
 		}
 
-		// Clone any incoming data and prepend the event, creating the handler arg list
+		// Clone any incoming pdf and prepend the event, creating the handler arg list
 		data = data == null ?
 			[ event ] :
 			jQuery.makeArray( data, [ event ] );
@@ -4787,9 +4787,9 @@ jQuery.fn.extend({
 
 		// Types can be a map of types/handlers
 		if ( typeof types === "object" ) {
-			// ( types-Object, selector, data )
+			// ( types-Object, selector, pdf )
 			if ( typeof selector !== "string" ) {
-				// ( types-Object, data )
+				// ( types-Object, pdf )
 				data = data || selector;
 				selector = undefined;
 			}
@@ -4809,7 +4809,7 @@ jQuery.fn.extend({
 				fn = data;
 				data = undefined;
 			} else {
-				// ( types, data, fn )
+				// ( types, pdf, fn )
 				fn = data;
 				data = selector;
 				selector = undefined;
@@ -4962,7 +4962,7 @@ function cloneCopyEvent( src, dest ) {
 		return;
 	}
 
-	// 1. Copy private data: events, handlers, etc.
+	// 1. Copy private pdf: events, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
 		pdataCur = data_priv.set( dest, pdataOld );
@@ -4980,7 +4980,7 @@ function cloneCopyEvent( src, dest ) {
 		}
 	}
 
-	// 2. Copy user data
+	// 2. Copy user pdf
 	if ( data_user.hasData( src ) ) {
 		udataOld = data_user.access( src );
 		udataCur = jQuery.extend( {}, udataOld );
@@ -5166,12 +5166,12 @@ jQuery.extend({
 						}
 					}
 					if ( data_priv.cache[ key ] ) {
-						// Discard any remaining `private` data
+						// Discard any remaining `private` pdf
 						delete data_priv.cache[ key ];
 					}
 				}
 			}
-			// Discard any remaining `user` data
+			// Discard any remaining `user` pdf
 			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
 	}
@@ -5468,7 +5468,7 @@ function actualDisplay( name, doc ) {
 			// since it was removed from specification and supported only in FF
 			style.display : jQuery.css( elem[ 0 ], "display" );
 
-	// We don't have any data stored on the element,
+	// We don't have any pdf stored on the element,
 	// so use "detach" method as fast way to get rid of the element
 	elem.detach();
 
@@ -6758,7 +6758,7 @@ jQuery.fn.extend({
 				timers = jQuery.timers,
 				length = queue ? queue.length : 0;
 
-			// enable finishing flag on private data
+			// enable finishing flag on private pdf
 			data.finish = true;
 
 			// empty the queue first
@@ -7537,7 +7537,7 @@ var
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
-	 *    - AFTER param serialization (s.data is a string if s.processData is true)
+	 *    - AFTER param serialization (s.pdf is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
@@ -7815,7 +7815,7 @@ jQuery.extend({
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		/*
 		timeout: 0,
-		data: null,
+		pdf: null,
 		dataType: null,
 		username: null,
 		password: null,
@@ -8032,7 +8032,7 @@ jQuery.extend({
 			);
 		}
 
-		// Convert data if not already a string
+		// Convert pdf if not already a string
 		if ( s.data && s.processData && typeof s.data !== "string" ) {
 			s.data = jQuery.param( s.data, s.traditional );
 		}
@@ -8066,10 +8066,10 @@ jQuery.extend({
 		// More options handling for requests with no content
 		if ( !s.hasContent ) {
 
-			// If data is available, append data to url
+			// If pdf is available, append pdf to url
 			if ( s.data ) {
 				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
-				// #9682: remove data so that it's not used in an eventual retry
+				// #9682: remove pdf so that it's not used in an eventual retry
 				delete s.data;
 			}
 
@@ -8095,7 +8095,7 @@ jQuery.extend({
 			}
 		}
 
-		// Set the correct header, if data is being sent
+		// Set the correct header, if pdf is being sent
 		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
 			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
@@ -8192,7 +8192,7 @@ jQuery.extend({
 			// Determine if successful
 			isSuccess = status >= 200 && status < 300 || status === 304;
 
-			// Get response data
+			// Get response pdf
 			if ( responses ) {
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
@@ -8223,7 +8223,7 @@ jQuery.extend({
 				} else if ( status === 304 ) {
 					statusText = "notmodified";
 
-				// If we have data, let's convert it
+				// If we have pdf, let's convert it
 				} else {
 					statusText = response.state;
 					success = response.data;
@@ -8242,7 +8242,7 @@ jQuery.extend({
 				}
 			}
 
-			// Set data for the fake xhr object
+			// Set pdf for the fake xhr object
 			jqXHR.status = status;
 			jqXHR.statusText = ( nativeStatusText || statusText ) + "";
 
@@ -8288,7 +8288,7 @@ jQuery.extend({
 
 jQuery.each( [ "get", "post" ], function( i, method ) {
 	jQuery[ method ] = function( url, data, callback, type ) {
-		// shift arguments if data argument was omitted
+		// shift arguments if pdf argument was omitted
 		if ( jQuery.isFunction( data ) ) {
 			type = type || callback;
 			callback = data;
@@ -8599,7 +8599,7 @@ jQuery.ajaxTransport(function( options ) {
 									xhrSuccessStatus[ xhr.status ] || xhr.status,
 									xhr.statusText,
 									// Support: IE9
-									// Accessing binary-data responseText throws an exception
+									// Accessing binary-pdf responseText throws an exception
 									// (#11426)
 									typeof xhr.responseText === "string" ? {
 										text: xhr.responseText
@@ -8724,7 +8724,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			typeof s.data === "string" && !( s.contentType || "" ).indexOf("application/x-www-form-urlencoded") && rjsonp.test( s.data ) && "data"
 		);
 
-	// Handle iff the expected data type is "jsonp" or we have a parameter to set
+	// Handle iff the expected pdf type is "jsonp" or we have a parameter to set
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
@@ -8732,14 +8732,14 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
-		// Insert callback into url or form data
+		// Insert callback into url or form pdf
 		if ( jsonProp ) {
 			s[ jsonProp ] = s[ jsonProp ].replace( rjsonp, "$1" + callbackName );
 		} else if ( s.jsonp !== false ) {
 			s.url += ( rquery.test( s.url ) ? "&" : "?" ) + s.jsonp + "=" + callbackName;
 		}
 
-		// Use data converter to retrieve json after script execution
+		// Use pdf converter to retrieve json after script execution
 		s.converters["script json"] = function() {
 			if ( !responseContainer ) {
 				jQuery.error( callbackName + " was not called" );
@@ -8786,7 +8786,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
-// data: string of html
+// pdf: string of html
 // context (optional): If specified, the fragment will be created in this context, defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
 jQuery.parseHTML = function( data, context, keepScripts ) {
