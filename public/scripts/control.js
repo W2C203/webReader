@@ -3,13 +3,10 @@
  */
 $(document).ready(function () {
     $(function () {
-<<<<<<< HEAD
         //            $('#main [pdf-toggle="tooltip"]').tooltip();
-        $("#menuList").hide();
-        $("#leftSide>div").addClass('wai');
-=======
+//        $("#menuList").hide();
+//        $("#leftSide>div").addClass('wai');
         $("#menuList").hide();//初始化隐藏目录
->>>>>>> ae7075c56912fe9bacf0c7e87e62236f15300788
     });
 });
 $("#menuBtn").on('mouseover', function () {//当鼠标划过目录按钮时显示目录
