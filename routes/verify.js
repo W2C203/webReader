@@ -18,7 +18,7 @@ app.post('/query', function (req, res, next) {
  */
 app.post('/queryBuy', function (req, res, next) {
     req.on('data', function (data) {
-        usingmysql.queryBuy(data, res, next);
+        usingmysql.queryuy(data, res, next);
     })
 });
 
