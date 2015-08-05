@@ -26,8 +26,8 @@ $("#icon").on('click', function () {//左侧栏移入移出
     if ($(this).attr("title") == "show") {
         $(this).attr("title", "hide");
         $(this).addClass('selected');
-        $(this).animate({left: '16%'}, 1000);        //小按钮移动
-        $("#leftSide").animate({left: '0'}, 1000); //左边拉取框移动
+        $(this).animate({left: '15%'}, 1000);        //小按钮移动
+        $("#leftSide").animate({left: '-1%'}, 1000); //左边拉取框移动
     } else {
         $(this).attr("title", "show");
         $(this).removeClass('selected');
