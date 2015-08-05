@@ -1,6 +1,13 @@
 /**
  * Created by seanlee on 15-8-4.
  */
+$(document).ready(function(){
+    $(function () {
+        //            $('#main [data-toggle="tooltip"]').tooltip();
+        $("#menuList").hide();
+        $("#leftSide>div").hide();
+    });
+});
 $("#menuBtn").on('mouseover', function () {
     $(this).addClass('selected');
     $("#menuList").show();
@@ -24,6 +31,4 @@ $("button[title^='p']").on('click', function () {
 });
 $("button[title^='n']").on('click', function () {
     alert("next");
-});/**
- * Created by seanlee on 15-8-4.
- */
+});

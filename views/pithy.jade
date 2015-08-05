@@ -9,7 +9,6 @@ html(lang='zh-cn')
         meta(name='viewport', content='width=device-width, initial-scale=1')
         title WebReaders
         link(href='bootstrap-3.3.5-dist/css/bootstrap.min.css', rel='stylesheet', media='screen')
-        link(href='bootstrap-3.3.5-dist/css/bootstrap-progressbar-3.3.4.css', rel='stylesheet')
         link(href='styles/pithy.css', rel='stylesheet')
     body
         #leftSide
@@ -18,12 +17,12 @@ html(lang='zh-cn')
         span#icon.glyphicon.glyphicon-triangle-left.iconSpan(title='hide')
         #main
             section#section
-                form.form-inline.pull-right.login
+                form#form.form-inline.pull-right.login
                     .form-group
                         input.form-control(type='text', name='user_name', placeholder='nickname...')
                     .form-group
                         input.form-control(type='password',name='password' placeholder='password...')
-                    button.btn.btn-default.btn-primary(type='submit') login
+                    button#submit.btn.btn-default.btn-primary(type='submit') login
                 header.bookTitle
                     p bookName
                 hr
@@ -54,11 +53,6 @@ html(lang='zh-cn')
         script(src='bootstrap-3.3.5-dist/js/jquery.js')
         // Include all compiled plugins (below), or include individual files as needed
         script(src='bootstrap-3.3.5-dist/js/bootstrap.min.js')
-        script(type='text/javascript').
-            $(document).ready(function(){
-            $(function () {
-            //            $('#main [data-toggle="tooltip"]').tooltip();
-            $("#menuList").hide();
-            $("#leftSide>div").hide();
-            });
-            });
+        script(src='scripts/event.js')
+        script(src='scripts/control.js')
+
