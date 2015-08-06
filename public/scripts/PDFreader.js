@@ -125,14 +125,12 @@ window.onload = function () {
         $("<h2>").text(bookName).appendTo($list);
         $("<hr>").appendTo($list);
         var $cateUL = $("<ul>").appendTo($list);
-//        var $cateLI = $("<li>").appendTo($cateUL);
 //        添加目录
-//        $("<a>").text(str).appendTo($("<li>")).appendTo($cateUL);
         for(var i = 0; i < req.catelog.length; i++) {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#").css({textDecoration:'none',display:'block',borderBottom:'1px dotted'})
+            $a.attr("href","#")
                 .text("第"+(i+1)+"章 "+req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
@@ -140,8 +138,8 @@ window.onload = function () {
             for(var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#").css({textDecoration:'none',display:'block',borderBottom:'1px dotted'})
-                    .text("第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
+                $aj.attr("href","#")
+                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
@@ -151,16 +149,16 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#").css({textDecoration:'none'})
-                .text("第"+(i+1)+"章  "+addCode(req.catelog[i].title)+req.catelog[i].pageNum);
+            $a.attr("href","#")
+                .text("第"+(i+1)+"章 "+req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
             for(var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#").css({textDecoration:'none'})
-                    .text("第"+(j+1)+"节  "+addCode(req.catelog[i].subItems[j].title)+req.catelog[i].subItems[j].pageNum);
+                $aj.attr("href","#")
+                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
@@ -170,9 +168,3 @@ window.onload = function () {
         console.log(req.catelog.length);
     });
 };
-//为了整理目录格式的处理函数
-function addCode(title) {
-    var str = "......................................................................................";
-    var len = title.length + 3;
-    return title + str.substring(len*3,str.length-3);
-}

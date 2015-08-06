@@ -159,6 +159,3 @@ footer {
 #menuList ul>li>ul>li{
     padding-left: 1em;
 }
-#menuList ul>li>ul>li:before{
-    content: ">";
-}
