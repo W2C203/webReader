@@ -19,7 +19,8 @@ ul{list-style-type: none;}/*去掉前面的点*/
     /*float: left;*/
     position: fixed;
     text-align: center;
-    left: -18%;
+    left: -1%;
+
 }
 
 /*左边拉取框*/
@@ -39,7 +40,7 @@ ul{list-style-type: none;}/*去掉前面的点*/
     color: gray;
     position: fixed;
     top: 50%;
-    left: 0;
+    left: 15%;
 }
 
 /*右边覆盖body框*/
@@ -135,6 +136,7 @@ ul{list-style-type: none;}/*去掉前面的点*/
     height: 3px;
     margin-right: 0;
     margin-bottom: 0;
+    z-index: 10;
 }
 
 /*页脚 */
@@ -159,3 +161,4 @@ footer {
 #menuList ul>li>ul>li{
     padding-left: 1em;
 }
+
