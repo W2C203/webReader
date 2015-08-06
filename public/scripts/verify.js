@@ -12,7 +12,6 @@ $('#submit').on('click', function (event) {
         return;
     }
     $.post("/verify/query", data, function (text, status) {
-        alert(JSON.stringify(text));
         //一共会有3种成功响应   请填写帐号/密码(这个正常是不会有的) 帐号或密码错误 登录成功
         if (JSON.stringify(text) == '"登录成功"') {
             $('#form').hide();
@@ -20,6 +19,8 @@ $('#submit').on('click', function (event) {
             //例： user_name=admin&password=admin  抽取用户名 这里的策略有待修改
             name = name[name.length - 1];             //这个是抽取的用户名 到时找个地方放
             showOrderBooks(name);
+        } else {
+            alert(JSON.stringify(text));
         }
     })
     event.preventDefault();//阻止默认行为
@@ -32,16 +33,22 @@ $('#submit').on('click', function (event) {
  */
 function showOrderBooks(name) {
     $.post("/verify/queryBuy", name, function (text, status) {
-        var string = '';
         if (typeof text == 'string') {
-            string = text;
+            $('#pBeforeBooks').html(text);
         } else {
-            string = '购买的数目如下：<br>';
+            $('#pBeforeBooks').html('购买的数目如下：');
             for (var i in text) {
-                string += text[i].goods_name + '<br>';
+                var newDiv = $('<div>');
+                var cutGoodName = text[i].goods_name;  //为了防止书名太长
+                if (cutGoodName.length > 9) {
+                    cutGoodName = cutGoodName.substring(0, 9) + '..';
+                }
+                $('<span>').html(cutGoodName).appendTo(newDiv);
+                newDiv.addClass('ribbon');
+                newDiv.appendTo($('#books'));
             }
+            $('#books').addClass('ribbons');
         }
-        $('#leftSide').html(string);
     })
     event.preventDefault();//阻止默认行为
 }
