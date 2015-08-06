@@ -11,11 +11,12 @@ $(document).ready(function () {
 });
 $("#menuBtn").on('mouseover', function () {//当鼠标划过目录按钮时显示目录
     $(this).addClass('selected');
-    $("#menuList").show();
+    $("#menuList").show(100);
 });
 $("#menuList").on('mouseleave', function () {//当鼠标从目录移开时隐藏目录
     $('#menuBtn').removeClass('selected');
-    $("#menuList").hide();
+//    $("#menuList").hide(800);
+    $("#menuList").slideUp(500);
 });
 //$("body *").not("#menuList").on('click','a',function(event){//当鼠标点击目录以外的范围时隐藏目录
 //    $('#menuBtn').removeClass('selected');
@@ -23,7 +24,8 @@ $("#menuList").on('mouseleave', function () {//当鼠标从目录移开时隐藏
 //});
 $("body *").not("#menuList").on('click',function(){//当鼠标点击目录以外的范围时隐藏目录
     $('#menuBtn').removeClass('selected');
-    $("#menuList").hide();
+//    $("#menuList").hide(800);
+    $("#menuList").slideUp(500);
 });
 $("#icon").on('click', function () {//左侧栏移入移出
     if ($(this).attr("title") == "show") {
