@@ -1,7 +1,24 @@
+// 进度条
+.progress.height
+  .progress-bar(role='progressbar', aria-valuenow='79', aria-valuemin='0', aria-valuemax='100', style='width: 79%;')
+    span.sr-only 79% Complete
 .container-fluid
   // 栅格系统
   .row
     #leftSide.col-md-2
-      | 登录后查看购买书目
-    span#icon.glyphicon.glyphicon-triangle-left.iconSpan(title='show')
+      div
+        form#form.login-form
+          .header
+            h3 登录
+          .content
+            input.input.username(name='user_name', type='text', placeholder='用户名')
+            input.input.password(name='password', type='password', placeholder='密码')
+          .footer
+            input#submit.submit(type='submit', value='登录')
+            input.back(type='button', value='返回商城')
+      p#pBeforeBooks 登录后查看购买书目
+      #books
+    span#icon.glyphicon.glyphicon-triangle-left.iconSpan.selected(title='hide')
     include second.jade
+
+
