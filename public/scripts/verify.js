@@ -34,20 +34,20 @@ $('#submit').on('click', function (event) {
 function showOrderBooks(name) {
     $.post("/verify/queryBuy", name, function (text, status) {
         if (typeof text == 'string') {
-            $('#leftSide>p').html(text);
+            $('#pBeforeBooks').html(text);
         } else {
-            $('#leftSide>p').html('购买的数目如下：');
+            $('#pBeforeBooks').html('购买的数目如下：');
             for (var i in text) {
                 var newDiv = $('<div>');
                 var cutGoodName = text[i].goods_name;  //为了防止书名太长
-                if (cutGoodName.length > 12) {
-                    cutGoodName = cutGoodName.substring(0, 12) + '..';
+                if (cutGoodName.length > 9) {
+                    cutGoodName = cutGoodName.substring(0, 9) + '..';
                 }
                 $('<span>').html(cutGoodName).appendTo(newDiv);
                 newDiv.addClass('ribbon');
-                newDiv.appendTo($('#leftSide>div'));
+                newDiv.appendTo($('#books'));
             }
-            $('#leftSide>div').addClass('ribbons');
+            $('#books').addClass('ribbons');
         }
     })
     event.preventDefault();//阻止默认行为

@@ -1,3 +1,195 @@
+/*******************
+登录框 开始
+*******************/
+
+.login-form {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    z-index:5;
+
+    background: #f3f3f3;
+    border: 1px solid #fff;
+    border-radius: 5px;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/*******************
+登录框上面的信息
+*******************/
+
+.login-form .header {
+    padding: 10px 10px 5px 2px;
+}
+
+.login-form .header h3 {
+    font-family: 'Bree Serif', serif;
+    font-weight: 300;
+    font-size: 18px;
+    line-height:20px;
+    color: #414848;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+    margin: 2px;
+}
+/*这句考虑要不要删掉！！*/
+.login-form .header span {
+    font-size: 11px;
+    line-height: 16px;
+    color: #678889;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+}
+
+/*******************
+登录框内容
+*******************/
+
+.login-form .content {
+    padding: 0 30px 25px 30px;
+}
+
+/* Input */
+.login-form .content .input {
+    width: 100%;
+    padding: 5px 10px;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #9d9e9e;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+}
+
+/* Second input */
+.login-form .content .password, .login-form .content  {
+    margin-top: 5px;
+}
+
+.login-form .content .input:hover {
+    background: #dfe9ec;
+    color: #414848;
+}
+
+.login-form .content .input:focus {
+    background: #dfe9ec;
+    color: #414848;
+
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+/* Animation */
+.input,  .submit, .back {
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+}
+
+/*******************
+FOOTER
+*******************/
+
+.login-form .footer {
+    padding: 8px 10px 8px 10px;
+    overflow: auto;
+
+    background: #d4dedf;
+    border-top: 1px solid #fff;
+
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+    -moz-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+    -webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+}
+
+/* Login button */
+.login-form .footer .submit {
+    float:right;
+    padding: 5px 8px;
+
+    font-family: 'Bree Serif', serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 0px 1px 0 rgba(0,0,0,0.25);
+
+    background: #56c2e1;
+    border: 1px solid #46b3d3;
+    border-radius: 5px;
+    cursor: pointer;
+
+    box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+    -moz-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+    -webkit-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+}
+
+.login-form .footer .submit:hover {
+    background: #3f9db8;
+    border: 1px solid rgba(256,256,256,0.75);
+
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.login-form .footer .submit:focus {
+    position: relative;
+    bottom: -1px;
+
+    background: #56c2e1;
+
+    box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+    -moz-box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+    -webkit-box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+}
+
+/* back button */
+.login-form .footer .back {
+    display: block;
+    float: right;
+    margin-right: 20px;
+    padding-top: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    font-family: 'Bree Serif', serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: #414848;
+    text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+}
+
+.login-form .footer .back:hover {
+    color: #3f9db8;
+}
+
+.login-form .footer .back:focus {
+    position: relative;
+    bottom: -1px;
+}
+/*******************
+登录框 结束
+*******************/
+
+
+
+
+/*******************
+书目 开始
+*******************/
 .ribbons {padding-top: 16px; position: relative;}
 .ribbons:before {
     content: '';
@@ -47,3 +239,8 @@
 .ribbon-orange span{background-position:left -110px;}
 .ribbon-purple{background-position:right -275px;}
 .ribbon-purple span{background-position:left -220px;}
+
+
+
+
+

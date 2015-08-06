@@ -2,10 +2,18 @@
   // 栅格系统
   .row
     #leftSide.col-md-2
-      p 登录后查看购买书目
       div
-        // <div class="ribbon ribbon-orange"><span></span></div>
-        // <div class="ribbon ribbon-purple"><span></span></div>
+        form#form.login-form
+          .header
+            h3 登录
+          .content
+            input.input.username(name='user_name', type='text', placeholder='用户名')
+            input.input.password(name='password', type='password', placeholder='密码')
+          .footer
+            input#submit.submit(type='submit', value='登录')
+            input.back(type='button', value='返回商城')
+      p#pBeforeBooks 登录后查看购买书目
+      #books
     span#icon.glyphicon.glyphicon-triangle-left.iconSpan.selected(title='hide')
     include second.jade
 
