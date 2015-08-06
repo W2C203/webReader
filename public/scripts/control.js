@@ -32,7 +32,7 @@ $("#icon").on('click', function () {//左侧栏移入移出
         $(this).attr("title", "show");
         $(this).removeClass('selected');
         $(this).animate({left: '0'}, 1000);
-        $("#leftSide").animate({left: '-16%'}, 1000);
+        $("#leftSide").animate({left: '-18%'}, 1000);
     }
 });
 //$("button[title^='p']").on('click', function () {

@@ -9,13 +9,12 @@ body {
 }
 /*左边覆盖body框*/
 #leftSide {
-    padding: 20% 0;
     background-color: #ddd;
     height: 100%;
     /*float: left;*/
     position: fixed;
     text-align: center;
-    left: -16%;
+    left: -1%;
 }
 
 /*左边拉取框*/
@@ -35,7 +34,7 @@ body {
     color: gray;
     position: fixed;
     top: 50%;
-    left: 0;
+    left: 15%;
 }
 
 /*右边覆盖body框*/

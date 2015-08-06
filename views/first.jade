@@ -2,6 +2,11 @@
   // 栅格系统
   .row
     #leftSide.col-md-2
-      | 登录后查看购买书目
-    span#icon.glyphicon.glyphicon-triangle-left.iconSpan(title='show')
+      p 登录后查看购买书目
+      div
+        // <div class="ribbon ribbon-orange"><span></span></div>
+        // <div class="ribbon ribbon-purple"><span></span></div>
+    span#icon.glyphicon.glyphicon-triangle-left.iconSpan.selected(title='hide')
     include second.jade
+
+
