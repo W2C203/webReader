@@ -11,13 +11,16 @@ $(document).ready(function () {
 });
 $("#menuBtn").on('mouseover', function () {//当鼠标划过目录按钮时显示目录
     $(this).addClass('selected');
-    console.log("sdw");
     $("#menuList").show();
 });
-$("#menuList").on('mouseout', function () {//当鼠标从目录移开时隐藏目录
+$("#menuList").on('mouseleave', function () {//当鼠标从目录移开时隐藏目录
     $('#menuBtn').removeClass('selected');
     $("#menuList").hide();
 });
+//$("body *").not("#menuList").on('click','a',function(event){//当鼠标点击目录以外的范围时隐藏目录
+//    $('#menuBtn').removeClass('selected');
+//    $("#menuList").hide();
+//});
 $("body *").not("#menuList").on('click',function(){//当鼠标点击目录以外的范围时隐藏目录
     $('#menuBtn').removeClass('selected');
     $("#menuList").hide();
