@@ -4,7 +4,7 @@ body {
     margin: 0;
     background-color: #e5e4db;
 }
-h3{
+h2{
     text-align: center;
 }
 ul{list-style-type: none;}/*去掉前面的点*/
@@ -61,7 +61,7 @@ ul{list-style-type: none;}/*去掉前面的点*/
     min-width: 400px;
     /*position: absolute;*/
     left: 16.67%;
-    text-align: center;
+    font-size: 22px;
 }
 
 /*前翻页按钮*/
@@ -96,12 +96,12 @@ ul{list-style-type: none;}/*去掉前面的点*/
 
 /*目录列表*/
 .menuList {
+    overflow: auto;
     background-color: burlywood;
-    width: 70%;
+    width: 55%;
     height: 100%;
-    /*float: right;*/
     position: fixed;
-    right: 0;
+    right: 16.67%;
     top: 2%;
 }
 
@@ -146,4 +146,19 @@ footer {
 /*JS代码要修改用的东西*/
 .selected {
     color: green;
+}
+
+#menuList a{
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px dotted;
+}
+#menuList ul>li>ul{
+    padding-left: 0;
+}
+#menuList ul>li>ul>li{
+    padding-left: 1em;
+}
+#menuList ul>li>ul>li:before{
+    content: ">";
 }

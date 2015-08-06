@@ -118,33 +118,61 @@ window.onload = function () {
         //req.title书名
         // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
         // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
+//        添加书名
         var $list = $("#menuList");
         var bookName = req.title;
-        $("<h3>").text(bookName).appendTo($list);
+        $("<hr>").appendTo($list);
+        $("<h2>").text(bookName).appendTo($list);
+        $("<hr>").appendTo($list);
         var $cateUL = $("<ul>").appendTo($list);
 //        var $cateLI = $("<li>").appendTo($cateUL);
-//        $("<a></a>").attr("href","#").text(req.catelog[0].title+"......."+req.catelog[0].pageNum).appendTo($cateLI);
-//        $("<a></a>").attr("href","#").text(req.catelog[1].title+"......."+req.catelog[1].pageNum).appendTo($cateLI);
+//        添加目录
+//        $("<a>").text(str).appendTo($("<li>")).appendTo($cateUL);
         for(var i = 0; i < req.catelog.length; i++) {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#").text(req.catelog[i].title+"......."+req.catelog[i].pageNum);
+            $a.attr("href","#").css({textDecoration:'none',display:'block',borderBottom:'1px dotted'})
+                .text("第"+(i+1)+"章 "+req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
             for(var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#").text(req.catelog[i].subItems[j].title+"......."+req.catelog[i].subItems[j].pageNum);
+                $aj.attr("href","#").css({textDecoration:'none',display:'block',borderBottom:'1px dotted'})
+                    .text("第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
             $ul.appendTo($li);
         }
-        //目录没滚动条?????????
-//        req
+        for(var i = 0; i < req.catelog.length; i++) {
+            var $a = $("<a>");
+            var $ul = $("<ul>");
+            var $li = $("<li>");
+            $a.attr("href","#").css({textDecoration:'none'})
+                .text("第"+(i+1)+"章  "+addCode(req.catelog[i].title)+req.catelog[i].pageNum);
+            $a.appendTo($li);
+            $li.appendTo($cateUL);
+            //再加个ul>li>a层
+            for(var j = 0; j < req.catelog[i].subItems.length; j++) {
+                var $lij = $("<li>");
+                var $aj = $("<a>");
+                $aj.attr("href","#").css({textDecoration:'none'})
+                    .text("第"+(j+1)+"节  "+addCode(req.catelog[i].subItems[j].title)+req.catelog[i].subItems[j].pageNum);
+                $aj.appendTo($lij);
+                $lij.appendTo($ul);
+            }
+            $ul.appendTo($li);
+        }
         console.log(req);
         console.log(req.catelog.length);
     });
 };
+//为了整理目录格式的处理函数
+function addCode(title) {
+    var str = "......................................................................................";
+    var len = title.length + 3;
+    return title + str.substring(len*3,str.length-3);
+}
