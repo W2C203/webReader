@@ -115,7 +115,36 @@ window.onload = function () {
      * 目录请求读取
      */
     $.get('metadata.json', function (req, res) {
-        req
+        //req.title书名
+        // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
+        // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
+        var $list = $("#menuList");
+        var bookName = req.title;
+        $("<h3>").text(bookName).appendTo($list);
+        var $cateUL = $("<ul>").appendTo($list);
+//        var $cateLI = $("<li>").appendTo($cateUL);
+//        $("<a></a>").attr("href","#").text(req.catelog[0].title+"......."+req.catelog[0].pageNum).appendTo($cateLI);
+//        $("<a></a>").attr("href","#").text(req.catelog[1].title+"......."+req.catelog[1].pageNum).appendTo($cateLI);
+        for(var i = 0; i < req.catelog.length; i++) {
+            var $a = $("<a>");
+            var $ul = $("<ul>");
+            var $li = $("<li>");
+            $a.attr("href","#").text(req.catelog[i].title+"......."+req.catelog[i].pageNum);
+            $a.appendTo($li);
+            $li.appendTo($cateUL);
+            //再加个ul>li>a层
+            for(var j = 0; j < req.catelog[i].subItems.length; j++) {
+                var $lij = $("<li>");
+                var $aj = $("<a>");
+                $aj.attr("href","#").text(req.catelog[i].subItems[j].title+"......."+req.catelog[i].subItems[j].pageNum);
+                $aj.appendTo($lij);
+                $lij.appendTo($ul);
+            }
+            $ul.appendTo($li);
+        }
+        //目录没滚动条?????????
+//        req
         console.log(req);
+        console.log(req.catelog.length);
     });
 };

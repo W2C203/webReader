@@ -11,7 +11,6 @@ $(document).ready(function () {
 });
 $("#menuBtn").on('mouseover', function () {//当鼠标划过目录按钮时显示目录
     $(this).addClass('selected');
-    console.log("sdw");
     $("#menuList").show();
 });
 $("#menuList").on('mouseout', function () {//当鼠标从目录移开时隐藏目录
@@ -32,7 +31,7 @@ $("#icon").on('click', function () {//左侧栏移入移出
         $(this).attr("title", "show");
         $(this).removeClass('selected');
         $(this).animate({left: '0'}, 1000);
-        $("#leftSide").animate({left: '-16%'}, 1000);
+        $("#leftSide").animate({left: '-18%'}, 1000);
     }
 });
 //$("button[title^='p']").on('click', function () {

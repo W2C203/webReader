@@ -1,23 +1,24 @@
 #main.col-md-8
+  // 进度条
+  .progress.height
+    .progress-bar(role='progressbar', aria-valuenow='79', aria-valuemin='0', aria-valuemax='100', style='width: 79%;')
+      span.sr-only 79% Complete
   section#section
-    form#form.form-inline.pull-right.login
-      .form-group
-        input.form-control(type='text', name='user_name', placeholder='nickName...')
-      .form-group
-        input.form-control(type='password', name='password', placeholder='password...')
-      button#submit.btn.btn-default.btn-primary(type='submit') login
-    header.bookTitle
-      p bookName
-    hr
+    //form#form.form-inline.pull-right.login
+    //  .form-group
+    //    input.form-control(type='text', name='user_name', placeholder='nickName...')
+    //  .form-group
+    //    input.form-control(type='password', name='password', placeholder='password...')
+    //  button#submit.btn.btn-default.btn-primary(type='submit') login
+    //header.bookTitle
+    //  p bookName
+    //hr
     canvas#content
     footer
       -var now
       -var total
       -var rate
       | #{now}/#{total}
-    #menuList.right.menuList this is menu
-  // 进度条
-  .progress.height
-    .progress-bar(role='progressbar', aria-valuenow='79', aria-valuemin='0', aria-valuemax='100', style='width: 79%;')
-      span.sr-only 79% Complete
+#menuList.right.menuList
+
 include third.jade
