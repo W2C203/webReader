@@ -44,7 +44,7 @@ function showOrderBooks(name) {
                     cutGoodName = cutGoodName.substring(0, 9) + '..';
                 }
                 $('<span>').html(cutGoodName).appendTo(newDiv);
-                newDiv.addClass('ribbon');
+                newDiv.addClass('ribbon ribbon-orange');
                 newDiv.appendTo($('#books'));
             }
             $('#books').addClass('ribbons');
