@@ -8,7 +8,7 @@
     position: relative;
     z-index:5;
 
-    background: #f3f3f3;
+    background: #292929;
     border: 1px solid #fff;
     border-radius: 5px;
 
@@ -30,7 +30,6 @@
     font-weight: 300;
     font-size: 18px;
     line-height:20px;
-    color: #414848;
     text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
     margin: 2px;
 }
@@ -38,7 +37,6 @@
 .login-form .header span {
     font-size: 11px;
     line-height: 16px;
-    color: #678889;
     text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
 }
 
@@ -48,6 +46,7 @@
 
 .login-form .content {
     padding: 0 30px 25px 30px;
+    opacity: 0.5;
 }
 
 /* Input */
@@ -58,10 +57,10 @@
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #9d9e9e;
+    color: #f5f5f5;
     text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
 
-    background: #fff;
+    /*background: #fff;*/
     border: 1px solid #fff;
     border-radius: 5px;
 
@@ -106,7 +105,6 @@ FOOTER
     padding: 8px 10px 8px 10px;
     overflow: auto;
 
-    background: #d4dedf;
     border-top: 1px solid #fff;
 
     box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
@@ -123,10 +121,10 @@ FOOTER
     font-weight: 300;
     font-size: 18px;
     color: #fff;
-    text-shadow: 0px 1px 0 rgba(0,0,0,0.25);
+    text-shadow: 0px 1px 0 rgba(245, 245, 245, 0.25);
 
-    background: #56c2e1;
-    border: 1px solid #46b3d3;
+    background: #c9703f;
+    border: 1px solid #161615;
     border-radius: 5px;
     cursor: pointer;
 
@@ -136,7 +134,7 @@ FOOTER
 }
 
 .login-form .footer .submit:hover {
-    background: #3f9db8;
+    background: #993b18;
     border: 1px solid rgba(256,256,256,0.75);
 
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
@@ -148,7 +146,7 @@ FOOTER
     position: relative;
     bottom: -1px;
 
-    background: #56c2e1;
+    background: #993b18;
 
     box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
     -moz-box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
@@ -179,6 +177,10 @@ FOOTER
 .login-form .footer .back:focus {
     position: relative;
     bottom: -1px;
+}
+
+.login-form-input{
+    background-color: #ecc38d;
 }
 /*******************
 登录框 结束
