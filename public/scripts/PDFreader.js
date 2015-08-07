@@ -133,30 +133,22 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-<<<<<<< HEAD
             $a.attr("href","javascript:alert("+req.catelog[i].pageNum+");")
                 .attr("onclick","queueRenderPage("+req.catelog[i].pageNum+")")
                 .attr("target","_self")
                 .text("第"+(i+1)+"章 "+req.catelog[i].title);
-=======
-            $a.attr("href", "#")
-                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
->>>>>>> hywilliam
+
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-<<<<<<< HEAD
                 $aj.attr("href","javascript:alert("+req.catelog[i].subItems[j].pageNum+");")
                     .attr("onclick","queueRenderPage("+req.catelog[i].subItems[j].pageNum+")")
                     .attr("target","_self")
                     .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
-=======
-                $aj.attr("href", "#")
-                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
->>>>>>> hywilliam
+
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
@@ -166,26 +158,18 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-<<<<<<< HEAD
             $a.attr("href",req.catelog[i].pageNum).attr("target","_self")
                 .text("第"+(i+1)+"章 "+req.catelog[i].title);
-=======
-            $a.attr("href", "#")
-                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
->>>>>>> hywilliam
+
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-<<<<<<< HEAD
                 $aj.attr("href",req.catelog[i].subItems[j].pageNum).attr("target","_self")
                     .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
-=======
-                $aj.attr("href", "#")
-                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
->>>>>>> hywilliam
+
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
