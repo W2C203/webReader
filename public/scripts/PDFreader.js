@@ -130,7 +130,9 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#")
+            $a.attr("href","javascript:alert("+req.catelog[i].pageNum+");")
+                .attr("onclick","queueRenderPage("+req.catelog[i].pageNum+")")
+                .attr("target","_self")
                 .text("第"+(i+1)+"章 "+req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
@@ -138,7 +140,9 @@ window.onload = function () {
             for(var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#")
+                $aj.attr("href","javascript:alert("+req.catelog[i].subItems[j].pageNum+");")
+                    .attr("onclick","queueRenderPage("+req.catelog[i].subItems[j].pageNum+")")
+                    .attr("target","_self")
                     .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
@@ -149,7 +153,7 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#")
+            $a.attr("href",req.catelog[i].pageNum).attr("target","_self")
                 .text("第"+(i+1)+"章 "+req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
@@ -157,7 +161,7 @@ window.onload = function () {
             for(var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#")
+                $aj.attr("href",req.catelog[i].subItems[j].pageNum).attr("target","_self")
                     .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
@@ -165,6 +169,6 @@ window.onload = function () {
             $ul.appendTo($li);
         }
         console.log(req);
-        console.log(req.catelog.length);
+//        console.log(req.catelog.length);
     });
 };
