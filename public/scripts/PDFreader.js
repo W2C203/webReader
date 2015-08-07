@@ -10,6 +10,7 @@ window.onload = function () {
         pageRendering = false,
         pageNumPending = null,
         scale = 2,// pdf视窗比例
+        ONCE = 10,//每次输入页数
         viewer = document.getElementById('viewer-container');
 
     /**
@@ -109,7 +110,7 @@ window.onload = function () {
         pdfDoc = pdfDoc_;
         console.log(pdfDoc);
         // 从第一页开始渲染，page索引是从1开始的
-        for (var i = 1; i < pdfDoc.numPages; i++) {
+        for (var i = 1; i < ONCE; i++) {
             renderPage(i);
         }
     });
@@ -178,4 +179,25 @@ window.onload = function () {
         console.log(req);
 //        console.log(req.catelog.length);
     });
+
+
+    //    //滚动监听
+    var aaa=0;
+    window.addEventListener('scroll', function(){
+//        if(aaa==0){
+//            console.log('shua')
+//            for (var i = 10; i < 20; i++) {
+//                renderPage(i);
+//            }
+//            aaa=1;
+//        }
+    });
+    function checkScrollSlide(){
+        var lastCanvas=document.getElementById('section').lastChild;
+        var lastCanvasDis=lastCanvas.offsetTop+Math.floor((lastCanvas.height));
+        var scrollTop=document.body.scrollTop; //滚动高度
+        var documentH=document.body.offsetHeight;    //可视区高度
+        //console.log(lastCanvas.offsetTop+' '+lastCanvasDis+' '+scrollTop+' '+documentH)
+        return (lastCanvasDis<scrollTop+documentH)?true:false;
+    }
 };
