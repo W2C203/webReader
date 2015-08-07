@@ -1,0 +1,83 @@
+<!--完整版的html,仅供参考,没用-->
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>webReader</title>
+    <link href="../public/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../public/styles/pithy.css" rel="stylesheet">
+</head>
+<body>
+<!--进度条-->
+<div class="progress height">
+    <div class="progress-bar " role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 79%;">
+        <span class="sr-only ">79% Complete</span>
+    </div>
+</div>
+<div class="container-fluid"><!--栅格系统-->
+    <div class="row">
+        <div class="col-md-2" id="leftSide">
+            <div>
+                <form id="form" class="login-form">
+                    <div class="header">
+                        <h3 id="information">登录</h3>
+                    </div>
+                    <div class="content">
+                        <input id='user_name' name="user_name" type="text" class="input username login-form-input" placeholder="用户名">
+                        <input id='password' name="password" type="password" class="input password login-form-input" placeholder="密码">
+                        <span class='hide user_name' id="show_name">用户名</span>
+                    </div>
+                    <div class="footer">
+                        <input id = 'submit' type="submit" value="登录" class="submit"/>
+                        <input id = 'logout' type="button" value="退出" class="submit logout hide"/>
+                        <input type="button" value="返回商城" class="back"/>
+                    </div>
+                </form>
+            </div>
+            <p id="pBeforeBooks" class="pBeforeBooks">登录后查看购买书目</p>
+            <div class="ribbons">
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+                <div class="ribbon  ribbon-orange"><span></span></div>
+            </div>
+        </div>
+        <span id="icon" title="show" class="glyphicon glyphicon-triangle-left iconSpan"></span>
+        <div class="col-md-8" id="main">
+            <section id="section">
+                <canvas id="content"></canvas>
+            </section>
+            <div id="menuList" class="right menuList"></div>
+        </div>
+        <div class="col-md-2" id="rightSide">
+            <!--目录按钮-->
+            <span id="menuBtn" class="glyphicon glyphicon-th-list main-menu"></span>
+
+            <!--上一页按钮-->
+            <button id="prev" class="btn btn-default  bleft" data-toggle="tooltip" data-placement="left" title="previous page">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <!--下一页按钮-->
+            <button id="next" class="btn btn-default bright" data-toggle="tooltip" data-placement="right" title="next page">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<footer></footer>
+<!--===================================================================-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../public/bootstrap-3.3.5-dist/js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../public/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="../public/scripts/control.js"></script>
+<script src="../public/scripts/verify.js"></script>
+<script src="../public/scripts/lib/pdfjs/pdf.js"></script>
+<script src="../public/scripts/PDFreader.js"></script>
+</body>
+</html>

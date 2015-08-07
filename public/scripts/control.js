@@ -46,3 +46,15 @@ $("#icon").on('click', function () {//左侧栏移入移出
 //$("button[title^='n']").on('click', function () {
 //    alert("next");
 //});
+function keyDown(e) {
+    var currKey = 0, e= e || event;
+    currKey = e.which || e.charCode || e.keyCode;
+    var realKey = String.fromCharCode(e.which);
+//    alert('按键码: ' + currKey + ' 字符: ' + realKey);
+    if(currKey === 37) {
+        $("#prev").trigger('click');
+    } else if(currKey === 39) {
+        $("#next").trigger('click');
+    }
+}
+document.onkeydown = keyDown;
