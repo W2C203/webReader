@@ -9,9 +9,8 @@ window.onload = function () {
         pageNum = 1,// pdf页码，默认为第一页
         pageRendering = false,
         pageNumPending = null,
-        scale = 1,// pdf视窗比例
-        canvas = document.getElementById('content'),
-        ctx = canvas.getContext('2d');
+        scale = 2,// pdf视窗比例
+        viewer = document.getElementById('viewer-container');
 
     /**
      * 从pdf文档中得到页面信息，根据页面的视窗比例来调整canvas，然后渲染当前页，
@@ -23,8 +22,11 @@ window.onload = function () {
         // 用promise来从pdf文档中抓页面，本身就是异步的
         pdfDoc.getPage(num).then(function (page) {
             var viewport = page.getViewport(scale);
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
             canvas.width = viewport.width;
+            canvas.setAttribute('id', 'page' + num);
 
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
@@ -43,10 +45,10 @@ window.onload = function () {
                     pageNumPending = null;
                 }
             });
+
+            viewer.appendChild(canvas);
         });
 
-        // Update page counters
-//        document.getElementById('page_num').textContent = pageNum;
     }
 
     /**
@@ -68,7 +70,7 @@ window.onload = function () {
             return;
         }
         pageNum--;
-        queueRenderPage(pageNum);
+//        queueRenderPage(pageNum);
     }
 
     document.getElementById('prev').addEventListener('click', onPrevPage);
@@ -81,7 +83,7 @@ window.onload = function () {
             return;
         }
         pageNum++;
-        queueRenderPage(pageNum);
+//        queueRenderPage(pageNum);
     }
 
     document.getElementById('next').addEventListener('click', onNextPage);
@@ -105,10 +107,11 @@ window.onload = function () {
      */
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
-//        document.getElementById('page_count').textContent = pdfDoc.numPages;
-
-        // 初始化渲染，首次渲染为第一页
-        renderPage(pageNum);
+        console.log(pdfDoc);
+        // 从第一页开始渲染，page索引是从1开始的
+        for (var i = 1; i < pdfDoc.numPages; i++) {
+            renderPage(i);
+        }
     });
 
     /**
@@ -126,39 +129,39 @@ window.onload = function () {
         $("<hr>").appendTo($list);
         var $cateUL = $("<ul>").appendTo($list);
 //        添加目录
-        for(var i = 0; i < req.catelog.length; i++) {
+        for (var i = 0; i < req.catelog.length; i++) {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#")
-                .text("第"+(i+1)+"章 "+req.catelog[i].title);
+            $a.attr("href", "#")
+                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
-            for(var j = 0; j < req.catelog[i].subItems.length; j++) {
+            for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#")
-                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
+                $aj.attr("href", "#")
+                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
             $ul.appendTo($li);
         }
-        for(var i = 0; i < req.catelog.length; i++) {
+        for (var i = 0; i < req.catelog.length; i++) {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","#")
-                .text("第"+(i+1)+"章 "+req.catelog[i].title);
+            $a.attr("href", "#")
+                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
             $a.appendTo($li);
             $li.appendTo($cateUL);
             //再加个ul>li>a层
-            for(var j = 0; j < req.catelog[i].subItems.length; j++) {
+            for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","#")
-                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
+                $aj.attr("href", "#")
+                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
             }
