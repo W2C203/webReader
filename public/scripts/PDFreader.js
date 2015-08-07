@@ -138,8 +138,8 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href", "javascript:alert(" + req.catelog[i].pageNum + ");")
-                .attr("onclick", "queueRenderPage(" + req.catelog[i].pageNum + ")")
+            $a.attr("href", "#page" + req.catelog[i].pageNum)
+                .attr("onclick", "getCurrentPage()")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
@@ -149,8 +149,8 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href", "javascript:alert(" + req.catelog[i].subItems[j].pageNum + ");")
-                    .attr("onclick", "queueRenderPage(" + req.catelog[i].subItems[j].pageNum + ")")
+                $aj.attr("href", "#page" + req.catelog[i].subItems[j].pageNum)
+                    .attr("onclick", "getCurrentPage()")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
@@ -159,28 +159,16 @@ window.onload = function () {
             }
             $ul.appendTo($li);
         }
-        for (var i = 0; i < req.catelog.length; i++) {
-            var $a = $("<a>");
-            var $ul = $("<ul>");
-            var $li = $("<li>");
-            $a.attr("href", req.catelog[i].pageNum).attr("target", "_self")
-                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
-            $a.appendTo($li);
-            $li.appendTo($cateUL);
-            //再加个ul>li>a层
-            for (var j = 0; j < req.catelog[i].subItems.length; j++) {
-                var $lij = $("<li>");
-                var $aj = $("<a>");
-                $aj.attr("href", req.catelog[i].subItems[j].pageNum).attr("target", "_self")
-                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
-
-                $aj.appendTo($lij);
-                $lij.appendTo($ul);
-            }
-            $ul.appendTo($li);
-        }
         console.log(req);
 //        console.log(req.catelog.length);
     });
 };
+//function getCurrentPage() {
+//    var winHeight = $(window).height();
+//    var scrollTop = $(window).scrollTop();
+//    var num = Math.floor(scrollTop/winHeight);
+//    alert(num);
+//    $("#pro>div").attr("aria-valuenow",num).attr("style","width:"+num+"%")
+//
+//}
