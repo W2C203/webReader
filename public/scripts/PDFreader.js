@@ -4,12 +4,15 @@
  */
 window.onload = function () {
     var url = 'weather.pdf';
+    // 每次渲染的页数
+    var CHUNK = 10;
+    // 当前页，默认为首页
+    var pageNum = 1;
 
     var pdfDoc = null,// pdf文档，未加载时为null对象
-        pageNum = 1,// pdf页码，默认为第一页
         pageRendering = false,
         pageNumPending = null,
-        scale = 2,// pdf视窗比例
+        scale = 1.8,// pdf视窗比例
         viewer = document.getElementById('viewer-container');
 
     /**
@@ -22,11 +25,10 @@ window.onload = function () {
         // 用promise来从pdf文档中抓页面，本身就是异步的
         pdfDoc.getPage(num).then(function (page) {
             var viewport = page.getViewport(scale);
-            var canvas = document.createElement('canvas');
+            var canvas = document.getElementById('page' + num);
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-            canvas.setAttribute('id', 'page' + num);
 
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
@@ -45,8 +47,6 @@ window.onload = function () {
                     pageNumPending = null;
                 }
             });
-
-            viewer.appendChild(canvas);
         });
 
     }
@@ -108,10 +108,15 @@ window.onload = function () {
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
         console.log(pdfDoc);
-        // 从第一页开始渲染，page索引是从1开始的
-        for (var i = 1; i < pdfDoc.numPages; i++) {
-            renderPage(i);
-        }
+
+        (function initializeViewer() {
+            for (var i = 1; i < pdfDoc.numPages + 1; ++i) {
+                var canvas = document.createElement('canvas');
+                canvas.setAttribute('id', 'page' + i);
+                viewer.appendChild(canvas);
+                renderPage(i);
+            }
+        })();
     });
 
     /**
@@ -133,10 +138,10 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href","javascript:alert("+req.catelog[i].pageNum+");")
-                .attr("onclick","queueRenderPage("+req.catelog[i].pageNum+")")
-                .attr("target","_self")
-                .text("第"+(i+1)+"章 "+req.catelog[i].title);
+            $a.attr("href", "javascript:alert(" + req.catelog[i].pageNum + ");")
+                .attr("onclick", "queueRenderPage(" + req.catelog[i].pageNum + ")")
+                .attr("target", "_self")
+                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
             $a.appendTo($li);
             $li.appendTo($cateUL);
@@ -144,10 +149,10 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href","javascript:alert("+req.catelog[i].subItems[j].pageNum+");")
-                    .attr("onclick","queueRenderPage("+req.catelog[i].subItems[j].pageNum+")")
-                    .attr("target","_self")
-                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
+                $aj.attr("href", "javascript:alert(" + req.catelog[i].subItems[j].pageNum + ");")
+                    .attr("onclick", "queueRenderPage(" + req.catelog[i].subItems[j].pageNum + ")")
+                    .attr("target", "_self")
+                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
@@ -158,8 +163,8 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href",req.catelog[i].pageNum).attr("target","_self")
-                .text("第"+(i+1)+"章 "+req.catelog[i].title);
+            $a.attr("href", req.catelog[i].pageNum).attr("target", "_self")
+                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
             $a.appendTo($li);
             $li.appendTo($cateUL);
@@ -167,8 +172,8 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href",req.catelog[i].subItems[j].pageNum).attr("target","_self")
-                    .text("»第"+(j+1)+"节 "+req.catelog[i].subItems[j].title);
+                $aj.attr("href", req.catelog[i].subItems[j].pageNum).attr("target", "_self")
+                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
                 $aj.appendTo($lij);
                 $lij.appendTo($ul);
