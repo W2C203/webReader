@@ -9,13 +9,15 @@
       div
         form#form.login-form
           .header
-            h3 登录
+            h3#information 登录
           .content
-            input.input.username(name='user_name', type='text', placeholder='用户名')
-            input.input.password(name='password', type='password', placeholder='密码')
+            input#user_name.input.username(name='user_name', type='text', placeholder='用户名')
+            input#password.input.password(name='password', type='password', placeholder='密码')
+            span#show_name.hide.user_name 用户名
           .footer
             input#submit.submit(type='submit', value='登录')
-            input.back(type='button', value='返回商城')
+            input#logout.back.logout.hide(type='button', value='退出登录')
+            input#mall.back(type='button', value='返回商城')
       p#pBeforeBooks.pBeforeBooks 登录后查看购买书目
       #books
     span#icon.glyphicon.glyphicon-triangle-left.iconSpan.selected(title='hide')

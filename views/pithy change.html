@@ -16,14 +16,16 @@
             <div>
                 <form id="form" class="login-form">
                     <div class="header">
-                        <h3>登录</h3>
+                        <h3 id="information">登录</h3>
                     </div>
                     <div class="content">
-                        <input name="user_name" type="text" class="input username login-form-input" placeholder="用户名">
-                        <input name="password" type="password" class="input password login-form-input" placeholder="密码">
+                        <input id='user_name' name="user_name" type="text" class="input username login-form-input" placeholder="用户名">
+                        <input id='password' name="password" type="password" class="input password login-form-input" placeholder="密码">
+                        <span class='hide user_name' id="show_name">用户名</span>
                     </div>
                     <div class="footer">
-                        <input type="submit" value="登录" class="submit"/>
+                        <input id = 'submit' type="submit" value="登录" class="submit"/>
+                        <input id = 'logout' type="button" value="退出" class="submit logout hide"/>
                         <input type="button" value="返回商城" class="back"/>
                     </div>
                 </form>
