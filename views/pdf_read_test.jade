@@ -1,0 +1,18 @@
+//
+   Created by hywilliam on 8/3/15.
+html
+  head
+    title
+  body
+    canvas#content(style='border: solid 1px red')
+    #ctrl
+      button#prev PREV
+      button#next NEXT
+      button#getTitle TITLE
+      button#getOutline OUTLINE
+      span Pages
+        span#page_num /
+        span#page_count
+    #outline
+    script(src='/scripts/lib/pdfjs/pdf.js')
+    script(src='/scripts/PDFreader.js')

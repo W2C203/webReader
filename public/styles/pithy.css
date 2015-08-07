@@ -1,0 +1,169 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: url(../images/bg.png);
+}
+h2{
+    text-align: center;
+}
+ul{list-style-type: none;}/*去掉前面的点*/
+.container-fluid {
+    position: relative;
+}
+/*左边覆盖body框*/
+#leftSide {
+    background-color: #747474;
+    height: 100%;
+    /*float: left;*/
+    position: fixed;
+    text-align: center;
+
+    left: 0;
+    box-shadow: inset 2 3px 8px rgba(167, 167, 167, 0.50);
+    /*水平阴影 垂直阴影 阴影尺寸 模糊距离（可选）  颜色*/
+}
+
+/*左边拉取框*/
+.mid-left {
+    background-color: #ecd37a;
+    width: 97%;
+    height: 100%;
+    min-height: 430px;
+    margin: 0;
+    padding: 0;
+    /*float: left;*/
+    /*left: -97%;*/
+}
+
+.iconSpan {
+    z-index: 5;
+    font-size: 25px;
+    color: gray;
+    position: fixed;
+    top: 50%;
+    left: 16%;
+}
+
+/*右边覆盖body框*/
+#rightSide {
+    padding: 0;
+    background: url(../images/bg.png);
+    height: 100%;
+    /*float: right;*/
+    position: fixed;
+    right: 0;
+}
+
+/*中间主要内容框*/
+#main {
+    height: 100%;
+    padding: 0;
+    min-height: 450px;
+    min-width: 400px;
+    /*position: absolute;*/
+    left: 16.67%;
+    font-size: 22px;
+}
+
+/*前翻页按钮*/
+.bleft {
+    /*margin: 2px;*/
+    margin-left: -32px;
+    height: 100px;
+    width: 40px;
+    position: absolute;
+    top: 29%;
+    background-color: #d7d1e5;
+}
+
+/*后翻页按钮*/
+.bright {
+    /*margin: 2px;*/
+    margin-left: -32px;
+    height: 100px;
+    width: 40px;
+    position: absolute;
+    top: 45%;
+    background-color: #d7d1e5;
+}
+
+/*目录按钮*/
+.main-menu {
+    /*position: absolute;*/
+    top: 10%;
+    margin-left: 16px;
+    color: gray;
+    font-size: 24px;
+}
+
+/*目录列表*/
+.menuList {
+    overflow: auto;
+    background-color: #cdcdcd;
+    width: 55%;
+    height: 100%;
+    position: fixed;
+    right: 16.67%;
+    top: 0;
+}
+
+/*中间存放内容*/
+#section {
+    height: 100%;
+    padding: 0;
+    background-color: #383838;
+}
+
+#section hr {
+    margin-top: 0;
+}
+
+/*书名*/
+.bookTitle {
+    font-size: 16px;
+    color: #ff6795;
+    text-align: left;
+}
+
+/*画布*/
+#content {
+    height: 85%;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+/*进度条高度*/
+.height {
+    width: 100%;
+    height: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    position: fixed;
+    top: 0;
+    z-index: 50;
+}
+
+/*页脚 */
+footer {
+    position: absolute;
+    bottom: 3px;
+}
+
+/*JS代码要修改用的东西*/
+.selected {
+    color: #cb7443;
+}
+
+#menuList a{
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px dotted;
+}
+#menuList ul>li>ul{
+    padding-left: 0;
+}
+#menuList ul>li>ul>li{
+    padding-left: 1em;
+}
+
