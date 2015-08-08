@@ -3,7 +3,7 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-    var url = 'weather.pdf';
+  var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     // 每次渲染的页数
     var CHUNK = 10;
@@ -68,7 +68,6 @@ window.onload = function () {
                 }
             });
         });
-
     }
 
 //    /**
@@ -107,6 +106,7 @@ window.onload = function () {
 //    }
 //
 //    document.getElementById('next').addEventListener('click', onNextPage);
+
 
     /**
      * 显示目录
@@ -148,26 +148,26 @@ window.onload = function () {
     window.onscroll = function () {
         var canvasHeight = $("#viewer-container #page1").height();
 //        console.log(canvasHeight/100);
-        var scrollTop = $(window).scrollTop();
-        var num = Math.floor(100*scrollTop/(pdfDoc.numPages*canvasHeight/100));
+    var scrollTop = $(window).scrollTop();
+    var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
 //        console.log(scrollTop);
-        $("#pro").attr("aria-valuenow",num/100).attr("style","width:"+(num/100)+"%")
+    $("#pro").attr("aria-valuenow", num / 100).attr("style", "width:" + (num / 100) + "%")
     };
 
-    /**
-     * 目录请求读取
-     */
-    $.get('metadata.json', function (req, res) {
-        //req.title书名
-        // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
-        // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
+  /**
+   * 目录请求读取
+   */
+  $.get('metadata.json', function (req, res) {
+    //req.title书名
+    // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
+    // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
 //        添加书名
-        var $list = $("#menuList");
-        var bookName = req.title;
-        $("<hr>").appendTo($list);
-        $("<h2>").text(bookName).appendTo($list);
-        $("<hr>").appendTo($list);
-        var $cateUL = $("<ul>").appendTo($list);
+    var $list = $("#menuList");
+    var bookName = req.title;
+    $("<hr>").appendTo($list);
+    $("<h2>").text(bookName).appendTo($list);
+    $("<hr>").appendTo($list);
+    var $cateUL = $("<ul>").appendTo($list);
 //        添加目录
         for (var i = 0; i < req.catelog.length; i++) {
             var $a = $("<a>");
@@ -219,17 +219,6 @@ window.onload = function () {
             }
         }
     });
-    function updateFlashHeight() {
-        if (sentry == CHUNK) {//当哨兵变量到CHUNK 那么表示flashHeight可以计算了
-            flashHeight = wholeHeight;
-            flashHeight += tempHeight * FLASHPAGE / CHUNK;
-            wholeHeight += tempHeight;   //把当前加载的 加到全部加载高度
-            tempHeight = 0;
-            sentry = 0; //哨兵归零
-            clearInterval(myTime);
-        }
-        //这里应该是类似一个promise then/done 但是用不了promise不知道为啥
-    }
 
     function checkScrollSlide() {
         var scrollTop = document.body.scrollTop;       //滚动高度
@@ -249,5 +238,17 @@ window.onload = function () {
             clearInterval(myCanvas);
         }
     }
+  function updateFlashHeight() {
+    if (sentry == CHUNK) {//当哨兵变量到CHUNK 那么表示flashHeight可以计算了
+      flashHeight = wholeHeight;
+      flashHeight += tempHeight * FLASHPAGE / CHUNK;
+      wholeHeight += tempHeight;   //把当前加载的 加到全部加载高度
+      tempHeight = 0;
+      sentry = 0; //哨兵归零
+      clearInterval(myTime);
+    }
+    //这里应该是类似一个promise then/done 但是用不了promise不知道为啥
+  }
+
 };
 
