@@ -14,8 +14,10 @@ window.onload = function () {
     var tempHeight = 0;
     //表示新加载的页总高度 即每个CHUNK页的总高度
     var sentry = 0;
+    var sentry2 = 0;
     //哨兵变量 为了避免异步造成  tempHeight计算错误
     var myTime = null;
+    var myCanvas = null;
     //定时器 监督哨兵变量
     var flashHeight = 10000;
     //表示需要再取页面的高度 为了避免开始未更新这个值 先设大一些
@@ -28,7 +30,7 @@ window.onload = function () {
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.8,// pdf视窗比例
+        scale = 1.85,// pdf视窗比例
         viewer = document.getElementById('viewer-container');
 
     /**
@@ -45,7 +47,7 @@ window.onload = function () {
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
             tempHeight += viewport.height;    //把高度存起来
-            sentry++;                       //哨兵变量加1
+            sentry++;sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
 
             // 把当前页渲染进canvas上下文环境
@@ -128,6 +130,7 @@ window.onload = function () {
         console.log(pdfDoc);
         //for 滚动 begin
         myTime = setInterval(updateFlashHeight, 100);
+        myCanvas = setInterval(makeCanvas,100);
         //for 滚动 end
         (function () {
             for (; pageLoaded < CHUNK + 1; ++pageLoaded) {
@@ -137,7 +140,6 @@ window.onload = function () {
                 renderPage(pageLoaded);
             }
         })();
-
     });
 
     /**
@@ -172,6 +174,7 @@ window.onload = function () {
             var $ul = $("<ul>");
             var $li = $("<li>");
             $a.attr("href", "#page" + req.catelog[i].pageNum)
+//                .attr("onclick","renderPage("+req.catelog[i].pageNum+")")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
@@ -182,6 +185,7 @@ window.onload = function () {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
                 $aj.attr("href", "#page" + req.catelog[i].subItems[j].pageNum)
+//                    .attr("onclick","renderPage("+req.catelog[i].subItems[j].pageNum+")")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
@@ -208,9 +212,9 @@ window.onload = function () {
                     finished=1;
                     return;
                 }
-                var canvas = document.createElement('canvas');
-                canvas.setAttribute('id', 'page' + pageLoaded);
-                viewer.appendChild(canvas);
+//                var canvas = document.createElement('canvas');
+//                canvas.setAttribute('id', 'page' + pageLoaded);
+//                viewer.appendChild(canvas);
                 renderPage(pageLoaded);
             }
         }
@@ -229,9 +233,21 @@ window.onload = function () {
 
     function checkScrollSlide() {
         var scrollTop = document.body.scrollTop;       //滚动高度
-        //console.log('滚动高度：' + scrollTop)
-        //console.log('超过这个高度刷新：', flashHeight)
+        console.log('滚动高度：' + scrollTop)
+        console.log('超过这个高度刷新：', flashHeight)
         return (flashHeight <= scrollTop) ? true : false;
+    }
+    function makeCanvas() {
+        if (sentry2 == CHUNK) {
+            for (var i = CHUNK + 1; i <= pdfDoc.numPages; i++) {
+                var canvas = document.createElement('canvas');
+                canvas.setAttribute('id', 'page' + i);
+                canvas.height = $("#viewer-container #page1").height();
+                canvas.width = $("#viewer-container #page1").width();
+                viewer.appendChild(canvas);
+            }
+            clearInterval(myCanvas);
+        }
     }
 };
 
