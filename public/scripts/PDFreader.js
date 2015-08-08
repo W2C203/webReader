@@ -3,11 +3,12 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-    var url = 'weather.pdf';
+    //var url = 'weather.pdf';
+    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     // 每次渲染的页数
-    var CHUNK = 10;
-    // 当前页，默认为首页
-    var pageNum = 1;
+    var CHUNK = 2;
+    // 当前已加载的页
+    var pageLoaded = 1;
 
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
@@ -51,42 +52,42 @@ window.onload = function () {
 
     }
 
-    /**
-     * 如果进程中有其他的页面在进行渲染，则等待渲染完成，否则立即渲染当前页面
-     */
-    function queueRenderPage(num) {
-        if (pageRendering) {
-            pageNumPending = num;
-        } else {
-            renderPage(num);
-        }
-    }
-
-    /**
-     * 上一页
-     */
-    function onPrevPage() {
-        if (pageNum <= 1) {
-            return;
-        }
-        pageNum--;
-//        queueRenderPage(pageNum);
-    }
-
-    document.getElementById('prev').addEventListener('click', onPrevPage);
-
-    /**
-     * 下一页
-     */
-    function onNextPage() {
-        if (pageNum >= pdfDoc.numPages) {
-            return;
-        }
-        pageNum++;
-//        queueRenderPage(pageNum);
-    }
-
-    document.getElementById('next').addEventListener('click', onNextPage);
+//    /**
+//     * 如果进程中有其他的页面在进行渲染，则等待渲染完成，否则立即渲染当前页面
+//     */
+//    function queueRenderPage(num) {
+//        if (pageRendering) {
+//            pageNumPending = num;
+//        } else {
+//            renderPage(num);
+//        }
+//    }
+//
+//    /**
+//     * 上一页
+//     */
+//    function onPrevPage() {
+//        if (pageNum <= 1) {
+//            return;
+//        }
+//        pageNum--;
+////        queueRenderPage(pageNum);
+//    }
+//
+//    document.getElementById('prev').addEventListener('click', onPrevPage);
+//
+//    /**
+//     * 下一页
+//     */
+//    function onNextPage() {
+//        if (pageNum >= pdfDoc.numPages) {
+//            return;
+//        }
+//        pageNum++;
+////        queueRenderPage(pageNum);
+//    }
+//
+//    document.getElementById('next').addEventListener('click', onNextPage);
 
     /**
      * 显示目录
@@ -110,13 +111,14 @@ window.onload = function () {
         console.log(pdfDoc);
 
         (function initializeViewer() {
-            for (var i = 1; i < pdfDoc.numPages + 1; ++i) {
+            for (; pageLoaded < CHUNK + 1; ++pageLoaded) {
                 var canvas = document.createElement('canvas');
-                canvas.setAttribute('id', 'page' + i);
+                canvas.setAttribute('id', 'page' + pageLoaded);
                 viewer.appendChild(canvas);
-                renderPage(i);
+                renderPage(pageLoaded);
             }
         })();
+
     });
 
     /**
@@ -183,23 +185,24 @@ window.onload = function () {
         console.log(req);
 //        console.log(req.catelog.length);
     });
-};
     //滚动监听
-    var aaa=0;
     window.addEventListener('scroll', function(){
-//        if(aaa==0){
-//            console.log('shua')
-//            for (var i = 10; i < 20; i++) {
-//                renderPage(i);
-//            }
-//            aaa=1;
-//        }
-//    });
-//    function checkScrollSlide(){
-//        var lastCanvas=document.getElementById('section').lastChild;
-//        var lastCanvasDis=lastCanvas.offsetTop+Math.floor((lastCanvas.height));
-//        var scrollTop=document.body.scrollTop; //滚动高度
-//        var documentH=document.body.offsetHeight;    //可视区高度
-//        //console.log(lastCanvas.offsetTop+' '+lastCanvasDis+' '+scrollTop+' '+documentH)
-//        return (lastCanvasDis<scrollTop+documentH)?true:false;
-//    }
+        if(aaa==0){
+            console.log('shua')
+            for (var i=0; i < CHUNK + 1; ++i,pageLoaded++) {
+                var canvas = document.createElement('canvas');
+                canvas.setAttribute('id', 'page' + pageLoaded);
+                viewer.appendChild(canvas);
+                renderPage(pageLoaded);
+            }
+        }
+    });
+    function checkScrollSlide(){
+        var lastCanvas=document.getElementById('section').lastChild;
+        var lastCanvasDis=lastCanvas.offsetTop+Math.floor((lastCanvas.height));
+        var scrollTop=document.body.scrollTop;       //滚动高度
+        var documentH=document.body.offsetHeight;    //可视区高度
+        return (lastCanvasDis<scrollTop+documentH)?true:false;
+    }
+};
+
