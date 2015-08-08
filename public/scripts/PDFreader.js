@@ -3,11 +3,17 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-    //var url = 'weather.pdf';
-    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
+    var url = 'weather.pdf';
+//    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     // 每次渲染的页数
     var CHUNK = 2;
     // 当前已加载的页
+    var wholeHeight = 0;
+    //表示当前已加载的页总高度
+    var flashHeight = 0;
+    //表示需要再刷新的高度
+    var FLASHPAGE = 1;
+    //表示每到这个页数刷新一次
     var pageLoaded = 1;
 
     var pdfDoc = null,// pdf文档，未加载时为null对象
@@ -29,12 +35,13 @@ window.onload = function () {
             var canvas = document.getElementById('page' + num);
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
+            wholeHeight += canvas.height;    //把高度存起来
             canvas.width = viewport.width;
 
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
                 canvasContext: ctx,
-                viewport     : viewport
+                viewport: viewport
             };
             var renderTask = page.render(renderContext);
 
@@ -116,6 +123,9 @@ window.onload = function () {
                 canvas.setAttribute('id', 'page' + pageLoaded);
                 viewer.appendChild(canvas);
                 renderPage(pageLoaded);
+                if(pageLoaded==FLASHPAGE){
+                    flashHeight = wholeHeight;
+                }
             }
         })();
 
@@ -140,8 +150,8 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href", "javascript:alert(" + req.catelog[i].pageNum + ");")
-                .attr("onclick", "queueRenderPage(" + req.catelog[i].pageNum + ")")
+            $a.attr("href", "#page" + req.catelog[i].pageNum)
+                .attr("onclick", "getCurrentPage()")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
@@ -151,8 +161,8 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href", "javascript:alert(" + req.catelog[i].subItems[j].pageNum + ");")
-                    .attr("onclick", "queueRenderPage(" + req.catelog[i].subItems[j].pageNum + ")")
+                $aj.attr("href", "#page" + req.catelog[i].subItems[j].pageNum)
+                    .attr("onclick", "getCurrentPage()")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
@@ -161,48 +171,38 @@ window.onload = function () {
             }
             $ul.appendTo($li);
         }
-        for (var i = 0; i < req.catelog.length; i++) {
-            var $a = $("<a>");
-            var $ul = $("<ul>");
-            var $li = $("<li>");
-            $a.attr("href", req.catelog[i].pageNum).attr("target", "_self")
-                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
-            $a.appendTo($li);
-            $li.appendTo($cateUL);
-            //再加个ul>li>a层
-            for (var j = 0; j < req.catelog[i].subItems.length; j++) {
-                var $lij = $("<li>");
-                var $aj = $("<a>");
-                $aj.attr("href", req.catelog[i].subItems[j].pageNum).attr("target", "_self")
-                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
-
-                $aj.appendTo($lij);
-                $lij.appendTo($ul);
-            }
-            $ul.appendTo($li);
-        }
         console.log(req);
 //        console.log(req.catelog.length);
     });
+
+
+    function getCurrentPage() {
+        var winHeight = $(window).height();
+        var scrollTop = $(window).scrollTop();
+        var num = Math.floor(scrollTop / winHeight);
+        alert(num);
+        $("#pro>div").attr("aria-valuenow", num).attr("style", "width:" + num + "%")
+
+    }
+
     //滚动监听
-    window.addEventListener('scroll', function(){
-        if(aaa==0){
+    window.addEventListener('scroll', function () {
+        if (checkScrollSlide) {
             console.log('shua')
-            for (var i=0; i < CHUNK + 1; ++i,pageLoaded++) {
+            for (var i = 0; i < CHUNK + 1; ++i, pageLoaded++) {
                 var canvas = document.createElement('canvas');
                 canvas.setAttribute('id', 'page' + pageLoaded);
                 viewer.appendChild(canvas);
                 renderPage(pageLoaded);
+                if(i==FLASHPAGE){
+                    flashHeight = wholeHeight;
+                }
             }
         }
     });
-    function checkScrollSlide(){
-        var lastCanvas=document.getElementById('section').lastChild;
-        var lastCanvasDis=lastCanvas.offsetTop+Math.floor((lastCanvas.height));
-        var scrollTop=document.body.scrollTop;       //滚动高度
-        var documentH=document.body.offsetHeight;    //可视区高度
-        return (lastCanvasDis<scrollTop+documentH)?true:false;
+    function checkScrollSlide() {
+        var scrollTop = document.body.scrollTop;       //滚动高度
+        return (flashHeight <= scrollTop) ? true : false;
     }
 };
-
