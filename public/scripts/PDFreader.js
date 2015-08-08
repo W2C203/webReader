@@ -141,6 +141,18 @@ window.onload = function () {
     });
 
     /**
+     * 进度条监听滚动事件
+     */
+    window.onscroll = function () {
+        var canvasHeight = $("#viewer-container #page1").height();
+//        console.log(canvasHeight/100);
+        var scrollTop = $(window).scrollTop();
+        var num = Math.floor(100*scrollTop/(pdfDoc.numPages*canvasHeight/100));
+//        console.log(scrollTop);
+        $("#pro").attr("aria-valuenow",num/100).attr("style","width:"+(num/100)+"%")
+    };
+
+    /**
      * 目录请求读取
      */
     $.get('metadata.json', function (req, res) {
@@ -160,7 +172,6 @@ window.onload = function () {
             var $ul = $("<ul>");
             var $li = $("<li>");
             $a.attr("href", "#page" + req.catelog[i].pageNum)
-                .attr("onclick", "getCurrentPage()")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
@@ -171,7 +182,6 @@ window.onload = function () {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
                 $aj.attr("href", "#page" + req.catelog[i].subItems[j].pageNum)
-                    .attr("onclick", "getCurrentPage()")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
@@ -180,20 +190,9 @@ window.onload = function () {
             }
             $ul.appendTo($li);
         }
-
         console.log(req);
 //        console.log(req.catelog.length);
     });
-
-
-    function getCurrentPage() {
-        var winHeight = $(window).height();
-        var scrollTop = $(window).scrollTop();
-        var num = Math.floor(scrollTop / winHeight);
-        alert(num);
-        $("#pro>div").attr("aria-valuenow", num).attr("style", "width:" + num + "%")
-
-    }
 
     //滚动监听
     window.addEventListener('scroll', function () {
@@ -235,3 +234,4 @@ window.onload = function () {
         return (flashHeight <= scrollTop) ? true : false;
     }
 };
+
