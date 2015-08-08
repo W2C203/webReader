@@ -3,7 +3,7 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-    var url = 'weather.pdf';
+    var url = '';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     // 每次渲染的页数
     var CHUNK = 10;

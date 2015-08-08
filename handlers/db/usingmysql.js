@@ -9,8 +9,9 @@ var $conf = require('../db/conf');             //ridiculous!!!
 var $sql = {               //数据库的操作
     queryByNamePassword: 'select * from ecm_member where user_name=? and password=? ',
     queryOrderByUserName: 'select order_id from ecm_order where buyer_name = ?',
-    queryGoodsByUserName:' select goods_name from ecm_order_goods  inner join ecm_order\
-    on ecm_order_goods.order_id=ecm_order.order_id and  ecm_order.buyer_name=? group by goods_name'
+    queryGoodsByUserName: ' select * from ecm_order_goods  inner join ecm_order\
+    on ecm_order_goods.order_id=ecm_order.order_id and  ecm_order.buyer_name=? group by goods_name',
+    queryFilePath: ' select file_path from ecm_uploaded_file where item_id = ? and finstance = "desc_file"'
 }
 // 使用连接池，提升性能
 var pool = mysql.createPool($conf.mysql);
@@ -48,9 +49,22 @@ module.exports = {
                     res.end('无购买记录');
                     return;
                 }
-                connection.query($sql.queryGoodsByUserName,user_name,function(err,result){
-                   res.json(result);
+                connection.query($sql.queryGoodsByUserName, user_name, function (err, result) {
+                    res.json(result);
                 });
+                connection.release();
+            });
+        })
+    },
+    queryFile: function (data, res, next) {
+        var goods_id = data.toString().split('=')[1];
+        pool.getConnection(function (err, connection) {
+            connection.query($sql.queryFilePath, goods_id, function (err, result) {
+                if (result.length == 0) {
+                    res.end('无有效路径，该数据可能为测试数据');
+                    return;
+                }
+                res.json(result);
                 connection.release();
             });
         })

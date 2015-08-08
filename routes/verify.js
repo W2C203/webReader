@@ -19,4 +19,10 @@ app.post('/queryBuy', function (req, res, next) {
     })
 });
 
+app.post('/queryFile', function (req, res, next) {
+    req.on('data', function (data) {
+        usingmysql.queryFile(data, res, next);
+    })
+});
+
 module.exports = app;

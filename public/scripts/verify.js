@@ -2,6 +2,7 @@
  * Created by joe on 15-8-3.
  */
 //这里存放get/post请求
+var saveInformation = null; //存储当前用户 在ecm_order_goods表中的相关信息
 /**
  * 登录验证
  */
@@ -36,7 +37,9 @@ function showOrderBooks(name) {
         if (typeof text == 'string') {
             $('#pBeforeBooks').html(text);
         } else {
+            saveInformation = text;
             $('#pBeforeBooks').html('购买的数目如下：');
+            var j = 0;
             for (var i in text) {
                 var newDiv = $('<div>');
                 var cutGoodName = text[i].goods_name;  //为了防止书名太长
@@ -45,6 +48,35 @@ function showOrderBooks(name) {
                 }
                 $('<span>').html(cutGoodName).appendTo(newDiv);
                 newDiv.addClass('ribbon ribbon-orange');
+                newDiv.on('click', function (i) {
+                    return function () {//闭包
+                        var infor = text[i];
+                        var str = '';
+                        switch (infor.fac) {
+                            case '按次数':
+                                str += '可看次数：' + infor.fcs + ';还可以看' + infor.fcs - infor.fview + '次';
+                                break;
+                            case '按时间':
+                                str += '可看天数：' + infor.fcs;
+                                break;
+                            case '无限制':
+                                str += '这本书可以任何阅读限制！';
+                                break;
+                            default :
+                                str += '该书数据库信息缺失（可能为测试数据）';
+                        }
+                        //返回文件地址
+                        $.post("/verify/queryFile", {'goods_id': infor.goods_id}, function (text, status) {
+                            str += '\n' + '文件地址：';
+                            for (var x in text) {
+                                if (text[x].file_path) {
+                                    str += '\n' + text[x].file_path;
+                                }
+                            }
+                            alert(str);
+                        })
+                    }
+                }(i));
                 newDiv.appendTo($('#books'));
             }
             $('#books').addClass('ribbons');
@@ -55,7 +87,7 @@ function showOrderBooks(name) {
 /**
  * 用于跳转到已登录效果
  */
-function changeInformation(name){
+function changeInformation(name) {
     $('#information').html('welcome');
     $('#user_name').addClass('hide');
     $('#password').addClass('hide');
@@ -86,5 +118,5 @@ $('#logout').on('click', function () {
 
 })
 $('#mall').on('click', function () {
-    window.open('http://192.168.69.17:8080/mall','_self');
+    window.open('http://192.168.69.17:8080/mall', '_self');
 })
