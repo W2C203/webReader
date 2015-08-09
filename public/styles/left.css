@@ -181,6 +181,7 @@ FOOTER
     position: relative;
     bottom: -1px;
 }
+
 .login-form .footer .logout {
     margin: auto 0 5px auto;
 }
@@ -188,6 +189,7 @@ FOOTER
 .login-form-input {
     background-color: #ecc38d;
 }
+
 .user_name {
     font-family: 'Bree Serif', serif;
     font-weight: 500;
@@ -245,6 +247,7 @@ FOOTER
 }
 
 .ribbon span {
+    cursor: pointer;
     display: block;
     height: 50px;
     line-height: 38px;

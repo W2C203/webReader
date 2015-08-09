@@ -10,7 +10,7 @@ var $sql = {               //数据库的操作
     queryByNamePassword: 'select * from ecm_member where user_name=? and password=? ',
     queryOrderByUserName: 'select order_id from ecm_order where buyer_name = ?',
     queryGoodsByUserName: ' select * from ecm_order_goods  inner join ecm_order\
-    on ecm_order_goods.order_id=ecm_order.order_id and  ecm_order.buyer_name=? group by goods_name',
+    on ecm_order_goods.order_id=ecm_order.order_id and  ecm_order.buyer_name=? ',
     queryFilePath: ' select file_path from ecm_uploaded_file where item_id = ? and finstance = "desc_file"'
 }
 // 使用连接池，提升性能
