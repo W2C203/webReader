@@ -5,32 +5,16 @@
 window.onload = function () {
     var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
-    // 每次渲染的页数
-    var CHUNK = 10;
-    // 当前已加载的页
-    //for 滚动 begin
-    var wholeHeight = 0;
-    //表示加载的页总高度
-    var tempHeight = 0;
-    //表示新加载的页总高度 即每个CHUNK页的总高度
-    var sentry = 0;
-    var sentry2 = 0;
-    //哨兵变量 为了避免异步造成  tempHeight计算错误
-    var myTime = null;
-    var myCanvas = null;
-    //定时器 监督哨兵变量
-    var flashHeight = 10000;
-    //表示需要再取页面的高度 为了避免开始未更新这个值 先设大一些
-    var FLASHPAGE = 7;
-    //表示每到这个页数刷新一次
+    var CHUNK = 3;
     var finished = 0;
-    //for 滚动 end
     var pageLoaded = 1;
 
+    //change23
+    var currPage = 1;
+    var aveHeight = 0;
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
         pageNumPending = null,
-    //      scale          = 1.85,// pdf视窗比例
         viewer = document.getElementById('viewer-container');
 
     function viewerWidth(viewer) {
@@ -52,11 +36,11 @@ window.onload = function () {
             var canvas = document.getElementById('page' + num);
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
-            tempHeight += viewport.height;    //把高度存起来
-            sentry++;
-            sentry2++;              //哨兵变量加1
+//            tempHeight += viewport.height;    //把高度存起来
+//            sentry++;
+//            sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
-
+            aveHeight = canvas;
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
                 canvasContext: ctx,
@@ -77,64 +61,7 @@ window.onload = function () {
         });
     }
 
-//    /**
-//     * 如果进程中有其他的页面在进行渲染，则等待渲染完成，否则立即渲染当前页面
-//     */
-//    function queueRenderPage(num) {
-//        if (pageRendering) {
-//            pageNumPending = num;
-//        } else {
-//            renderPage(num);
-//        }
-//    }
-//
-//    /**
-//     * 上一页
-//     */
-//    function onPrevPage() {
-//        if (pageNum <= 1) {
-//            return;
-//        }
-//        pageNum--;
-////        queueRenderPage(pageNum);
-//    }
-//
 
-//
-//    /**
-//     * 下一页
-//     */
-//    function onNextPage() {
-//        if (pageNum >= pdfDoc.numPages) {
-//            return;
-//        }
-//        pageNum++;
-////        queueRenderPage(pageNum);
-//    }
-//
-    document.getElementById('prev').addEventListener('click', function () {
-        if (document.body.scrollTop >= 300) {
-            document.body.scrollTop -= 300;
-        }
-    });
-    document.getElementById('next').addEventListener('click', function () {
-        if (document.body.scrollTop < pdfDoc.numPages * $("#viewer-container #page1").height() - 300) {
-            document.body.scrollTop += 300;
-        }
-    });
-
-    /**
-     * 显示目录
-     */
-    function displayOutline() {
-        pdfDoc.getOutline().then(function (outline) {
-//            var tableOfContent = outline[0].items;
-//            console.log(tableOfContent)
-            console.log(outline);
-        });
-    }
-
-    document.getElementById('menuBtn').addEventListener('click', displayOutline);
 
     /**
      * 执行入口在此
@@ -144,8 +71,8 @@ window.onload = function () {
         pdfDoc = pdfDoc_;
         console.log(pdfDoc);
         //for 滚动 begin
-        myTime = setInterval(updateFlashHeight, 100);
-        myCanvas = setInterval(makeCanvas, 100);
+//        myTime = setInterval(updateFlashHeight, 100);
+//        myCanvas = setInterval(makeCanvas, 100);
         //for 滚动 end
         (function () {
             for (; pageLoaded < CHUNK + 1; ++pageLoaded) {
@@ -159,6 +86,7 @@ window.onload = function () {
 
     /**
      * 进度条监听滚动事件
+     * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
      */
     window.onscroll = function () {
         var canvasHeight = $("#viewer-container #page1").height();
@@ -188,8 +116,8 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("href", "#page" + req.catelog[i].pageNum)
-//                .attr("onclick","renderPage("+req.catelog[i].pageNum+")")
+            $a.attr("page",req.catelog[i].pageNum)
+                .attr("href", "#")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
@@ -199,8 +127,8 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("href", "#page" + req.catelog[i].subItems[j].pageNum)
-//                    .attr("onclick","renderPage("+req.catelog[i].subItems[j].pageNum+")")
+                $aj.attr("page",req.catelog[i].subItems[j].pageNum)
+                    .attr("href", "#")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
@@ -213,66 +141,32 @@ window.onload = function () {
 //        console.log(req.catelog.length);
     });
 
-    //滚动监听
-    window.addEventListener('scroll', function () {
-        var count = checkScrollSlide();//记录需要更新多少次10页
-//    console.log(count);
-        while (count--) {
-            if (finished) {
-                console.log('后面已经没了。');
-                return;
-            }
-            console.log('加10页。');
-            myTime = setInterval(updateFlashHeight, 100);
-            for (var i = 1; i < CHUNK + 1; ++i, pageLoaded++) {//i只是循环 pageLoaded才是页码
-                if (pageLoaded > pdfDoc.numPages) { //加载完了
-                    finished = 1;
-                    return;
-                }
-                //                var canvas = document.createElement('canvas');
-                //                canvas.setAttribute('id', 'page' + pageLoaded);
-                //                viewer.appendChild(canvas);
-                renderPage(pageLoaded);
-            }
+
+    $("#menuList").on('click', 'ul>li a', function () {
+        var newPage = $(this).attr('page');
+        var $newCanvas;
+        if(newPage>1&&newPage<pdfDoc.numPages) {
+            $("#viewer-container :eq(0)").attr("id","page"+(Number(newPage)-1));
+            $("#viewer-container :eq(1)").attr("id","page"+(Number(newPage)));
+            $("#viewer-container :eq(2)").attr("id","page"+(Number(newPage)+1));
+            renderPage(Number(newPage)-1);
+            renderPage(Number(newPage));
+            renderPage(Number(newPage)+1);
         }
+        currPage = Number(newPage);
+        console.log("page on: "+currPage);
+        console.log($("#viewer-container :eq(0)").attr("id"));
+        $(this).attr("href","#page"+currPage);
     });
 
-    function checkScrollSlide() {
-        var scrollTop = document.body.scrollTop;       //滚动高度
-        var count = 0;
-//        console.log('滚动高度：' + scrollTop)
-//        console.log('超过这个高度刷新：', flashHeight)
-        while (flashHeight <= scrollTop) {
-            flashHeight += $("#viewer-container #page1").height() * CHUNK;//刷新一次增加10页的高度
-            count++;//记录需要刷新次数
+    //监听两个翻页按钮
+    document.getElementById('prev').addEventListener('click', function () {
+        if (document.body.scrollTop >= 300) {
+            document.body.scrollTop -= 300;
         }
-        return count;
-    }
-
-    function makeCanvas() {
-        if (sentry2 == CHUNK) {
-            for (var i = CHUNK + 1; i <= pdfDoc.numPages; i++) {
-                var canvas = document.createElement('canvas');
-                canvas.setAttribute('id', 'page' + i);
-                canvas.height = $("#viewer-container #page1").height();
-                canvas.width = $("#viewer-container #page1").width();
-                viewer.appendChild(canvas);
-            }
-            clearInterval(myCanvas);
-        }
-    }
-
-    function updateFlashHeight() {
-        if (sentry == CHUNK) {//当哨兵变量到CHUNK 那么表示flashHeight可以计算了
-            flashHeight = wholeHeight;
-            flashHeight += tempHeight * FLASHPAGE / CHUNK;
-            wholeHeight += tempHeight;   //把当前加载的 加到全部加载高度
-            tempHeight = 0;
-            sentry = 0; //哨兵归零
-            clearInterval(myTime);
-        }
-        //这里应该是类似一个promise then/done 但是用不了promise不知道为啥
-    }
-
+    });
+    document.getElementById('next').addEventListener('click', function () {
+        document.body.scrollTop += 300;
+    });
 };
 
