@@ -11,7 +11,7 @@ window.onload = function () {
 
     //change23
     var currPage = 1;
-    var aveHeight = 0;
+    var averHeight = 0;
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
         pageNumPending = null,
@@ -36,11 +36,8 @@ window.onload = function () {
             var canvas = document.getElementById('page' + num);
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
-//            tempHeight += viewport.height;    //把高度存起来
-//            sentry++;
-//            sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
-            aveHeight = canvas;
+            averHeight = canvas.height;
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
                 canvasContext: ctx,
@@ -60,7 +57,6 @@ window.onload = function () {
             });
         });
     }
-
 
 
     /**
@@ -89,7 +85,7 @@ window.onload = function () {
      * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
      */
     window.onscroll = function () {
-        var canvasHeight = $("#viewer-container #page1").height();
+        var canvasHeight = averHeight;
 //        console.log(canvasHeight/100);
         var scrollTop = $(window).scrollTop();
         var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
@@ -116,7 +112,7 @@ window.onload = function () {
             var $a = $("<a>");
             var $ul = $("<ul>");
             var $li = $("<li>");
-            $a.attr("page",req.catelog[i].pageNum)
+            $a.attr("page", req.catelog[i].pageNum)
                 .attr("href", "#")
                 .attr("target", "_self")
                 .text("第" + (i + 1) + "章 " + req.catelog[i].title);
@@ -127,7 +123,7 @@ window.onload = function () {
             for (var j = 0; j < req.catelog[i].subItems.length; j++) {
                 var $lij = $("<li>");
                 var $aj = $("<a>");
-                $aj.attr("page",req.catelog[i].subItems[j].pageNum)
+                $aj.attr("page", req.catelog[i].subItems[j].pageNum)
                     .attr("href", "#")
                     .attr("target", "_self")
                     .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
@@ -145,18 +141,19 @@ window.onload = function () {
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
         var $newCanvas;
-        if(newPage>1&&newPage<pdfDoc.numPages) {
-            $("#viewer-container :eq(0)").attr("id","page"+(Number(newPage)-1));
-            $("#viewer-container :eq(1)").attr("id","page"+(Number(newPage)));
-            $("#viewer-container :eq(2)").attr("id","page"+(Number(newPage)+1));
-            renderPage(Number(newPage)-1);
+        if (newPage > 1 && newPage < pdfDoc.numPages) {
+            $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage) - 1));
+            $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage)));
+            $("#viewer-container :eq(2)").attr("id", "page" + (Number(newPage) + 1));
+            renderPage(Number(newPage) - 1);
             renderPage(Number(newPage));
-            renderPage(Number(newPage)+1);
+            renderPage(Number(newPage) + 1);
         }
         currPage = Number(newPage);
-        console.log("page on: "+currPage);
+        console.log("page on: " + currPage);
         console.log($("#viewer-container :eq(0)").attr("id"));
-        $(this).attr("href","#page"+currPage);
+        $(this).attr("href", "#page" + currPage);
+        pageLoaded = currPage + 2;
     });
 
     //监听两个翻页按钮
@@ -168,5 +165,57 @@ window.onload = function () {
     document.getElementById('next').addEventListener('click', function () {
         document.body.scrollTop += 300;
     });
-};
 
+    //滚动监听
+    window.addEventListener('scroll', function () {
+        console.log('canbe')
+        if (checkScrollDown()) {//滚动条向下的情况
+            if (finished) {
+                console.log('后面已经没了。');
+                return;
+            }
+            if (pageLoaded > pdfDoc.numPages) { //加载完了
+                finished = 1;
+                return;
+            }
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute('id', 'page' + pageLoaded);
+            viewer.appendChild(canvas);
+            renderPage(pageLoaded++);
+
+            viewer.firstChild.remove();
+            document.body.scrollTop -= averHeight;//删完记得让页面滚回去1页
+            //alert('down 等待渲染'+ pageLoaded)
+            return;// 提高健壮性 有向下 就不向上
+        }
+        if (checkScrollUp()) {//滚动条向上的情况
+            if (pageLoaded <= CHUNK + 1) { //开始的情况不会补页
+                return;
+            }
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute('id', 'page' + (pageLoaded - CHUNK - 1)); //注意ID的分配
+            viewer.insertBefore(canvas, viewer.childNodes[0]);
+            renderPage(pageLoaded-- - CHUNK - 1);
+
+            viewer.lastChild.remove();
+            document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
+            //alert('up 等待渲染'+ pageLoaded)
+        }
+    });
+
+    function checkScrollDown() {
+        var scrollTop = document.body.scrollTop;       //滚动高度
+        if (scrollTop > averHeight * 1.8) {
+            return true;
+        }
+    }
+
+    function checkScrollUp() {
+        var scrollTop = document.body.scrollTop;       //滚动高度
+        if (scrollTop < averHeight * 0.8) {
+            return true;
+        }
+    }
+
+
+};
