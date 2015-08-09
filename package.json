@@ -1,0 +1,25 @@
+{
+    "name": "webreader",
+    "version": "0.0.1",
+    "description": "web阅读器",
+    "main": "app.js",
+    "dependencies": {
+        "express": "^4.13.2",
+        "jade": "^1.11.0",
+        "mysql": "latest"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/W2C203/webReader.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/W2C203/webReader/issues"
+    },
+    "homepage": "https://github.com/W2C203/webReader#readme"
+}

@@ -12,11 +12,13 @@ web阅读器
  - Angular
  - BootStrap
  - jQuery
+ - PDF.js
 
 ### Back-End
 
- - Node 
+ - Node.js
  - Express
+ - pdftk
 
 ### Workflow
 
@@ -25,3 +27,9 @@ web阅读器
 ### VSC
 
  - Git
+
+---
+
+###version0.0.1
+
+实现pdf文件的分页读取，文件目录检索，用户登录验证，原型界面

@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+*~
+.DS_Store
+.name
+encodings.xml
+jsLibraryMappings.xml
+.idea/
