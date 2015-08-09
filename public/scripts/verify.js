@@ -54,7 +54,13 @@ function showOrderBooks(name) {
                         var str = '';
                         switch (infor.fac) {
                             case '按次数':
-                                str += '可看次数：' + infor.fcs + ';还可以看' + infor.fcs - infor.fview + '次';
+                                str += '可看总次数：' + infor.fcs + ';';
+                                if (infor.fcs == infor.fview) {
+                                    str += '您的使用次数已耗尽，请重新购买！';
+                                } else {
+                                    str += '当前还可以看' + (infor.fcs - infor.fview++) + '次';
+                                    //infor.fview = infor.fview -1 ;
+                                }
                                 break;
                             case '按时间':
                                 str += '可看天数：' + infor.fcs;
