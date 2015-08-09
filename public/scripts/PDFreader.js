@@ -36,11 +36,8 @@ window.onload = function () {
             var canvas = document.getElementById('page' + num);
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
-//            tempHeight += viewport.height;    //把高度存起来
-//            sentry++;
-//            sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
-            averHeight = canvas;
+            averHeight = canvas.height;
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
                 canvasContext: ctx,
@@ -88,7 +85,7 @@ window.onload = function () {
      * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
      */
     window.onscroll = function () {
-        var canvasHeight = $("#viewer-container #page1").height();
+        var canvasHeight = averHeight;
 //        console.log(canvasHeight/100);
         var scrollTop = $(window).scrollTop();
         var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
@@ -156,6 +153,7 @@ window.onload = function () {
         console.log("page on: " + currPage);
         console.log($("#viewer-container :eq(0)").attr("id"));
         $(this).attr("href", "#page" + currPage);
+        pageLoaded = currPage + 2;
     });
 
     //监听两个翻页按钮
@@ -170,6 +168,7 @@ window.onload = function () {
 
     //滚动监听
     window.addEventListener('scroll', function () {
+        console.log('canbe')
         if (checkScrollDown()) {//滚动条向下的情况
             if (finished) {
                 console.log('后面已经没了。');
