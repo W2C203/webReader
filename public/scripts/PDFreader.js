@@ -6,7 +6,7 @@ window.onload = function () {
     var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     // 每次渲染的页数
-    var CHUNK = 10;
+    var CHUNK = 3;
     // 当前已加载的页
     //for 滚动 begin
     var wholeHeight = 0;
@@ -27,6 +27,9 @@ window.onload = function () {
     //for 滚动 end
     var pageLoaded = 1;
 
+    //change23
+    var currPage =1;
+    var averHeight = 0;//每一页高度
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
         pageNumPending = null,
@@ -53,6 +56,7 @@ window.onload = function () {
             var ctx = canvas.getContext('2d');
             canvas.height = viewport.height;
             tempHeight += viewport.height;    //把高度存起来
+            averHeight = canvas.height;
             sentry++;
             sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
