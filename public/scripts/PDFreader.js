@@ -240,8 +240,8 @@ window.onload = function () {
     function checkScrollSlide() {
         var scrollTop = document.body.scrollTop;       //滚动高度
         var count = 0;
-        console.log('滚动高度：' + scrollTop)
-        console.log('超过这个高度刷新：', flashHeight)
+//        console.log('滚动高度：' + scrollTop)
+//        console.log('超过这个高度刷新：', flashHeight)
         while (flashHeight <= scrollTop) {
             flashHeight += $("#viewer-container #page1").height() * CHUNK;//刷新一次增加10页的高度
             count++;//记录需要刷新次数
