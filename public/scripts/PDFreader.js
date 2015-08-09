@@ -206,7 +206,9 @@ window.onload = function () {
 
   //滚动监听
   window.addEventListener('scroll', function () {
-    if (checkScrollSlide()) {
+    var count = checkScrollSlide();//记录需要更新多少次10页
+//    console.log(count);
+    while (count--) {
       if (finished) {
         console.log('后面已经没了。');
         return;
@@ -218,20 +220,25 @@ window.onload = function () {
           finished = 1;
           return;
         }
-//                var canvas = document.createElement('canvas');
-//                canvas.setAttribute('id', 'page' + pageLoaded);
-//                viewer.appendChild(canvas);
+    //                var canvas = document.createElement('canvas');
+    //                canvas.setAttribute('id', 'page' + pageLoaded);
+    //                viewer.appendChild(canvas);
         renderPage(pageLoaded);
       }
     }
   });
 
-  function checkScrollSlide() {
-    var scrollTop = document.body.scrollTop;       //滚动高度
-    console.log('滚动高度：' + scrollTop)
-    console.log('超过这个高度刷新：', flashHeight)
-    return (flashHeight <= scrollTop) ? true : false;
-  }
+    function checkScrollSlide() {
+        var scrollTop = document.body.scrollTop;       //滚动高度
+        var count = 0;
+        console.log('滚动高度：' + scrollTop)
+        console.log('超过这个高度刷新：', flashHeight)
+        while (flashHeight <= scrollTop) {
+            flashHeight += $("#viewer-container #page1").height()*CHUNK;//刷新一次增加10页的高度
+            count++;//记录需要刷新次数
+        }
+        return count;
+    }
 
   function makeCanvas() {
     if (sentry2 == CHUNK) {
