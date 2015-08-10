@@ -6,7 +6,6 @@ window.onload = function () {
     var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     var CHUNK = 3;
-    var pageLoaded = 1;
 
     //change23
     var currPage = 2;
@@ -70,11 +69,11 @@ window.onload = function () {
 //        myCanvas = setInterval(makeCanvas, 100);
         //for 滚动 end
         (function () {
-            for (; pageLoaded < CHUNK + 1; ++pageLoaded) {
+            for (var i = 1; i < CHUNK + 1; ++i) {
                 var canvas = document.createElement('canvas');
-                canvas.setAttribute('id', 'page' + pageLoaded);
+                canvas.setAttribute('id', 'page' + i);
                 viewer.appendChild(canvas);
-                renderPage(pageLoaded);
+                renderPage(i);
             }
         })();
     });
@@ -141,7 +140,7 @@ window.onload = function () {
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
         var $newCanvas;
-        if(newPage == 1) {
+        if (newPage == 1) {
             $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage)));
             $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage) + 1));
             $("#viewer-container :eq(2)").attr("id", "page" + (Number(newPage) + 2));
@@ -164,13 +163,11 @@ window.onload = function () {
             renderPage(Number(newPage));
         }
         currPage = Number(newPage);
-        console.log('now:'+currPage);
+        console.log('now:' + currPage);
         console.log("page on: " + currPage);
 //        console.log($("#viewer-container :eq(0)").attr("id"));
         $(this).attr("href", "#page" + currPage);
-        pageLoaded = currPage + 2;
-        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
+        changePro(currPage);
     });
 
     //监听两个翻页按钮
@@ -185,39 +182,42 @@ window.onload = function () {
 
     //滚动监听
     window.addEventListener('scroll', function () {
+        if (checkLast()) {  //到最后的情况 currpage直接加1
+            changePro(pdfDoc.numPages);
+            console.log(currPage)
+        }
+
         if (checkScrollDown()) {//滚动条向下的情况
-            if (pageLoaded > pdfDoc.numPages) { //加载完了
+            if (currPage >= pdfDoc.numPages - 1) { //加载完了
                 return;
             }
             var canvas = document.createElement('canvas');
-            canvas.setAttribute('id', 'page' + pageLoaded);
+            canvas.setAttribute('id', 'page' + (Number(currPage) + 2));
             viewer.appendChild(canvas);
-            renderPage(pageLoaded++);
+            renderPage(Number(currPage) + 2);
             currPage++;
-            console.log('now:'+currPage)
+            changePro(currPage);
+            console.log('now:' + currPage)
 
             viewer.firstChild.remove();
             document.body.scrollTop -= averHeight;//删完记得让页面滚回去1页
-            //alert('down 等待渲染'+ pageLoaded)
             return;// 提高健壮性 有向下 就不向上
         }
         if (checkScrollUp()) {//滚动条向上的情况
-            if (pageLoaded <= CHUNK + 1) { //开始的情况不会补页
+            if (currPage < CHUNK) { //开始的情况不会补页
                 return;
             }
             var canvas = document.createElement('canvas');
-            canvas.setAttribute('id', 'page' + (pageLoaded - CHUNK - 1)); //注意ID的分配
+            canvas.setAttribute('id', 'page' + (Number(currPage) - 2)); //注意ID的分配
             viewer.insertBefore(canvas, viewer.childNodes[0]);
-            renderPage(pageLoaded-- - CHUNK - 1);
+            renderPage(Number(currPage) - 2);
             currPage--;
-            console.log('now:'+currPage)
+            changePro(currPage);
+            console.log('now:' + currPage)
 
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
-            //alert('up 等待渲染'+ pageLoaded)
         }
-        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     function checkScrollDown() {
@@ -232,6 +232,15 @@ window.onload = function () {
         if (scrollTop < averHeight * 0.8) {
             return true;
         }
+    }
+
+    function checkLast() {
+        return document.body.scrollTop > averHeight * 2;
+    }
+
+    function changePro(currPage) {
+        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     }
 
 
