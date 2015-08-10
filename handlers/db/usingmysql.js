@@ -57,7 +57,7 @@ module.exports = {
         })
     },
     queryFile: function (data, res, next) {
-        var goods_id = data.toString().split('=')[1];
+        var goods_id = data.toString();
         pool.getConnection(function (err, connection) {
             connection.query($sql.queryFilePath, goods_id, function (err, result) {
                 if (result.length == 0) {

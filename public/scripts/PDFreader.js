@@ -6,7 +6,6 @@ window.onload = function () {
     var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     var CHUNK = 3;
-    var finished = 0;
     var pageLoaded = 1;
 
     //change23
@@ -187,12 +186,7 @@ window.onload = function () {
     //滚动监听
     window.addEventListener('scroll', function () {
         if (checkScrollDown()) {//滚动条向下的情况
-            if (finished) {
-                console.log('后面已经没了。');
-                return;
-            }
             if (pageLoaded > pdfDoc.numPages) { //加载完了
-                finished = 1;
                 return;
             }
             var canvas = document.createElement('canvas');

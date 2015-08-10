@@ -74,7 +74,7 @@
                                     str += '该书数据库信息缺失（可能为测试数据）';
                             }
                             //返回文件地址
-                            $.post("/verify/queryFile", {'goods_id': infor.goods_id}, function (text, status) {
+                            $.post("/verify/queryFile", '' + infor.goods_id, function (text, status) {
                                 str += '\n' + '文件地址：';
                                 for (var x in text) {
                                     if (text[x].file_path) {
