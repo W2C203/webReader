@@ -173,12 +173,18 @@ window.onload = function () {
 
     //监听两个翻页按钮
     document.getElementById('prev').addEventListener('click', function () {
-        if (document.body.scrollTop >= 300) {
-            document.body.scrollTop -= 300;
-        }
+        var nowID = $("#page"+currPage).attr("id");
+        if(nowID) {
+            nowID = +nowID.substr(4);
+            location.href = "#page"+(nowID-1);
+        } //不用else是因为滚动的时候会自动渲染,所以只要是翻页就一定能找到ID
     });
     document.getElementById('next').addEventListener('click', function () {
-        document.body.scrollTop += 300;
+        var nowID = $("#page"+currPage).attr("id");
+        if(nowID) {
+            nowID = +nowID.substr(4);
+            location.href = "#page"+(nowID+1);
+        } //不用else理由同上翻页
     });
 
     //滚动监听
@@ -192,6 +198,7 @@ window.onload = function () {
             if (currPage >= pdfDoc.numPages - 1) { //加载完了
                 break;
             }
+            //alert('down')
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', 'page' + (Number(currPage) + 2));
             viewer.appendChild(canvas);
@@ -200,13 +207,14 @@ window.onload = function () {
             console.log('now:' + currPage)
 
             viewer.firstChild.remove();
-            document.body.scrollTop -= averHeight;//删完记得让页面滚回去1页
+            document.body.scrollTop = averHeight;//删完记得让页面滚回去1页
             return;// 提高健壮性 有向下 就不向上
         }
         if (checkScrollUp()) {//滚动条向上的情况
             if (currPage < CHUNK) { //开始的情况不会补页
                 return;
             }
+            //alert('up')
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', 'page' + (Number(currPage) - 2)); //注意ID的分配
             viewer.insertBefore(canvas, viewer.childNodes[0]);
