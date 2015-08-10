@@ -20,7 +20,6 @@ app.post('/queryBuy', function (req, res, next) {
 });
 
 app.post('/queryFile', function (req, res, next) {
-    console.log(req.body)
     req.on('data', function (data) {
         usingmysql.queryFile(data, res, next);
     })
