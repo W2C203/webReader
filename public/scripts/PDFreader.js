@@ -11,7 +11,7 @@ window.onload = function () {
 
     //change23
     var currPage = 1;
-    var aveHeight = 0;
+    var averHeight = 0;
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
         pageNumPending = null,
@@ -40,7 +40,7 @@ window.onload = function () {
 //            sentry++;
 //            sentry2++;              //哨兵变量加1
             canvas.width = viewport.width;
-            aveHeight = canvas;
+            averHeight = canvas;
             // 把当前页渲染进canvas上下文环境
             var renderContext = {
                 canvasContext: ctx,
@@ -89,7 +89,7 @@ window.onload = function () {
      * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
      */
     window.onscroll = function () {
-        var canvasHeight = $("#viewer-container #page1").height();
+        var canvasHeight = averHeight;
 //        console.log(canvasHeight/100);
         var scrollTop = $(window).scrollTop();
         var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
