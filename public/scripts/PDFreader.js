@@ -10,7 +10,7 @@ window.onload = function () {
     var pageLoaded = 1;
 
     //change23
-    var currPage = 1;
+    var currPage = 2;
     var averHeight = 0;
     var pdfDoc = null,// pdf文档，未加载时为null对象
         pageRendering = false,
@@ -84,14 +84,15 @@ window.onload = function () {
      * 进度条监听滚动事件
      * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
      */
-    window.onscroll = function () {
-        var canvasHeight = averHeight;
-//        console.log(canvasHeight/100);
-        var scrollTop = $(window).scrollTop();
-        var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
-//        console.log(scrollTop);
-        $("#pro").attr("aria-valuenow", num / 100).attr("style", "width:" + (num / 100) + "%")
-    };
+//    window.onscroll = function () {
+////        var canvasHeight = averHeight;
+////        console.log(canvasHeight/100);
+////        var scrollTop = $(window).scrollTop();
+////        var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
+////        console.log(scrollTop);
+//        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+//        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
+//    };
 
     /**
      * 目录请求读取
@@ -141,19 +142,36 @@ window.onload = function () {
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
         var $newCanvas;
-        if (newPage > 1 && newPage < pdfDoc.numPages) {
+        if(newPage == 1) {
+            $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage)));
+            $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage) + 1));
+            $("#viewer-container :eq(2)").attr("id", "page" + (Number(newPage) + 2));
+            renderPage(Number(newPage));
+            renderPage(Number(newPage) + 1);
+            renderPage(Number(newPage) + 2);
+        } else if (newPage > 1 && newPage < pdfDoc.numPages) {
             $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage) - 1));
             $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage)));
             $("#viewer-container :eq(2)").attr("id", "page" + (Number(newPage) + 1));
             renderPage(Number(newPage) - 1);
             renderPage(Number(newPage));
             renderPage(Number(newPage) + 1);
+        } else if (newPage == pdfDoc.numPages) {
+            $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage) - 2));
+            $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage) - 1));
+            $("#viewer-container :eq(2)").attr("id", "page" + (Number(newPage)));
+            renderPage(Number(newPage) - 2);
+            renderPage(Number(newPage) - 1);
+            renderPage(Number(newPage));
         }
         currPage = Number(newPage);
+        console.log('now:'+currPage);
         console.log("page on: " + currPage);
-        console.log($("#viewer-container :eq(0)").attr("id"));
+//        console.log($("#viewer-container :eq(0)").attr("id"));
         $(this).attr("href", "#page" + currPage);
         pageLoaded = currPage + 2;
+        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     //监听两个翻页按钮
@@ -168,7 +186,6 @@ window.onload = function () {
 
     //滚动监听
     window.addEventListener('scroll', function () {
-        console.log('canbe')
         if (checkScrollDown()) {//滚动条向下的情况
             if (finished) {
                 console.log('后面已经没了。');
@@ -182,6 +199,8 @@ window.onload = function () {
             canvas.setAttribute('id', 'page' + pageLoaded);
             viewer.appendChild(canvas);
             renderPage(pageLoaded++);
+            currPage++;
+            console.log('now:'+currPage)
 
             viewer.firstChild.remove();
             document.body.scrollTop -= averHeight;//删完记得让页面滚回去1页
@@ -196,11 +215,15 @@ window.onload = function () {
             canvas.setAttribute('id', 'page' + (pageLoaded - CHUNK - 1)); //注意ID的分配
             viewer.insertBefore(canvas, viewer.childNodes[0]);
             renderPage(pageLoaded-- - CHUNK - 1);
+            currPage--;
+            console.log('now:'+currPage)
 
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
             //alert('up 等待渲染'+ pageLoaded)
         }
+        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     function checkScrollDown() {
