@@ -243,7 +243,7 @@ window.onload = function () {
     }
 
     function checkLast() {
-        return document.body.scrollTop > averHeight * 2;
+        return document.body.scrollTop > averHeight * 2.5;
     }
 
     function changePro(currPage) {
