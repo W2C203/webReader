@@ -167,7 +167,8 @@ window.onload = function () {
         console.log("page on: " + currPage);
 //        console.log($("#viewer-container :eq(0)").attr("id"));
         $(this).attr("href", "#page" + currPage);
-        changePro(currPage);
+        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     //监听两个翻页按钮
@@ -182,21 +183,20 @@ window.onload = function () {
 
     //滚动监听
     window.addEventListener('scroll', function () {
-        if (checkLast()) {  //到最后的情况 currpage直接加1
-            changePro(pdfDoc.numPages);
+        if(checkLast()){  //到最后的情况 currpage直接加1
+            currPage = pdfDoc.numPages;
             console.log(currPage)
         }
 
         if (checkScrollDown()) {//滚动条向下的情况
             if (currPage >= pdfDoc.numPages - 1) { //加载完了
-                return;
+                break;
             }
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', 'page' + (Number(currPage) + 2));
             viewer.appendChild(canvas);
             renderPage(Number(currPage) + 2);
             currPage++;
-            changePro(currPage);
             console.log('now:' + currPage)
 
             viewer.firstChild.remove();
@@ -212,12 +212,13 @@ window.onload = function () {
             viewer.insertBefore(canvas, viewer.childNodes[0]);
             renderPage(Number(currPage) - 2);
             currPage--;
-            changePro(currPage);
             console.log('now:' + currPage)
 
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
         }
+        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
+        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     function checkScrollDown() {
@@ -236,11 +237,6 @@ window.onload = function () {
 
     function checkLast() {
         return document.body.scrollTop > averHeight * 2;
-    }
-
-    function changePro(currPage) {
-        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     }
 
 
