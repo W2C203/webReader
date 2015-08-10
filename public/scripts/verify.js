@@ -45,8 +45,8 @@
                 for (var i in text) {
                     var newDiv = $('<div>');
                     var cutGoodName = text[i].goods_name;  //为了防止书名太长
-                    if (cutGoodName.length > 9) {
-                        cutGoodName = cutGoodName.substring(0, 9) + '..';
+                    if (cutGoodName.length > 11) {
+                        cutGoodName = subStrForChinese(cutGoodName, 11) +'..'
                     }
                     $('<span>').html(cutGoodName).appendTo(newDiv);
                     newDiv.addClass('ribbon ribbon-orange');
@@ -140,4 +140,33 @@
         var name = alreadyLogin.split('=')[1];
         changeInformation(name);
         showOrderBooks(name);
+    }
+
+    /**
+     * 截取一个含有中文的字符串
+     * @param str 字符串
+     * @param len 截取长度
+     * @returns {string} 返回截取结果
+     */
+    function subStrForChinese(str, len) {
+        if (!str || !len) {
+            return '';
+        }
+        //预期计数：中文2字节，英文1字节
+        var a = 0;      //循环计数
+        var i = 0;      //临时字串
+        var temp = '';
+        for (i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) > 255) {             //按照预期计数增加2
+                a += 2;
+            }
+            else {
+                a++;
+            }         //如果增加计数后长度大于限定长度，就直接返回临时字符串
+            if (a > len) {
+                return temp;
+            }          //将当前内容加到临时字符串
+            temp += str.charAt(i);
+        }     //如果全部是单字节字符，就直接返回源字符串
+        return str;
     }
