@@ -45,8 +45,6 @@ ul{list-style-type: none;}/*去掉前面的点*/
 #main {
     height: 100%;
     padding: 0;
-    min-height: 450px;
-    min-width: 400px;
     left: 16.67%;
     font-size: 22px;
 }

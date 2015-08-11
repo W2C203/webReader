@@ -63,11 +63,7 @@ window.onload = function () {
      */
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
-        console.log(pdfDoc);
-        //for 滚动 begin
-//        myTime = setInterval(updateFlashHeight, 100);
-//        myCanvas = setInterval(makeCanvas, 100);
-        //for 滚动 end
+//        console.log(pdfDoc);
         (function () {
             for (var i = 1; i < CHUNK + 1; ++i) {
                 var canvas = document.createElement('canvas');
@@ -77,20 +73,6 @@ window.onload = function () {
             }
         })();
     });
-
-    /**
-     * 进度条监听滚动事件
-     * (换成3个canvas之前不用管,换成后考虑用当前页码除以总页码计算进度)
-     */
-//    window.onscroll = function () {
-////        var canvasHeight = averHeight;
-////        console.log(canvasHeight/100);
-////        var scrollTop = $(window).scrollTop();
-////        var num = Math.floor(100 * scrollTop / (pdfDoc.numPages * canvasHeight / 100));
-////        console.log(scrollTop);
-//        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-//        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
-//    };
 
     /**
      * 目录请求读取
@@ -132,14 +114,12 @@ window.onload = function () {
             }
             $ul.appendTo($li);
         }
-        console.log(req);
-//        console.log(req.catelog.length);
+//        console.log(req);
     });
 
 
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
-        var $newCanvas;
         if (newPage == 1) {
             $("#viewer-container :eq(0)").attr("id", "page" + (Number(newPage)));
             $("#viewer-container :eq(1)").attr("id", "page" + (Number(newPage) + 1));
@@ -163,9 +143,6 @@ window.onload = function () {
             renderPage(Number(newPage));
         }
         currPage = Number(newPage);
-        console.log('now:' + currPage);
-        console.log("page on: " + currPage);
-//        console.log($("#viewer-container :eq(0)").attr("id"));
         $(this).attr("href", "#page" + currPage);
         changePro(currPage);
     });
@@ -190,22 +167,18 @@ window.onload = function () {
     window.addEventListener('scroll', function () {
         if (checkLast()) {  //到最后的情况 currpage直接加1
             changePro(pdfDoc.numPages);
-            console.log(currPage)
         }
 
         if (checkScrollDown()) {//滚动条向下的情况
             if (currPage >= pdfDoc.numPages - 1) { //加载完了
                 return;
             }
-            //alert('down')
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', 'page' + (Number(currPage) + 2));
             viewer.appendChild(canvas);
             renderPage(Number(currPage) + 2);
             currPage++;
             changePro(currPage);
-            console.log('now:' + currPage)
-
             viewer.firstChild.remove();
             document.body.scrollTop = averHeight;//删完记得让页面滚回去1页
             return;// 提高健壮性 有向下 就不向上
@@ -214,15 +187,12 @@ window.onload = function () {
             if (currPage < CHUNK) { //开始的情况不会补页
                 return;
             }
-            //alert('up')
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', 'page' + (Number(currPage) - 2)); //注意ID的分配
             viewer.insertBefore(canvas, viewer.childNodes[0]);
             renderPage(Number(currPage) - 2);
             currPage--;
             changePro(currPage);
-            console.log('now:' + currPage)
-
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
         }
