@@ -196,7 +196,7 @@ window.onload = function () {
 
         if (checkScrollDown()) {//滚动条向下的情况
             if (currPage >= pdfDoc.numPages - 1) { //加载完了
-                break;
+                return;
             }
             //alert('down')
             var canvas = document.createElement('canvas');
@@ -244,7 +244,7 @@ window.onload = function () {
     }
 
     function checkLast() {
-        return document.body.scrollTop > averHeight * 2;
+        return document.body.scrollTop > averHeight * 2.5;
     }
 
 
