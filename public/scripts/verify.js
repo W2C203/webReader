@@ -56,16 +56,16 @@
                             var str = '';
                             switch (infor.fac) {
                                 case '按次数':
-                                    str += '可看总次数：' + infor.fcs + ';';
-                                    if (infor.fcs == infor.fview) {
+                                    str += '可看总次数：' + infor.fcs * infor.quantity + ';';
+                                    if (infor.fcs * infor.quantity == infor.fview) {
                                         str += '您的使用次数已耗尽，请重新购买！';
                                     } else {
-                                        str += '当前还可以看' + (infor.fcs - infor.fview++) + '次';
+                                        str += '当前还可以看' + (infor.fcs * infor.quantity - infor.fview++) + '次';
                                         //infor.fview = infor.fview -1 ;
                                     }
                                     break;
                                 case '按时间':
-                                    str += '可看天数：' + infor.fcs;
+                                    str += '可看天数：' + infor.fcs * infor.quantity;
                                     break;
                                 case '无限制':
                                     str += '这本书可以任何阅读限制！';
@@ -79,6 +79,7 @@
                                 for (var x in text) {
                                     if (text[x].file_path) {
                                         str += '\n' + text[x].file_path;
+
                                     }
                                 }
                                 alert(str);
