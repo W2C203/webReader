@@ -2,7 +2,7 @@
  *
  * Created by hywilliam on 8/3/15.
  */
-window.onload = function () {
+window.onload = function () {z
     var url = 'weather.pdf';
 //    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
     var CHUNK = 3;

@@ -79,7 +79,7 @@
                                 for (var x in text) {
                                     if (text[x].file_path) {
                                         str += '\n' + text[x].file_path;
-
+                                        showBook(text[x].file_path);
                                     }
                                 }
                                 alert(str);
