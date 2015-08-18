@@ -3,8 +3,8 @@
  * Created by hywilliam on 8/3/15.
  */
 window.onload = function () {
-    var url = 'weather.pdf';
-//    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
+    //var url = 'weather.pdf';
+    var url = 'Ag.pdf';
     var CHUNK = 3;
 
     //change23
@@ -64,6 +64,11 @@ window.onload = function () {
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
 //        console.log(pdfDoc);
+        pdfDoc.getOutline().then(function(test){
+            console.log(test);
+        });
+
+
         (function () {
             for (var i = 1; i < CHUNK + 1; ++i) {
                 var canvas = document.createElement('canvas');
@@ -144,8 +149,7 @@ window.onload = function () {
         }
         currPage = Number(newPage);
         $(this).attr("href", "#page" + currPage);
-        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
+        changePro(currPage);
     });
 
     //监听两个翻页按钮
@@ -197,8 +201,6 @@ window.onload = function () {
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
         }
-        var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
-        $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     });
 
     function checkScrollDown() {
@@ -218,6 +220,7 @@ window.onload = function () {
     function checkLast() {
         return document.body.scrollTop > averHeight * 2.5;
     }
+
     function changePro(currPage) {
         var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
         $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");

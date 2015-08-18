@@ -4,13 +4,20 @@ body {
     margin: 0;
     background: url(../images/bg.png);
 }
-h2{
+
+h2 {
     text-align: center;
 }
-ul{list-style-type: none;}/*去掉前面的点*/
+
+ul {
+    list-style-type: none;
+}
+
+/*去掉前面的点*/
 .container-fluid {
     position: relative;
 }
+
 /*左边覆盖body框*/
 #leftSide {
     background-color: #747474;
@@ -29,7 +36,7 @@ ul{list-style-type: none;}/*去掉前面的点*/
     color: gray;
     position: fixed;
     top: 50%;
-    left: 16%;
+    left: 235px;
 }
 
 /*右边覆盖body框*/
@@ -119,21 +126,24 @@ ul{list-style-type: none;}/*去掉前面的点*/
 }
 
 /*目录布局  begin*/
-#menuList a{
+#menuList a {
     text-decoration: none;
     display: block;
     border-bottom: 1px dotted;
 }
-#menuList ul>li>ul{
+
+#menuList ul > li > ul {
     padding-left: 0;
 }
-#menuList ul>li>ul>li{
+
+#menuList ul > li > ul > li {
     padding-left: 1em;
 }
+
 /*目录布局  end*/
 
 /*正在加载*/
-.loading{
+.loading {
     text-align: center;
     height: 400px;
     width: 100%;
