@@ -11,6 +11,7 @@ window.onload = function () {
     var currPage = 2;
     var averHeight = 0;
     var pdfDoc = null,// pdf文档，未加载时为null对象
+        outline = null,//pdf.js读出来的目录，正版书有，否则为null
         pageRendering = false,
         pageNumPending = null,
         viewer = document.getElementById('viewer-container');
@@ -64,6 +65,11 @@ window.onload = function () {
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
 //        console.log(pdfDoc);
+        pdfDoc.getOutline().then(function (Outline) {
+            outline = Outline == null ? null : Outline[0];
+//            console.log(outline[0]);
+            drawCatalog();
+        });
         (function () {
             for (var i = 1; i < CHUNK + 1; ++i) {
                 var canvas = document.createElement('canvas');
@@ -74,50 +80,116 @@ window.onload = function () {
         })();
     });
 
-    /**
-     * 目录请求读取
-     */
-    $.get('metadata.json', function (req, res) {
-        //req.title书名
-        // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
-        // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
+    function drawCatalog() {
+        if (outline) {
+            var req = makeCatalog(outline);
+            console.log(req);
+        } else {
+            /**
+             * 目录请求读取
+             */
+            $.get('metadata.json', function (req, res) {
+                //req.title书名
+                // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
+                // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
 //        添加书名
-        var $list = $("#menuList");
-        var bookName = req.title;
-        $("<hr>").appendTo($list);
-        $("<h2>").text(bookName).appendTo($list);
-        $("<hr>").appendTo($list);
-        var $cateUL = $("<ul>").appendTo($list);
+                var $list = $("#menuList");
+                var bookName = req.title;
+                $("<hr>").appendTo($list);
+                $("<h2>").text(bookName).appendTo($list);
+                $("<hr>").appendTo($list);
+                var $cateUL = $("<ul>").appendTo($list);
 //        添加目录
-        for (var i = 0; i < req.catelog.length; i++) {
-            var $a = $("<a>");
-            var $ul = $("<ul>");
-            var $li = $("<li>");
-            $a.attr("page", req.catelog[i].pageNum)
-                .attr("href", "#")
-                .attr("target", "_self")
-                .text("第" + (i + 1) + "章 " + req.catelog[i].title);
+                for (var i = 0; i < req.catelog.length; i++) {
+                    var $a = $("<a>");
+                    var $ul = $("<ul>");
+                    var $li = $("<li>");
+                    $a.attr("page", req.catelog[i].pageNum)
+                        .attr("href", "#")
+                        .attr("target", "_self")
+                        .text("第" + (i + 1) + "章 " + req.catelog[i].title);
 
-            $a.appendTo($li);
-            $li.appendTo($cateUL);
-            //再加个ul>li>a层
-            for (var j = 0; j < req.catelog[i].subItems.length; j++) {
-                var $lij = $("<li>");
-                var $aj = $("<a>");
-                $aj.attr("page", req.catelog[i].subItems[j].pageNum)
-                    .attr("href", "#")
-                    .attr("target", "_self")
-                    .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
+                    $a.appendTo($li);
+                    $li.appendTo($cateUL);
+                    //再加个ul>li>a层
+                    for (var j = 0; j < req.catelog[i].subItems.length; j++) {
+                        var $lij = $("<li>");
+                        var $aj = $("<a>");
+                        $aj.attr("page", req.catelog[i].subItems[j].pageNum)
+                            .attr("href", "#")
+                            .attr("target", "_self")
+                            .text("»第" + (j + 1) + "节 " + req.catelog[i].subItems[j].title);
 
-                $aj.appendTo($lij);
-                $lij.appendTo($ul);
-            }
-            $ul.appendTo($li);
+                        $aj.appendTo($lij);
+                        $lij.appendTo($ul);
+                    }
+                    $ul.appendTo($li);
+                }
+                console.log(req);
+            });
         }
-//        console.log(req);
-    });
-
-
+    }
+    function makeCatalog(outline) {
+        var book = {
+            "bookTitle": outline.title,
+            "catelog": []
+        };
+        var items = {
+            "level": 1,
+            "pageNum": null,
+            "subItems": [],
+            "title": null
+        };
+        var subItem = {
+            "level": 2,
+            "pageNum": null,
+            "innerItems": [],
+            "title": null
+        };
+        var innerItem = {
+            "level": 3,
+            "pageNum": null,
+            "lastItems": [],
+            "title": null
+        };
+        var lastItem = {
+            "level": 4,
+            "pageNum": null,
+            "title": null
+        };
+        for (var i = 0; i < outline.items.length; i++) {
+//                console.log(i+": "+ outline.items[i].title);
+            items.title = outline.items[i].title;//作者简介，目录概览层
+//                console.log(i+": "+items.title);
+            for (var j = 0; j < outline.items[i].items.length; j++) {
+                subItem.title = outline.items[i].items[j].title;//第j章名称
+                for (var k = 0; k < outline.items[i].items[j].items.length; k++) {
+                    innerItem.title = outline.items[i].items[j].items[k].title;//第j.k节名称
+                    for (var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {
+                        lastItem.title = outline.items[i].items[j].items[k].items[l].title;//j.k.l小节
+                        innerItem.lastItems.push(deepClone(lastItem));
+                    }
+                    subItem.innerItems.push(deepClone(innerItem));
+                    innerItem.lastItems.length = 0;
+                }
+                items.subItems.push(deepClone(subItem));
+                subItem.innerItems.length = 0;
+            }
+            book.catelog.push(deepClone(items));
+            items.subItems.length = 0;
+        }
+        return book;
+    }
+    function deepClone(Obj){
+        console.log(typeof  Obj)
+        var o = typeof Obj === Array ? []:{};
+        for (var i in Obj) {
+            if(Obj.hasOwnProperty(i)) {
+                o[i] = typeof Obj[i] === "object" ? arguments.callee(Obj[i]) : Obj[i];
+            }
+        }
+        return o;
+    }
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
         if (newPage == 1) {
