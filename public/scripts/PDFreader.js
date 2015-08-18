@@ -66,8 +66,7 @@ window.onload = function () {
         pdfDoc = pdfDoc_;
 //        console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
-            outline = Outline == null ? null : Outline[0];
-//            console.log(outline[0]);
+            outline = Outline == null ? Outline : Outline[0];
             drawCatalog();
         });
         (function () {
@@ -84,6 +83,65 @@ window.onload = function () {
         if (outline) {
             var req = makeCatalog(outline);
             console.log(req);
+//        添加书名
+            var $list = $("#menuList");
+            var bookName = req.bookTitle;
+            $("<hr>").appendTo($list);
+            $("<h2>").text(bookName).appendTo($list);
+            $("<hr>").appendTo($list);
+            var $cateUL = $("<ul>").appendTo($list);
+//        添加目录
+            for (var i = 0; i < req.catelog.length; i++) {
+                var $a = $("<a>");
+                var $ul = $("<ul>");
+                var $li = $("<li>");
+                $a.attr("page", req.catelog[i].pageNum)
+                    .attr("href", "#")
+                    .attr("target", "_self")
+                    .text(req.catelog[i].title);
+
+                $a.appendTo($li);
+                $li.appendTo($cateUL);
+                //再加个ul>li>a层
+                for (var j = 0; j < req.catelog[i].subItems.length; j++) {
+                    var $lij = $("<li>");
+                    var $aj = $("<a>");
+                    var $ulj = $("<ul>");
+                    $aj.attr("page", req.catelog[i].subItems[j].pageNum)
+                        .attr("href", "#")
+                        .attr("target", "_self")
+                        .text(req.catelog[i].subItems[j].title);
+                    //再再来个ul>li>a层
+                    for (var k = 0; k < req.catelog[i].subItems[j].innerItems.length; k++) {
+                        var $lik = $("<li>");
+                        var $ak = $("<a>");
+                        var $ulk = $("<ul>");
+                        $ak.attr("page", req.catelog[i].subItems[j].innerItems[k].pageNum)
+                            .attr("href", "#")
+                            .attr("target", "_self")
+                            .text(req.catelog[i].subItems[j].innerItems[k].title);
+                        //再再再来个ul>li>a层
+                        for (var l = 0; l < req.catelog[i].subItems[j].innerItems[k].lastItems.length; l++) {
+                            var $lil = $("<li>");
+                            var $al = $("<a>");
+                            $al.attr("page", req.catelog[i].subItems[j].innerItems[k].lastItems[l].pageNum)
+                                .attr("href", "#")
+                                .attr("target", "_self")
+                                .text(req.catelog[i].subItems[j].innerItems[k].lastItems[l].title);
+
+                            $al.appendTo($lil);
+                            $lil.appendTo($ulk);
+                        }
+                        $ak.appendTo($lik);
+                        $ulk.appendTo($lik);
+                        $lik.appendTo($ulj);
+                    }
+                    $aj.appendTo($lij);
+                    $ulj.appendTo($lij);
+                    $lij.appendTo($ul);
+                }
+                $ul.appendTo($li);
+            }
         } else {
             /**
              * 目录请求读取
