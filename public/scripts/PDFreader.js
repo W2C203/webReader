@@ -1,12 +1,5 @@
-/**
- *
- * Created by hywilliam on 8/3/15.
- */
-window.onload = function () {z
-    var url = 'weather.pdf';
-//    var url = 'http://192.168.69.17:3306/data/files/store_3/goods_171/201508072126118049.pdf';
+function showBook(url) {
     var CHUNK = 3;
-
     //change23
     var currPage = 2;
     var averHeight = 0;
@@ -187,6 +180,7 @@ window.onload = function () {z
             });
         }
     }
+
     function makeCatalog(outline) {
         var book = {
             "bookTitle": outline.title,
@@ -238,16 +232,18 @@ window.onload = function () {z
         }
         return book;
     }
-    function deepClone(Obj){
+
+    function deepClone(Obj) {
         console.log(typeof  Obj)
-        var o = typeof Obj === Array ? []:{};
+        var o = typeof Obj === Array ? [] : {};
         for (var i in Obj) {
-            if(Obj.hasOwnProperty(i)) {
+            if (Obj.hasOwnProperty(i)) {
                 o[i] = typeof Obj[i] === "object" ? arguments.callee(Obj[i]) : Obj[i];
             }
         }
         return o;
     }
+
     $("#menuList").on('click', 'ul>li a', function () {
         var newPage = $(this).attr('page');
         if (newPage == 1) {
@@ -279,17 +275,17 @@ window.onload = function () {z
 
     //监听两个翻页按钮
     document.getElementById('prev').addEventListener('click', function () {
-        var nowID = $("#page"+currPage).attr("id");
-        if(nowID) {
+        var nowID = $("#page" + currPage).attr("id");
+        if (nowID) {
             nowID = +nowID.substr(4);
-            location.href = "#page"+(nowID-1);
+            location.href = "#page" + (nowID - 1);
         } //不用else是因为滚动的时候会自动渲染,所以只要是翻页就一定能找到ID
     });
     document.getElementById('next').addEventListener('click', function () {
-        var nowID = $("#page"+currPage).attr("id");
-        if(nowID) {
+        var nowID = $("#page" + currPage).attr("id");
+        if (nowID) {
             nowID = +nowID.substr(4);
-            location.href = "#page"+(nowID+1);
+            location.href = "#page" + (nowID + 1);
         } //不用else理由同上翻页
     });
 
@@ -350,6 +346,4 @@ window.onload = function () {z
         var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
         $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
     }
-
-
-};
+}
