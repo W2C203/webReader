@@ -1,6 +1,12 @@
-function showBook(url) {
-    $('#firstPicture').remove();
-    $('#wait').removeClass('hide');
+function showBook(url,first) {
+    if (first) {//第一次点一本书需要移除的一些东西
+        $('#firstPicture').remove();
+        $('#wait').removeClass('hide');
+        $('#menuBtn').removeClass('hide');
+        $('#prev').removeClass('hide');
+        $('#next').removeClass('hide');
+        console.log('done delete')
+    }
     $('#viewer-container *').remove();
     var CHUNK = 3;
     //change23

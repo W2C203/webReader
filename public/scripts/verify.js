@@ -1,8 +1,9 @@
 /**
  * Created by joe on 15-8-3.
  */
-
+$().ready(function () {
 //这里存放get/post请求
+    var first = 1;//标志是否第一次点一本书
     var saveInformation = null; //存储当前用户 在ecm_order_goods表中的相关信息
     /**
      * 登录验证
@@ -46,7 +47,7 @@
                     var newDiv = $('<div>');
                     var cutGoodName = text[i].goods_name;  //为了防止书名太长
                     if (cutGoodName.length > 11) {
-                        cutGoodName = subStrForChinese(cutGoodName, 11) +'..'
+                        cutGoodName = subStrForChinese(cutGoodName, 11) + '..'
                     }
                     $('<span>').html(cutGoodName).appendTo(newDiv);
                     newDiv.addClass('ribbon ribbon-orange');
@@ -79,8 +80,9 @@
                                 for (var x in text) {
                                     if (text[x].file_path) {
                                         str += '\n' + text[x].file_path;
-                                        showBook(text[x].file_path);
-                                        console.log('文件地址：'+text[x].file_path);
+                                        showBook(text[x].file_path, first);
+                                        first = 0;
+                                        console.log('文件地址：' + text[x].file_path);
                                     }
                                 }
                                 //alert(str);
@@ -172,3 +174,4 @@
         }     //如果全部是单字节字符，就直接返回源字符串
         return str;
     }
+})

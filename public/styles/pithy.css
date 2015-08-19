@@ -150,7 +150,9 @@ ul {
 }
 
 #firstDiv {
-    padding: 25%;
+    position: fixed;
+    top:20%;
+    left:30%;
 }
 
 #firstPicture {
