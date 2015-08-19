@@ -42,6 +42,7 @@ $().ready(function () {
             } else {
                 saveInformation = text;
                 $('#pBeforeBooks').html('购买的数目如下：');
+                $('#books *').remove();//避免多次登录刷N份
                 var j = 0;
                 for (var i in text) {
                     var newDiv = $('<div>');

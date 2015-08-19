@@ -195,62 +195,85 @@ function showBook(url,first) {
             "bookTitle": outline.title,
             "catelog": []
         };
-        var items = {
-            "level": 1,
-            "pageNum": null,
-            "subItems": [],
-            "title": null
-        };
-        var subItem = {
-            "level": 2,
-            "pageNum": null,
-            "innerItems": [],
-            "title": null
-        };
-        var innerItem = {
-            "level": 3,
-            "pageNum": null,
-            "lastItems": [],
-            "title": null
-        };
-        var lastItem = {
-            "level": 4,
-            "pageNum": null,
-            "title": null
-        };
+        function Items() {
+            var o = {
+                "level": 1,
+                "pageNum": null,
+                "subItems": [],
+                "title": null
+            };
+            return o;
+        }
+//        var items = {
+//            "level": 1,
+//            "pageNum": null,
+//            "subItems": [],
+//            "title": null
+//        };
+        function SubItems() {
+            var o = {
+                "level": 2,
+                "pageNum": null,
+                "innerItems": [],
+                "title": null
+            };
+            return o;
+        }
+//        var subItem = {
+//            "level": 2,
+//            "pageNum": null,
+//            "innerItems": [],
+//            "title": null
+//        };
+        function InnerItems() {
+            var o = {
+                "level": 3,
+                "pageNum": null,
+                "lastItems": [],
+                "title": null
+            };
+            return o;
+        }
+//        var innerItem = {
+//            "level": 3,
+//            "pageNum": null,
+//            "lastItems": [],
+//            "title": null
+//        };
+        function LastItems() {
+            var o = {
+                "level": 4,
+                "pageNum": null,
+                "title": null
+            };
+            return o;
+        }
+//        var lastItem = {
+//            "level": 4,
+//            "pageNum": null,
+//            "title": null
+//        };
         for (var i = 0; i < outline.items.length; i++) {
-//                console.log(i+": "+ outline.items[i].title);
+            var items = new Items();
             items.title = outline.items[i].title;//作者简介，目录概览层
-//                console.log(i+": "+items.title);
             for (var j = 0; j < outline.items[i].items.length; j++) {
+                var subItem = new SubItems();
                 subItem.title = outline.items[i].items[j].title;//第j章名称
                 for (var k = 0; k < outline.items[i].items[j].items.length; k++) {
+                    var innerItem = new InnerItems();
                     innerItem.title = outline.items[i].items[j].items[k].title;//第j.k节名称
                     for (var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {
+                        var lastItem = new LastItems();
                         lastItem.title = outline.items[i].items[j].items[k].items[l].title;//j.k.l小节
-                        innerItem.lastItems.push(deepClone(lastItem));
+                        innerItem.lastItems.push(lastItem);
                     }
-                    subItem.innerItems.push(deepClone(innerItem));
-                    innerItem.lastItems.length = 0;
+                    subItem.innerItems.push(innerItem);
                 }
-                items.subItems.push(deepClone(subItem));
-                subItem.innerItems.length = 0;
+                items.subItems.push(subItem);
             }
-            book.catelog.push(deepClone(items));
-            items.subItems.length = 0;
+            book.catelog.push(items);
         }
         return book;
-    }
-
-    function deepClone(Obj) {
-        console.log(typeof  Obj)
-        var o = typeof Obj === Array ? [] : {};
-        for (var i in Obj) {
-            if (Obj.hasOwnProperty(i)) {
-                o[i] = typeof Obj[i] === "object" ? arguments.callee(Obj[i]) : Obj[i];
-            }
-        }
-        return o;
     }
 
     $("#menuList").on('click', 'ul>li a', function () {
