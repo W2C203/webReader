@@ -116,6 +116,7 @@ $().ready(function () {
      * 退出登录
      */
     $('#logout').on('click', function () {
+        //左边的信息处理
         $('#information').html('登录');
 
 
@@ -130,11 +131,21 @@ $().ready(function () {
         $('#pBeforeBooks').html('登录后查看购买书目');
         $('#books').removeClass('ribbons');
         $('#books *').remove();
-
+        //删除cookie
         var date = new Date();
         date.setTime(date.getTime() - 10);
         document.cookie = 'name=abc;expires=' + date.toGMTString();
 
+        //中间的图片 和右边的按钮处理
+        first = 1;
+        $('#viewer-container *').remove();
+        var newDiv = $('<div>').attr('id','firstDiv');
+        $('<img>').attr('id','firstPicture').attr('src','./images/wait.gif').appendTo(newDiv);
+        newDiv.appendTo($('#viewer-container'));
+        $('#wait').addClass('hide');
+        $('#menuBtn').addClass('hide');
+        $('#prev').addClass('hide');
+        $('#next').addClass('hide');
 
     })
     $('#mall').on('click', function () {
