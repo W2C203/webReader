@@ -1,7 +1,9 @@
 #main.col-md-8
   section#section
     #viewer-container
-    #wait.loading
+      div#firstDiv
+        img#firstPicture(src='images/wait.gif')
+    #wait.loading.hide
       img(src='images/loading.gif' alt='loading...')
   #menuList.menuList
 include third.jade

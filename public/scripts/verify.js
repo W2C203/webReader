@@ -58,7 +58,7 @@
                                 case '按次数':
                                     str += '可看总次数：' + infor.fcs * infor.quantity + ';';
                                     if (infor.fcs * infor.quantity == infor.fview) {
-                                        str += '您的使用次数已耗尽，请重新购买！';
+                                        alert(str += '您的使用次数已耗尽，请重新购买！');
                                     } else {
                                         str += '当前还可以看' + (infor.fcs * infor.quantity - infor.fview++) + '次';
                                         //infor.fview = infor.fview -1 ;
@@ -80,9 +80,10 @@
                                     if (text[x].file_path) {
                                         str += '\n' + text[x].file_path;
                                         showBook(text[x].file_path);
+                                        console.log('文件地址：'+text[x].file_path);
                                     }
                                 }
-                                alert(str);
+                                //alert(str);
                             })
                         }
                     }(i));

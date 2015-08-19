@@ -1,4 +1,7 @@
 function showBook(url) {
+    $('#firstPicture').remove();
+    $('#wait').removeClass('hide');
+    $('#viewer-container *').remove();
     var CHUNK = 3;
     //change23
     var currPage = 2;
