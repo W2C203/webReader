@@ -148,3 +148,14 @@ ul {
     height: 400px;
     width: 100%;
 }
+
+#firstDiv {
+    position: fixed;
+    top:20%;
+    left:30%;
+}
+
+#firstPicture {
+    width: 500px;
+    border-radius: 50%;
+}

@@ -68,6 +68,8 @@ document.onkeydown = keyDown;
  * 窗体变小 触发左部功能隐藏事件
  */
 window.onresize = function () { //jquery 写法
-    $('#icon').attr("title") != "show" ? iconHide() : 1;
+    if ($(window).width() < screen.width * 0.8) {
+        $('#icon').attr("title") != "show" ? iconHide() : 1;
+    }
 }
 
