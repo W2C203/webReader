@@ -85,6 +85,7 @@ function showBook(url,first) {
         if (outline) {
             var req = makeCatalog(outline);
             console.log(req);
+            $("#menuList *").remove();
 //        添加书名
             var $list = $("#menuList");
             var bookName = req.bookTitle;
@@ -152,6 +153,7 @@ function showBook(url,first) {
                 //req.title书名
                 // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
                 // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
+                $("#menuList *").remove();
 //        添加书名
                 var $list = $("#menuList");
                 var bookName = req.title;
