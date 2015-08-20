@@ -9,6 +9,7 @@ $().ready(function () {
      * 登录验证
      */
     $('#submit').on('click', function (event) {
+        var event = event || window.event;
         var data = $('#form').serialize();
         if (data.indexOf("=&") != -1 || data[data.length - 1] == '=') { //如果没填帐号或者密码 直接返回
             alert("帐号或密码不能为空");
@@ -83,7 +84,7 @@ $().ready(function () {
                                         str += '\n' + text[x].file_path;
                                         showBook(text[x].file_path, first);
                                         first = 0;
-                                        console.log('文件地址：' + text[x].file_path);
+                                        //console.log('文件地址：' + text[x].file_path);
                                     }
                                 }
                                 //alert(str);

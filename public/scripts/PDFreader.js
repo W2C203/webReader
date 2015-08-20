@@ -65,6 +65,7 @@ function showBook(url,first) {
      */
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
+        //pdfDoc.myDestory();
 //        console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
@@ -83,7 +84,7 @@ function showBook(url,first) {
     function drawCatalog() {
         if (outline) {
             var req = makeCatalog(outline);
-            console.log(req);
+            //console.log(req);
             $("#menuList *").remove();
 //        添加书名
             var $list = $("#menuList");
@@ -186,7 +187,7 @@ function showBook(url,first) {
                     }
                     $ul.appendTo($li);
                 }
-                console.log(req);
+                //console.log(req);
             });
         }
     }
@@ -324,7 +325,7 @@ function showBook(url,first) {
 
     //滚动监听
     window.addEventListener('scroll', function () {
-        if (checkLast()) {  //到最后的情况 currpage直接加1
+        if (checkLast()) {  //到最后的情况
             changePro(pdfDoc.numPages);
         }
 
@@ -333,13 +334,13 @@ function showBook(url,first) {
                 return;
             }
             var canvas = document.createElement('canvas');
-            canvas.setAttribute('id', 'page' + (Number(currPage) + 2));
+            canvas.setAttribute('id', 'page' + (Number(currPage) + (CHUNK-1)));
             viewer.appendChild(canvas);
-            renderPage(Number(currPage) + 2);
+            renderPage(Number(currPage) + (CHUNK-1));
             currPage++;
             changePro(currPage);
             viewer.firstChild.remove();
-            document.body.scrollTop = averHeight;//删完记得让页面滚回去1页
+            document.body.scrollTop = averHeight * (CHUNK-2);//删完记得让页面滚回去
             return;// 提高健壮性 有向下 就不向上
         }
         if (checkScrollUp()) {//滚动条向上的情况
@@ -359,7 +360,7 @@ function showBook(url,first) {
 
     function checkScrollDown() {
         var scrollTop = document.body.scrollTop;       //滚动高度
-        if (scrollTop > averHeight * 1.8) {
+        if (scrollTop > averHeight * (CHUNK-1)) {
             return true;
         }
     }
@@ -372,7 +373,7 @@ function showBook(url,first) {
     }
 
     function checkLast() {
-        return document.body.scrollTop > averHeight * 2.5;
+        return document.body.scrollTop > averHeight * (CHUNK-0.2);
     }
 
     function changePro(currPage) {

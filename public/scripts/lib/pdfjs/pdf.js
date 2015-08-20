@@ -2877,6 +2877,7 @@ var WorkerTransport = (function WorkerTransportClosure() {
 
       var pageIndex = pageNumber - 1;
       if (pageIndex in this.pagePromises) {
+          console.log('already inside not need to promise....');
         return this.pagePromises[pageIndex];
       }
       var promise = this.messageHandler.sendWithPromise('GetPage', {
@@ -2887,9 +2888,9 @@ var WorkerTransport = (function WorkerTransportClosure() {
         return page;
       }.bind(this));
       this.pagePromises[pageIndex] = promise;
+        console.log('now the length of pagePromises and pageCache is ' +this.pagePromises.length+' '+this.pageCache.length)
       return promise;
     },
-
     getPageIndex: function WorkerTransport_getPageIndexByRef(ref) {
       return this.messageHandler.sendWithPromise('GetPageIndex', { ref: ref });
     },
