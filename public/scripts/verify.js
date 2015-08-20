@@ -84,7 +84,7 @@ $().ready(function () {
                                         str += '\n' + text[x].file_path;
                                         showBook(text[x].file_path, first);
                                         first = 0;
-                                        console.log('文件地址：' + text[x].file_path);
+                                        //console.log('文件地址：' + text[x].file_path);
                                     }
                                 }
                                 //alert(str);
