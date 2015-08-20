@@ -324,7 +324,7 @@ function showBook(url,first) {
 
     //滚动监听
     window.addEventListener('scroll', function () {
-        if (checkLast()) {  //到最后的情况 currpage直接加1
+        if (checkLast()) {  //到最后的情况
             changePro(pdfDoc.numPages);
         }
 

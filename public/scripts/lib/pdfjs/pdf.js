@@ -2886,7 +2886,7 @@ var WorkerTransport = (function WorkerTransportClosure() {
         this.pageCache[pageIndex] = page;
         return page;
       }.bind(this));
-      this.pagePromises[pageIndex] = promise;
+      //this.pagePromises[pageIndex] = promise;
       return promise;
     },
 
