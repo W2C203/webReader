@@ -71,6 +71,7 @@ function showBook(url,first) {
         console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
+            console.log(outline);
             drawCatalog();
         });
         (function () {
@@ -85,24 +86,44 @@ function showBook(url,first) {
 
     function completeBook() {
         var book = makeCatalog(outline);
-        for(var i = 0; i < outline.items.length; i++) {
+        for(var i = 0; i < outline.items.length; i++) {//执行了12次，正确
             pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
 //                console.log(pageNumber+1);
                 pageArray.push(pageNumber+1);
 //                console.log(pageArray);
-            })
+            });
+//            console.log("level 1:"+outline.items[i].items.length);
+            for(var j = 0; j < outline.items[i].items.length; j++) {//执行了35次，正确
+                pdfDoc.getPageIndex(outline.items[i].items[j].dest[0]).then(function (pageNumber) {
+                    pageArray.push(pageNumber+1);//这里有进去数组里面
+                });
+//                console.log("level 2:"+outline.items[i].items[j].items.length);
+                for(var k = 0; k < outline.items[i].items[j].items.length; k++) {//只执行了34次
+                    pdfDoc.getPageIndex(outline.items[i].items[j].items[k].dest[0]).then(function (pageNumber) {
+                        pageArray.push(pageNumber+1);//到这里没有，为虾米？
+                    });
+//                    console.log("level 3:"+outline.items[i].items[j].items[k].items.length);
+                    for(var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {//只执行了6次
+                        pdfDoc.getPageIndex(outline.items[i].items[j].items[k].items[l].dest[0]).then(function (pageNumber) {
+                            pageArray.push(pageNumber+1);
+                        });
+//                        console.log("level 4:"+l);
+                    }
+                }
+            }
         }
     }
     function readyOK() {
+        console.log(pageArray.length);
         console.log(pageArray);
     }
-    var t = setTimeout(readyOK,5000);
+    var t = setTimeout(readyOK,8000);
 
     function drawCatalog() {
         if (outline) {
             var req = makeCatalog(outline);
             completeBook();
-            //console.log(req);
+            console.log(req);
             $("#menuList *").remove();
 //        添加书名
             var $list = $("#menuList");
