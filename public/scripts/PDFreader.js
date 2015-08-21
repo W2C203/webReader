@@ -66,7 +66,7 @@ function showBook(url,first) {
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
         //pdfDoc.myDestory();
-//        console.log(pdfDoc);
+        console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
             drawCatalog();
