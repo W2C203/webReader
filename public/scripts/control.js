@@ -72,9 +72,12 @@ window.onresize = function () { //jquery 写法
         $('#icon').attr("title") != "show" ? iconHide() : 1;
     }
 }
+var clickInMinute = 0;
 //为选中书添加额外样式
 $('#books').on('click','div',function(){
+    if(clickInMinute !=0)
     $(this).siblings().removeClass('ribbon-selected');
     $(this).addClass('ribbon-selected');
-})
+});
+setInterval()
 

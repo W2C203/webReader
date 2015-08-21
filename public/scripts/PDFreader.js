@@ -11,7 +11,7 @@ function showBook(url,first) {
     //change23
     var currPage = 2;
     var averHeight = 0;
-    var pdfDoc = null,// pdf文档，未加载时为null对象
+    var pdfDoc = new Object(),// pdf文档，未加载时为null对象
         outline = null,//pdf.js读出来的目录，正版书有，否则为null
         pageRendering = false,
         pageNumPending = null,
@@ -63,9 +63,10 @@ function showBook(url,first) {
      * 执行入口在此
      * 通过promise异步下载pdf
      */
+    //pdfDoc.getPage();
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
-        //pdfDoc.myDestory();
+        //pdfDoc.cleanup();  加这句出现的神奇效果。。～～！！
         console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
@@ -356,25 +357,24 @@ function showBook(url,first) {
             viewer.lastChild.remove();
             document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
         }
+        function checkScrollDown() {
+            var scrollTop = document.body.scrollTop;       //滚动高度
+            if (scrollTop > averHeight * (CHUNK-1)) {
+                return true;
+            }
+        }
+
+        function checkScrollUp() {
+            var scrollTop = document.body.scrollTop;       //滚动高度
+            if (scrollTop < averHeight * 0.8) {
+                return true;
+            }
+        }
+
+        function checkLast() {
+            return document.body.scrollTop > averHeight * (CHUNK-0.2);
+        }
     });
-
-    function checkScrollDown() {
-        var scrollTop = document.body.scrollTop;       //滚动高度
-        if (scrollTop > averHeight * (CHUNK-1)) {
-            return true;
-        }
-    }
-
-    function checkScrollUp() {
-        var scrollTop = document.body.scrollTop;       //滚动高度
-        if (scrollTop < averHeight * 0.8) {
-            return true;
-        }
-    }
-
-    function checkLast() {
-        return document.body.scrollTop > averHeight * (CHUNK-0.2);
-    }
 
     function changePro(currPage) {
         var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
