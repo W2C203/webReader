@@ -11,6 +11,7 @@ function showBook(url,first) {
     //change23
     var currPage = 2;
     var averHeight = 0;
+    var pageArray = [];
     var pdfDoc = null,// pdf文档，未加载时为null对象
         outline = null,//pdf.js读出来的目录，正版书有，否则为null
         pageRendering = false,
@@ -81,9 +82,25 @@ function showBook(url,first) {
         })();
     });
 
+    function completeBook() {
+        var book = makeCatalog(outline);
+        for(var i = 0; i < outline.items.length; i++) {
+            pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
+//                console.log(pageNumber+1);
+                pageArray.push(pageNumber+1);
+//                console.log(pageArray);
+            })
+        }
+    }
+    function readyOK() {
+        console.log(pageArray);
+    }
+    var t = setTimeout(readyOK,5000);
+
     function drawCatalog() {
         if (outline) {
             var req = makeCatalog(outline);
+            completeBook();
             //console.log(req);
             $("#menuList *").remove();
 //        添加书名
