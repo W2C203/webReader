@@ -54,6 +54,9 @@ $().ready(function () {
                     $('<span>').html(cutGoodName).appendTo(newDiv);
                     newDiv.addClass('ribbon ribbon-orange');
                     newDiv.on('click', function (i) {
+                        if (clickInSecond != 0) {
+                            return;
+                        }
                         return function () {//闭包
                             var infor = text[i];
                             var str = '';
