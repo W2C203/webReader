@@ -4,7 +4,9 @@
  */
 function ShowBook(url, first) {   //对外提供接口pdfDoc
     currPage = 2;
-    outline = null;
+    $("#menuList *").remove();
+    //outline = null;
+    $("#pro").attr("aria-valuenow", 0).attr("style", "width:" + 0 + "%");
     pageArray.length = 0;
     if (first) {//第一次点一本书需要移除的一些东西
         $('#firstDiv').remove();
@@ -90,40 +92,45 @@ function renderPage(num) {
  * 取出目录页码存到一个全局数组，需要一定时间，所以一定时间后才调用画目录函数
  */
 function getPageArray() {
-    for (var i = 0; i < outline.items.length; i++) {//执行了12次，正确
-        pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
+    if (outline) {
+        for (var i = 0; i < outline.items.length; i++) {//执行了12次，正确
+            pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
 //                console.log(pageNumber+1);
-            pageArray.push(pageNumber + 1);
+                pageArray.push(pageNumber + 1);
 //                console.log(pageArray);
-        });
-//            console.log("level 1:"+outline.items[i].items.length);
-        for (var j = 0; j < outline.items[i].items.length; j++) {//执行了35次，正确
-            pdfDoc.getPageIndex(outline.items[i].items[j].dest[0]).then(function (pageNumber) {
-                pageArray.push(pageNumber + 1);//这里有进去数组里面
             });
-//                console.log("level 2:"+outline.items[i].items[j].items.length);
-            for (var k = 0; k < outline.items[i].items[j].items.length; k++) {//只执行了34次
-                pdfDoc.getPageIndex(outline.items[i].items[j].items[k].dest[0]).then(function (pageNumber) {
-                    pageArray.push(pageNumber + 1);//到这里没有，为虾米？
+//            console.log("level 1:"+outline.items[i].items.length);
+            for (var j = 0; j < outline.items[i].items.length; j++) {//执行了35次，正确
+                pdfDoc.getPageIndex(outline.items[i].items[j].dest[0]).then(function (pageNumber) {
+                    pageArray.push(pageNumber + 1);//这里有进去数组里面
                 });
-//                    console.log("level 3:"+outline.items[i].items[j].items[k].items.length);
-                for (var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {//只执行了6次
-                    pdfDoc.getPageIndex(outline.items[i].items[j].items[k].items[l].dest[0]).then(function (pageNumber) {
-                        pageArray.push(pageNumber + 1);
+//                console.log("level 2:"+outline.items[i].items[j].items.length);
+                for (var k = 0; k < outline.items[i].items[j].items.length; k++) {//只执行了34次
+                    pdfDoc.getPageIndex(outline.items[i].items[j].items[k].dest[0]).then(function (pageNumber) {
+                        pageArray.push(pageNumber + 1);//到这里没有，为虾米？
                     });
+//                    console.log("level 3:"+outline.items[i].items[j].items[k].items.length);
+                    for (var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {//只执行了6次
+                        pdfDoc.getPageIndex(outline.items[i].items[j].items[k].items[l].dest[0]).then(function (pageNumber) {
+                            pageArray.push(pageNumber + 1);
+                        });
 //                        console.log("level 4:"+l);
+                    }
                 }
             }
         }
+        var t = setTimeout(drawCatalog, 2000);
+    } else {
+        drawCatalog();
     }
-    var t = setTimeout(drawCatalog, 5000);
+
 }
 
 function drawCatalog() {
     if (outline) {
         var req = readyOK(outline);
         //console.log(req);
-        $("#menuList *").remove();
+
 //        添加书名
         var $list = $("#menuList");
         var bookName = req.bookTitle;
@@ -191,7 +198,7 @@ function drawCatalog() {
             //req.title书名
             // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
             // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
-            $("#menuList *").remove();
+
 //        添加书名
             var $list = $("#menuList");
             var bookName = req.title;
@@ -232,10 +239,10 @@ function drawCatalog() {
 
 function readyOK(outline) {//准备好了之后把页码排序放进目录
     //console.log(pageArray.length);
-    pageArray.sort(function (a,b) {
+    pageArray.sort(function (a, b) {
         return a - b;
     });
-    //console.log(pageArray);
+    console.log(pageArray);
     var book = makeCatalog(outline);
     //下面将页码添加进目录数据结构
     return book;
@@ -247,6 +254,7 @@ function makeCatalog(outline) {
         "catelog": []
     };
     var p = 0;
+
     function Items() {
         var o = {
             "level": 1,
@@ -256,6 +264,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var items = {
 //            "level": 1,
 //            "pageNum": null,
@@ -271,6 +280,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var subItem = {
 //            "level": 2,
 //            "pageNum": null,
@@ -286,6 +296,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var innerItem = {
 //            "level": 3,
 //            "pageNum": null,
@@ -300,6 +311,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var lastItem = {
 //            "level": 4,
 //            "pageNum": null,
