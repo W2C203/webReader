@@ -4,6 +4,8 @@
  */
 function ShowBook(url, first) {   //对外提供接口pdfDoc
     currPage = 2;
+    $("#menuList *").remove();
+    //outline = null;
     $("#pro").attr("aria-valuenow", 0).attr("style", "width:" + 0 + "%");
     pageArray.length = 0;
     if (first) {//第一次点一本书需要移除的一些东西
@@ -17,10 +19,10 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
         //pdfDoc.cleanup();  加这句出现的神奇效果。。～～！！
-        console.log(pdfDoc);
+        //console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
-            console.log(outline);
+            //console.log(outline);
             getPageArray();
         });
         (function () {
@@ -90,7 +92,7 @@ function renderPage(num) {
  * 取出目录页码存到一个全局数组，需要一定时间，所以一定时间后才调用画目录函数
  */
 function getPageArray() {
-    if(outline) {
+    if (outline) {
         for (var i = 0; i < outline.items.length; i++) {//执行了12次，正确
             pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
 //                console.log(pageNumber+1);
@@ -117,7 +119,7 @@ function getPageArray() {
                 }
             }
         }
-        var t = setTimeout(drawCatalog, 5000);
+        var t = setTimeout(drawCatalog, 2000);
     } else {
         drawCatalog();
     }
@@ -127,8 +129,8 @@ function getPageArray() {
 function drawCatalog() {
     if (outline) {
         var req = readyOK(outline);
-        console.log(req);
-        $("#menuList *").remove();
+        //console.log(req);
+
 //        添加书名
         var $list = $("#menuList");
         var bookName = req.bookTitle;
@@ -196,7 +198,7 @@ function drawCatalog() {
             //req.title书名
             // req.catelog[i].title章节名称 .pageNum所在页码 .level所在层数
             // req.catelog[i].subItem[j].title文章名称 .pageNum所在页码 .level所在层数
-            $("#menuList *").remove();
+
 //        添加书名
             var $list = $("#menuList");
             var bookName = req.title;
@@ -236,8 +238,8 @@ function drawCatalog() {
 }
 
 function readyOK(outline) {//准备好了之后把页码排序放进目录
-    console.log(pageArray.length);
-    pageArray.sort(function (a,b) {
+    //console.log(pageArray.length);
+    pageArray.sort(function (a, b) {
         return a - b;
     });
     console.log(pageArray);
@@ -252,6 +254,7 @@ function makeCatalog(outline) {
         "catelog": []
     };
     var p = 0;
+
     function Items() {
         var o = {
             "level": 1,
@@ -261,6 +264,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var items = {
 //            "level": 1,
 //            "pageNum": null,
@@ -276,6 +280,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var subItem = {
 //            "level": 2,
 //            "pageNum": null,
@@ -291,6 +296,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var innerItem = {
 //            "level": 3,
 //            "pageNum": null,
@@ -305,6 +311,7 @@ function makeCatalog(outline) {
         };
         return o;
     }
+
 //        var lastItem = {
 //            "level": 4,
 //            "pageNum": null,
