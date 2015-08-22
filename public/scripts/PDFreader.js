@@ -4,6 +4,7 @@
  */
 function ShowBook(url, first) {   //对外提供接口pdfDoc
     currPage = 2;
+    pageArray.length = 0;
     if (first) {//第一次点一本书需要移除的一些东西
         $('#firstDiv').remove();
         $('#wait').removeClass('hide');
@@ -19,7 +20,7 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
             console.log(outline);
-            drawCatalog();
+            getPageArray();
         });
         (function () {
             for (var i = 1; i < CHUNK + 1; ++i) {
@@ -84,9 +85,10 @@ function renderPage(num) {
     });
 }
 
-
-function completeBook() {
-    var book = makeCatalog(outline);
+/**
+ * 取出目录页码存到一个全局数组，需要一定时间，所以一定时间后才调用画目录函数
+ */
+function getPageArray() {
     for (var i = 0; i < outline.items.length; i++) {//执行了12次，正确
         pdfDoc.getPageIndex(outline.items[i].dest[0]).then(function (pageNumber) {
 //                console.log(pageNumber+1);
@@ -113,17 +115,12 @@ function completeBook() {
             }
         }
     }
+    var t = setTimeout(drawCatalog, 5000);
 }
-function readyOK() {
-    console.log(pageArray.length);
-    console.log(pageArray);
-}
-var t = setTimeout(readyOK, 8000);
 
 function drawCatalog() {
     if (outline) {
-        var req = makeCatalog(outline);
-        completeBook();
+        var req = readyOK(outline);
         console.log(req);
         $("#menuList *").remove();
 //        添加书名
@@ -232,12 +229,23 @@ function drawCatalog() {
     }
 }
 
+function readyOK(outline) {//准备好了之后把页码排序放进目录
+    console.log(pageArray.length);
+    pageArray.sort(function (a,b) {
+        return a - b;
+    });
+    console.log(pageArray);
+    var book = makeCatalog(outline);
+    //下面将页码添加进目录数据结构
+    return book;
+}
+
 function makeCatalog(outline) {
     var book = {
         "bookTitle": outline.title,
         "catelog": []
     };
-
+    var p = 0;
     function Items() {
         var o = {
             "level": 1,
@@ -247,7 +255,6 @@ function makeCatalog(outline) {
         };
         return o;
     }
-
 //        var items = {
 //            "level": 1,
 //            "pageNum": null,
@@ -263,7 +270,6 @@ function makeCatalog(outline) {
         };
         return o;
     }
-
 //        var subItem = {
 //            "level": 2,
 //            "pageNum": null,
@@ -279,7 +285,6 @@ function makeCatalog(outline) {
         };
         return o;
     }
-
 //        var innerItem = {
 //            "level": 3,
 //            "pageNum": null,
@@ -294,7 +299,6 @@ function makeCatalog(outline) {
         };
         return o;
     }
-
 //        var lastItem = {
 //            "level": 4,
 //            "pageNum": null,
@@ -303,15 +307,19 @@ function makeCatalog(outline) {
     for (var i = 0; i < outline.items.length; i++) {
         var items = new Items();
         items.title = outline.items[i].title;//作者简介，目录概览层
+        items.pageNum = pageArray[p++];
         for (var j = 0; j < outline.items[i].items.length; j++) {
             var subItem = new SubItems();
             subItem.title = outline.items[i].items[j].title;//第j章名称
+            subItem.pageNum = pageArray[p++];
             for (var k = 0; k < outline.items[i].items[j].items.length; k++) {
                 var innerItem = new InnerItems();
                 innerItem.title = outline.items[i].items[j].items[k].title;//第j.k节名称
+                innerItem.pageNum = pageArray[p++];
                 for (var l = 0; l < outline.items[i].items[j].items[k].items.length; l++) {
                     var lastItem = new LastItems();
                     lastItem.title = outline.items[i].items[j].items[k].items[l].title;//j.k.l小节
+                    lastItem.pageNum = pageArray[p++];
                     innerItem.lastItems.push(lastItem);
                 }
                 subItem.innerItems.push(innerItem);
@@ -420,6 +428,10 @@ window.addEventListener('scroll', function () {
     }
 });
 
+/**
+ * 进度条随页码改变
+ * @param currPage
+ */
 function changePro(currPage) {
     var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
     $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
