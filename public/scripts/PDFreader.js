@@ -4,6 +4,7 @@
  */
 function ShowBook(url, first) {   //对外提供接口pdfDoc
     currPage = 2;
+    outline = null;
     pageArray.length = 0;
     if (first) {//第一次点一本书需要移除的一些东西
         $('#firstDiv').remove();
@@ -16,10 +17,10 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
     PDFJS.getDocument(url).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
         //pdfDoc.cleanup();  加这句出现的神奇效果。。～～！！
-        console.log(pdfDoc);
+        //console.log(pdfDoc);
         pdfDoc.getOutline().then(function (Outline) {
             outline = Outline == null ? Outline : Outline[0];
-            console.log(outline);
+            //console.log(outline);
             getPageArray();
         });
         (function () {
@@ -121,7 +122,7 @@ function getPageArray() {
 function drawCatalog() {
     if (outline) {
         var req = readyOK(outline);
-        console.log(req);
+        //console.log(req);
         $("#menuList *").remove();
 //        添加书名
         var $list = $("#menuList");
@@ -230,11 +231,11 @@ function drawCatalog() {
 }
 
 function readyOK(outline) {//准备好了之后把页码排序放进目录
-    console.log(pageArray.length);
+    //console.log(pageArray.length);
     pageArray.sort(function (a,b) {
         return a - b;
     });
-    console.log(pageArray);
+    //console.log(pageArray);
     var book = makeCatalog(outline);
     //下面将页码添加进目录数据结构
     return book;
