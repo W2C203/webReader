@@ -28,7 +28,7 @@ $().ready(function () {
                 alert(JSON.stringify(text));
             }
         })
-        //event.preventDefault();//阻止默认行为
+        event.preventDefault();//阻止默认行为
     })
 
 
@@ -99,7 +99,7 @@ $().ready(function () {
                 $('#books').addClass('ribbons');
             }
         })
-        event.preventDefault();//阻止默认行为
+        //event.preventDefault();//阻止默认行为
     }
 
     /**
