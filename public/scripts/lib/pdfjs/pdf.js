@@ -6493,7 +6493,7 @@ var FontLoader = {
       var rule = '@font-face { font-family:"' + loadTestFontId + '";src:' +
                  url + '}';
       FontLoader.insertRule(rule);
-
+        console.log('I come to here now!!!!!!!!!!!')
       var names = [];
       for (i = 0, ii = fonts.length; i < ii; i++) {
         names.push(fonts[i].loadedName);
