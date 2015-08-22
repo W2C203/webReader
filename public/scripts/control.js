@@ -72,21 +72,21 @@ window.onresize = function () { //jquery 写法
         $('#icon').attr("title") != "show" ? iconHide() : 1;
     }
 }
-var clickInSecond = 0;
-var toStop = null;
+//var clickInSecond = 0;
+//var toStop = null;
 //为选中书添加额外样式
 $('#books').on('click', 'div', function () {
-    if (clickInSecond != 0) {
-        return;
-    }
-    toStop = setInterval(forNotFast, 1000);
+//    if (clickInSecond != 0) {
+//        return;
+//    }
+//    toStop = setInterval(forNotFast, 1000);
     $(this).siblings().removeClass('ribbon-selected');
     $(this).addClass('ribbon-selected');
 });
-function forNotFast(){  //3秒内只能点1本书  暂时这样 想到更好策略再改。 貌似不大靠谱 其他地方不好改。
-    clickInSecond++;
-    if (clickInSecond == 3) {
-        clickInSecond = 0;
-        clearInterval(toStop);
-    }
-}
+//function forNotFast(){  //3秒内只能点1本书  暂时这样 想到更好策略再改。 貌似不大靠谱 其他地方不好改。
+//    clickInSecond++;
+//    if (clickInSecond == 3) {
+//        clickInSecond = 0;
+//        clearInterval(toStop);
+//    }
+//}

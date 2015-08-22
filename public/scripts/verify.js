@@ -54,9 +54,9 @@ $().ready(function () {
                     $('<span>').html(cutGoodName).appendTo(newDiv);
                     newDiv.addClass('ribbon ribbon-orange');
                     newDiv.on('click', function (i) {
-                        if (clickInSecond != 0) {
-                            return;
-                        }
+//                        if (clickInSecond != 0) {
+//                            return;
+//                        }
                         return function () {//闭包
                             var infor = text[i];
                             var str = '';
@@ -85,7 +85,7 @@ $().ready(function () {
                                 for (var x in text) {
                                     if (text[x].file_path) {
                                         str += '\n' + text[x].file_path;
-                                        showBook(text[x].file_path, first);
+                                        pdfDoc = new ShowBook(text[x].file_path, first);
                                         first = 0;
                                         //console.log('文件地址：' + text[x].file_path);
                                     }
