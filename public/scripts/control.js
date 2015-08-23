@@ -100,22 +100,20 @@ var timeOut = null;
 $('#viewer-container').on('mousedown', 'canvas', function (event) {
     $(this).addClass('canvas-grabbing');
     nowY = prevY = event.pageY;
+    upOrdown = 0;
     timeOut = setInterval(function () {//用周期检测减少刷新次数
         if (nowY - prevY < 0 && (upOrdown == 0 || upOrdown == 2)) {//Down
-            if (upOrdown == 0) {
-                upOrdown = 2;
-            }
+            upOrdown = 2;
             changeScroll(nowY - prevY);
         }
-        if (nowY - prevY < 0 && (upOrdown == 0 || upOrdown == 1)) {//Up
-            if (upOrdown == 0) {
-                upOrdown = 1;
-            }
+        if (nowY - prevY > 0 && (upOrdown == 0 || upOrdown == 1)) {//Up
+            upOrdown = 1;
             changeScroll(nowY - prevY);
         }
         prevY = nowY;
     }, 20);
     $(this).on('mousemove', function (event) {
+        console.log('keep listening mousemove');
         nowY = event.pageY;
     })
 });

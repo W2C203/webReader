@@ -3,7 +3,7 @@
  * 通过promise异步下载pdf
  */
 function ShowBook(url, first) {   //对外提供接口pdfDoc
-    currPage = 2;
+    currPage = 1;
     $("#menuList *").remove();
     //outline = null;
     $("#pro").attr("aria-valuenow", 0).attr("style", "width:" + 0 + "%");
@@ -38,8 +38,8 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
 }
 var CHUNK = 3;
 //change23
-var currPage = 2;
-var averHeight = 0;
+var currPage = 1;
+var averHeight = Infinity;
 var pageArray = [];
 var pdfDoc = null,// pdf文档，未加载时为null对象
     outline = null,//pdf.js读出来的目录，正版书有，否则为null
@@ -67,7 +67,9 @@ function renderPage(num) {
         var ctx = canvas.getContext('2d');
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-        averHeight = canvas.height;
+        if(averHeight > canvas.height) {
+            averHeight = canvas.height;
+        }
         // 把当前页渲染进canvas上下文环境
         var renderContext = {
             canvasContext: ctx,
@@ -384,8 +386,10 @@ document.getElementById('prev').addEventListener('click', function () {
 document.getElementById('next').addEventListener('click', function () {
     var nowID = $("#page" + currPage).attr("id");
     if (nowID) {
+        console.log("in:"+currPage);
         nowID = +nowID.substr(4);
         location.href = "#page" + (nowID + 1);
+        if(currPage == 1) currPage++;
     } //不用else理由同上翻页
 });
 
@@ -398,6 +402,10 @@ window.addEventListener('scroll', function () {
     if (checkScrollDown()) {//滚动条向下的情况
         if (currPage >= pdfDoc.numPages - 1) { //加载完了
             return;
+        }
+        if(currPage == 1) {
+            currPage++;
+            changePro(currPage);
         }
         var canvas = document.createElement('canvas');
         canvas.setAttribute('id', 'page' + (Number(currPage) + (CHUNK - 1)));
@@ -450,4 +458,5 @@ window.addEventListener('scroll', function () {
 function changePro(currPage) {
     var num = pdfDoc.numPages ? currPage / pdfDoc.numPages : 0;
     $("#pro").attr("aria-valuenow", num * 100).attr("style", "width:" + (num * 100) + "%");
+    $("#pro span").html(currPage + '/' + pdfDoc.numPages);
 }
