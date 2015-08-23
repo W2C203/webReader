@@ -90,3 +90,41 @@ $('#books').on('click', 'div', function () {
 //        clearInterval(toStop);
 //    }
 //}
+/**
+ * 下面是为了实现按下canvas拖动的效果
+ */
+var prevY = 0,
+    nowY = 0;
+upOrdown = 0; //每次只能上或者下 1为up 2为down
+var timeOut = null;
+$('#viewer-container').on('mousedown', 'canvas', function (event) {
+    $(this).addClass('canvas-grabbing');
+    nowY = prevY = event.pageY;
+    upOrdown = 0;
+    timeOut = setInterval(function () {//用周期检测减少刷新次数
+        if (nowY - prevY < 0 && (upOrdown == 0 || upOrdown == 2)) {//Down
+            upOrdown = 2;
+            changeScroll(nowY - prevY);
+        }
+        if (nowY - prevY > 0 && (upOrdown == 0 || upOrdown == 1)) {//Up
+            upOrdown = 1;
+            changeScroll(nowY - prevY);
+        }
+        prevY = nowY;
+    }, 20);
+    $(this).on('mousemove', function (event) {
+        console.log('keep listening mousemove');
+        nowY = event.pageY;
+    })
+});
+//当鼠标松开或者离开了canvas取消mousedown/move事件监听
+$('#viewer-container').on('mouseleave', 'canvas', clearMove);
+$('#viewer-container').on('mouseup', 'canvas', clearMove);
+function clearMove() {
+    clearInterval(timeOut);
+    $(this).off();
+    $(this).removeClass('canvas-grabbing');
+}
+function changeScroll(changeY) { //滚动条改变
+    $(document).scrollTop($(document).scrollTop() - changeY);
+}
