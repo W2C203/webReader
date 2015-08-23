@@ -39,7 +39,6 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
 var CHUNK = 3;
 //change23
 var currPage = 2;
-var firstKeyDown = 1;
 var averHeight = 0;
 var pageArray = [];
 var pdfDoc = null,// pdf文档，未加载时为null对象
@@ -383,12 +382,6 @@ document.getElementById('prev').addEventListener('click', function () {
     } //不用else是因为滚动的时候会自动渲染,所以只要是翻页就一定能找到ID
 });
 document.getElementById('next').addEventListener('click', function () {
-    if (firstKeyDown) {
-        location.href = "#page2";
-        firstKeyDown = 0;
-        return;
-    }
-    //if(currPage == 1){firstKeyDown=1;}这里如何判断他又再次回到第一页？？
     var nowID = $("#page" + currPage).attr("id");
     if (nowID) {
         nowID = +nowID.substr(4);
