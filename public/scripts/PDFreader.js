@@ -7,6 +7,7 @@ function ShowBook(url, first) {   //对外提供接口pdfDoc
     $("#menuList *").remove();
     //outline = null;
     $("#pro").attr("aria-valuenow", 0).attr("style", "width:" + 0 + "%");
+    $("#pro span").html('');
     pageArray.length = 0;
     if (first) {//第一次点一本书需要移除的一些东西
         $('#firstDiv').remove();
@@ -379,17 +380,35 @@ $("#menuList").on('click', 'ul>li a', function () {
 document.getElementById('prev').addEventListener('click', function () {
     var nowID = $("#page" + currPage).attr("id");
     if (nowID) {
+        if(currPage == 1) {
+            return;
+        }
         nowID = +nowID.substr(4);
         location.href = "#page" + (nowID - 1);
+        if(currPage == pdfDoc.numPages) {
+            currPage--;
+            changePro(currPage);
+            return;
+        }
+        if(currPage == 2) {
+            currPage--;
+            changePro(currPage);
+            return;
+        }
     } //不用else是因为滚动的时候会自动渲染,所以只要是翻页就一定能找到ID
 });
 document.getElementById('next').addEventListener('click', function () {
     var nowID = $("#page" + currPage).attr("id");
     if (nowID) {
-        console.log("in:"+currPage);
+        if(currPage == pdfDoc.numPages) {
+            return;
+        }
         nowID = +nowID.substr(4);
         location.href = "#page" + (nowID + 1);
-        if(currPage == 1) currPage++;
+        if(currPage == 1) {
+            currPage++;
+            changePro(currPage);
+        }
     } //不用else理由同上翻页
 });
 
@@ -407,7 +426,12 @@ window.addEventListener('scroll', function () {
     }
 
     if (checkScrollDown()) {//滚动条向下的情况
-        if (currPage >= pdfDoc.numPages - 1) { //加载完了
+        if(currPage == pdfDoc.numPages ) {
+            return;
+        }
+        if (currPage == pdfDoc.numPages - 1) { //加载完了
+            currPage++;
+            changePro(currPage);
             return;
         }
         if(currPage == 1) {
@@ -430,6 +454,7 @@ window.addEventListener('scroll', function () {
         if (currPage < CHUNK) { //开始的情况不会补页
             return;
         }
+        if(currPage == 1) changePro(currPage);
         var canvas = document.createElement('canvas');
         canvas.setAttribute('id', 'page' + (Number(currPage) - 2)); //注意ID的分配
         viewer.insertBefore(canvas, viewer.childNodes[0]);
