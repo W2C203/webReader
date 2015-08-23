@@ -412,8 +412,9 @@ window.addEventListener('scroll', function () {
         renderPage(Number(currPage) + (CHUNK - 1));
         currPage++;
         changePro(currPage);
-        viewer.firstChild.remove();
-        document.body.scrollTop = averHeight * (CHUNK - 2);//删完记得让页面滚回去
+        //viewer.firstChild.remove();
+        viewer.firstChild.parentNode.removeChild(viewer.firstChild);
+        $(document).scrollTop(averHeight * (CHUNK - 2));//删完记得让页面滚回去
         return;// 提高健壮性 有向下 就不向上
     }
     if (checkScrollUp()) {//滚动条向上的情况
@@ -426,25 +427,26 @@ window.addEventListener('scroll', function () {
         renderPage(Number(currPage) - 2);
         currPage--;
         changePro(currPage);
-        viewer.lastChild.remove();
-        document.body.scrollTop += averHeight;//删完记得让页面滚下去1页
+        //viewer.lastChild.remove();
+        viewer.lastChild.parentNode.removeChild(viewer.lastChild);
+        $(document).scrollTop($(document).scrollTop()+averHeight);//删完记得让页面滚下去1页
     }
     function checkScrollDown() {
-        var scrollTop = document.body.scrollTop;       //滚动高度
+        var scrollTop = $(document).scrollTop();       //滚动高度
         if (scrollTop > averHeight * (CHUNK - 1)) {
             return true;
         }
     }
 
     function checkScrollUp() {
-        var scrollTop = document.body.scrollTop;       //滚动高度
+        var scrollTop = $(document).scrollTop();       //滚动高度
         if (scrollTop < averHeight * 0.8) {
             return true;
         }
     }
 
     function checkLast() {
-        return document.body.scrollTop > averHeight * (CHUNK - 0.2);
+        return $(document).scrollTop() > averHeight * (CHUNK - 0.2);
     }
 });
 
