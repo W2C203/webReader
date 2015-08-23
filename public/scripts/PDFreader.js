@@ -399,7 +399,7 @@ var controlSpeed = 1,//控制刷页的速度 1表示当前可以刷页 0表示�
 window.addEventListener('scroll', function () {
     if(!controlSpeed){
         controlSpeed = 0;
-        controlTimeOut = setTimeout(function(){controlSpeed=1;},50)
+        controlTimeOut = setTimeout(function(){controlSpeed=1;},100)
         return;
     }
     if (checkLast()) {  //到最后的情况
