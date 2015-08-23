@@ -113,7 +113,6 @@ $('#viewer-container').on('mousedown', 'canvas', function (event) {
         prevY = nowY;
     }, 20);
     $(this).on('mousemove', function (event) {
-        console.log('keep listening mousemove');
         nowY = event.pageY;
     })
 });

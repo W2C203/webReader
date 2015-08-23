@@ -394,7 +394,14 @@ document.getElementById('next').addEventListener('click', function () {
 });
 
 //滚动监听
+var controlSpeed = 1,//控制刷页的速度 1表示当前可以刷页 0表示不能刷页
+    controlTimeOut = null;
 window.addEventListener('scroll', function () {
+    if(!controlSpeed){
+        controlSpeed = 0;
+        controlTimeOut = setTimeout(function(){controlSpeed=1;},50)
+        return;
+    }
     if (checkLast()) {  //到最后的情况
         changePro(pdfDoc.numPages);
     }
@@ -415,6 +422,7 @@ window.addEventListener('scroll', function () {
         changePro(currPage);
         //viewer.firstChild.remove();
         viewer.firstChild.parentNode.removeChild(viewer.firstChild);
+        console.log('往下走了');
         $(document).scrollTop(averHeight * (CHUNK - 2));//删完记得让页面滚回去
         return;// 提高健壮性 有向下 就不向上
     }
@@ -430,6 +438,7 @@ window.addEventListener('scroll', function () {
         changePro(currPage);
         //viewer.lastChild.remove();
         viewer.lastChild.parentNode.removeChild(viewer.lastChild);
+        console.log('往上');
         $(document).scrollTop($(document).scrollTop()+averHeight);//删完记得让页面滚下去1页
     }
     function checkScrollDown() {
