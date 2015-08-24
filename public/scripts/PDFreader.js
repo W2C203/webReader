@@ -245,7 +245,7 @@ function readyOK(outline) {//准备好了之后把页码排序放进目录
     pageArray.sort(function (a, b) {
         return a - b;
     });
-    console.log(pageArray);
+    //console.log(pageArray);
     var book = makeCatalog(outline);
     //下面将页码添加进目录数据结构
     return book;
@@ -439,7 +439,7 @@ window.addEventListener('scroll', function () {
         changePro(currPage);
         //viewer.firstChild.remove();
         viewer.firstChild.parentNode.removeChild(viewer.firstChild);
-        console.log('往下走了');
+        //console.log('往下走了');
         $(document).scrollTop(averHeight * (CHUNK - 2));//删完记得让页面滚回去
         return;// 提高健壮性 有向下 就不向上
     }
@@ -456,7 +456,7 @@ window.addEventListener('scroll', function () {
         changePro(currPage);
         //viewer.lastChild.remove();
         viewer.lastChild.parentNode.removeChild(viewer.lastChild);
-        console.log('往上');
+        //console.log('往上');
         $(document).scrollTop($(document).scrollTop()+averHeight);//删完记得让页面滚下去1页
     }
     function checkScrollDown() {

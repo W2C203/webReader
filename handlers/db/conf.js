@@ -3,7 +3,7 @@
  */
 module.exports = {
     mysql: {
-        host: '192.168.69.17',
+        host: '221.5.4.232',
         user: 'root',
         password: 'root',
         database:'web_jdmall', // 前面建的user表位于这个数据库中
