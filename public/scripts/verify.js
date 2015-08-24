@@ -153,7 +153,7 @@ $().ready(function () {
 
     })
     $('#mall').on('click', function () {
-        window.open('http://192.168.69.17:8080/mall', '_self');
+        window.open('http://221.5.4.232', '_self');
     })
     var alreadyLogin = document.cookie;
     if (alreadyLogin.indexOf('name') != -1) {
