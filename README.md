@@ -1,5 +1,5 @@
 # webReader
-web阅读器[http://www.drm.stu.edu.cn:14000/]
+[web阅读器](http://www.drm.stu.edu.cn:14000/)
 
 ##功能需求：
 
